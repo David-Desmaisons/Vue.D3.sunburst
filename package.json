@@ -1,0 +1,39 @@
+{
+  "name": "vued3sunburst",
+  "version": "0.1.0",
+  "private": false,
+  "main": "dist/vued3sunburst.umd.js",
+  "module": "dist/vued3sunburst.common.js",
+  "files": [
+    "dist/*.map",
+    "dist/*.js",
+    "dist/*.css"
+  ],
+  "scripts": {
+    "serve": "vue-cli-service serve ./example/main.js --open",
+    "build": "vue-cli-service build --target lib --name vued3sunburst ./src/sunburst/index.js",
+    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit"
+  },
+  "dependencies": {
+    "d3": "^5.5.0",
+    "vue": "^2.5.16",
+    "vue-resize-directive": "^1.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.0-rc.5",
+    "@vue/cli-plugin-eslint": "^3.0.0-rc.5",
+    "@vue/cli-plugin-unit-jest": "^3.0.0-rc.5",
+    "@vue/cli-service": "^3.0.0-rc.5",
+    "@vue/eslint-config-prettier": "^3.0.0-rc.5",
+    "@vue/test-utils": "^1.0.0-beta.20",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.0.1",
+    "bootstrap": "^4.1.2",
+    "font-awesome": "^4.7.0",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "vue-draggable-resizable": "^1.7.1",
+    "vue-template-compiler": "^2.5.16"
+  }
+}
