@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { sunburst } from "@/sunburst";
+import sunburst from "@/components/sunburst";
 import VueDraggableResizable from "vue-draggable-resizable";
 import data from "../data/data";
 

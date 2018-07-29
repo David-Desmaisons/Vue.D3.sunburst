@@ -1,37 +1,16 @@
 <template>
-    <div class="viewport" v-resize="resize">
-    </div>
+  <div class="viewport" v-resize="resize">
+  </div>
 </template>
 <script>
 import resize from "vue-resize-directive";
-import * as d3 from "d3";
-
-const props = {
-  data: {
-    type: Object,
-    required: true
-  },
-  colors: {
-    required: false
-  },
-  defaultColor: {
-    type: String,
-    required: false,
-    default: "#7b615c"
-  },
-  minAngleDisplayed: {
-    type: Number,
-    required: false,
-    default: 0.005
-  }
-};
+import { arc, select, hierarchy, partition } from "d3";
 
 const directives = {
   resize
 };
 
-const arc = d3
-  .arc()
+const arcSunburst = arc()
   .startAngle(d => d.x0)
   .endAngle(d => d.x1)
   .innerRadius(d => Math.sqrt(d.y0))
@@ -40,7 +19,38 @@ const arc = d3
 export default {
   name: "sunburst",
 
-  props,
+  props: {
+    /**
+     * Sunburst data where children property is a array containing children.
+     */
+    data: {
+      type: Object,
+      required: true
+    },
+    /**
+     * Array or function used to map an item and its color.
+     */
+    colors: {
+      type: [Array, Function],
+      required: false
+    },
+    /**
+     * Default sunburst color if colors is not provided.
+     */
+    defaultColor: {
+      type: String,
+      required: false,
+      default: "#7b615c"
+    },
+    /**
+     * Minimal arc angle to be displayed (in radian).
+     */
+    minAngleDisplayed: {
+      type: Number,
+      required: false,
+      default: 0.005
+    }
+  },
 
   directives,
 
@@ -49,8 +59,7 @@ export default {
   },
 
   mounted() {
-    this.vis = d3
-      .select(this.$el)
+    this.vis = select(this.$el)
       .append("svg")
       .style("overflow", "visible")
       .attr("class", "root");
@@ -58,15 +67,20 @@ export default {
   },
 
   methods: {
+    /**
+     * @private
+     */
     getSize() {
       var width = this.$el.clientWidth;
       var height = this.$el.clientHeight;
       return { width, height };
     },
 
+    /**
+     * @private
+     */
     onData(data) {
-      const root = d3
-        .hierarchy(data)
+      const root = hierarchy(data)
         .sum(d => d.size)
         .sort((a, b) => b.value - a.value);
 
@@ -82,7 +96,7 @@ export default {
         .enter()
         .append("svg:path")
         .attr("display", d => (d.depth ? null : "none"))
-        .attr("d", arc)
+        .attr("d", arcSunburst)
         .attr("fill-rule", "evenodd")
         .style("fill", this.getColor)
         .style("opacity", 1);
@@ -90,6 +104,9 @@ export default {
       pathes.exit().remove();
     },
 
+    /**
+     * @private
+     */
     getColor(d) {
       const colors = this.colors;
       if (!colors) {
@@ -101,6 +118,9 @@ export default {
       return colors(d.data.name);
     },
 
+    /**
+     * @private
+     */
     resize() {
       const { width, height } = this.getSize();
       this.vis
@@ -109,7 +129,10 @@ export default {
         .attr("transform", `translate(${width / 2}, ${height / 2} )`);
 
       this.radius = Math.min(width, height) / 2;
-      this.partition = d3.partition().size([2 * Math.PI, this.radius * this.radius]);
+      this.partition = partition().size([
+        2 * Math.PI,
+        this.radius * this.radius
+      ]);
       this.onData(this.data);
     }
   },

@@ -1,12 +1,12 @@
 import { shallowMount } from "@vue/test-utils";
-import {sunburst} from "@/sunburst";
+import sunburst from "@/components/sunburst.vue";
 
 describe("sunburst.vue", () => {
-  it("use data passed as props", () => {
-    const data = {};
+  it("renders props.msg when passed", () => {
+    const msg = "new message";
     const wrapper = shallowMount(sunburst, {
-      propsData: { data }
+      propsData: { msg }
     });
-    expect(wrapper.vm.data).toBe(data);
+    expect(wrapper.text()).toMatch(msg);
   });
 });
