@@ -1,4 +1,5 @@
 # Vue.D3.Sunburst
+
 [![GitHub open issues](https://img.shields.io/github/issues/David-Desmaisons/Vue.D3.sunburst.svg?maxAge=2592000)](https://github.com/David-Desmaisons/Vue.D3.sunburst/issues)
 [![Npm version](https://img.shields.io/npm/v/vue-d3-sunburst.svg?maxAge=2592000)](https://www.npmjs.com/package/vue-d3-sunburst)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/Vue.D3.sunburst.svg)](https://github.com/David-Desmaisons/Vue.D3.sunburst/blob/master/LICENSE)
@@ -68,9 +69,9 @@ export default {
 
    Sunburst data where children property is a array containing children. 
 
-- `colors` ***Array|Function*** (*optional*) 
+- `colors` ***Object|Function*** (*optional*) 
 
-   Array or function used to map an item and its color. 
+   Object or function used to map an item and its color. 
 
 - `default-color` ***String*** (*optional*) `default: '#7b615c'` 
 
@@ -79,6 +80,10 @@ export default {
 - `min-angle-displayed` ***Number*** (*optional*) `default: 0.005` 
 
    Minimal arc angle to be displayed (in radian). 
+
+- `arc-identification` ***Function*** (*optional*) `default: [object Object]` 
+
+   Function used to identify an arc, will be used during graph updates. 
 
 ## Installation
 

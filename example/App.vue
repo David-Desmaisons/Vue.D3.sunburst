@@ -7,7 +7,7 @@
           <div class="card-body">
             <div class="form-horizontal">
               <div class="form-group">
-                <label for="minAngleDisplayed">minAngleDisplayed</label>
+                <label for="minAngleDisplayed">Minimal arc angle to be displayed (in radian)</label>
                 <div>
                   <input id="minAngleDisplayed" class="form-control" type="range" min="0" step="0.005" max="0.5" v-model.number="minAngleDisplayed">
                 </div>

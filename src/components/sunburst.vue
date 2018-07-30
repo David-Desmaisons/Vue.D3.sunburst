@@ -28,10 +28,10 @@ export default {
       required: true
     },
     /**
-     * Array or function used to map an item and its color.
+     * Object or function used to map an item and its color.
      */
     colors: {
-      type: [Array, Function],
+      type: [Object, Function],
       required: false
     },
     /**
@@ -49,6 +49,15 @@ export default {
       type: Number,
       required: false,
       default: 0.005
+    },
+    /**
+     * Function used to identify an arc, will be used during graph updates.
+     * (nodeDate: Object, nodeDepth: Number) => id: String
+     */
+    arcIdentification: {
+      type: Function,
+      required: false,
+      default: (data, depth) => `${data.name}-${depth}`
     }
   },
 
@@ -90,16 +99,16 @@ export default {
 
       const pathes = this.vis
         .selectAll("path")
-        .data(nodes, n => `${n.x0};${n.x1};${n.y0};${n.y1}`);
+        .data(nodes, n => this.arcIdentification(n.data, n.depth));
 
-      pathes
-        .enter()
+      pathes.enter()
         .append("svg:path")
         .attr("display", d => (d.depth ? null : "none"))
-        .attr("d", arcSunburst)
-        .attr("fill-rule", "evenodd")
         .style("fill", this.getColor)
-        .style("opacity", 1);
+        .style("opacity", 1)
+        .merge(pathes)
+        .attr("d", arcSunburst)
+        .style("fill", this.getColor);
 
       pathes.exit().remove();
     },
