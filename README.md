@@ -81,9 +81,9 @@ export default {
 
    Minimal arc angle to be displayed (in radian). 
 
-- `arc-identification` ***Function*** (*optional*) `default: [object Object]` 
+- `arc-identification` ***Function*** (*optional*) `default: 'recursiveName'` 
 
-   Function used to identify an arc, will be used during graph updates. 
+   Function used to identify an arc, will be used during graph updates. (node: Object) => id: String 
 
 ## Installation
 

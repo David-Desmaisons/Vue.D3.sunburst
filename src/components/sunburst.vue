@@ -16,6 +16,21 @@ const arcSunburst = arc()
   .innerRadius(d => Math.sqrt(d.y0))
   .outerRadius(d => Math.sqrt(d.y1));
 
+function getParents(node) {
+  if (node.parent == null) {
+    return [node];
+  }
+  return [node, ...getParents(node.parent)];
+}
+
+function recursiveName(node) {
+  const res = getParents(node)
+    .map(node => node.data.name)
+    .join("-");
+  console.log(res);
+  return res;
+}
+
 export default {
   name: "sunburst",
 
@@ -52,12 +67,13 @@ export default {
     },
     /**
      * Function used to identify an arc, will be used during graph updates.
-     * (nodeDate: Object, nodeDepth: Number) => id: String
+     * (node: Object) => id: String
+     * @default id based on recursive agregation of node parent name
      */
     arcIdentification: {
       type: Function,
       required: false,
-      default: (data, depth) => `${data.name}-${depth}`
+      default: recursiveName
     }
   },
 
@@ -99,9 +115,10 @@ export default {
 
       const pathes = this.vis
         .selectAll("path")
-        .data(nodes, n => this.arcIdentification(n.data, n.depth));
+        .data(nodes, this.arcIdentification);
 
-      pathes.enter()
+      pathes
+        .enter()
         .append("svg:path")
         .attr("display", d => (d.depth ? null : "none"))
         .style("fill", this.getColor)
