@@ -17,8 +17,8 @@ const arcSunburst = arc()
   .outerRadius(d => Math.sqrt(d.y1));
 
 function getParents(node) {
-  if (node.parent == null) {
-    return [node];
+  if (node == null) {
+    return [];
   }
   return [node, ...getParents(node.parent)];
 }
@@ -27,7 +27,6 @@ function recursiveName(node) {
   const res = getParents(node)
     .map(node => node.data.name)
     .join("-");
-  console.log(res);
   return res;
 }
 
