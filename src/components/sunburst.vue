@@ -108,18 +108,15 @@ export default {
      * @private
      */
     onData(data) {
-      const root = hierarchy(data)
+      this.root = hierarchy(data)
         .sum(d => d.size)
         .sort((a, b) => b.value - a.value);
 
-      const nodes = this.partition(root)
+      this.nodes = this.partition(this.root)
         .descendants()
         .filter(d => Math.abs(d.x1 - d.x0) > this.minAngleDisplayed);
 
-      const pathes = this.vis
-        .selectAll("path")
-        .data(nodes, this.arcIdentification);
-
+      const pathes = this.getPathes();
       const colorGetter = this.getColorForNode.bind(this, this.colorScale);
 
       pathes
@@ -132,6 +129,15 @@ export default {
         .style("fill", colorGetter);
 
       pathes.exit().remove();
+    },
+
+    /**
+     * @private
+     */
+    getPathes() {
+      return this.vis
+        .selectAll("path")
+        .data(this.nodes, this.arcIdentification);
     },
 
     /**
@@ -174,7 +180,8 @@ export default {
       this.onData(current);
     },
     colorScheme() {
-      this.reDraw();
+      const colorGetter = this.getColorForNode.bind(this, this.colorScale);
+      this.getPathes().style("fill", colorGetter);
     },
     minAngleDisplayed() {
       this.reDraw();
