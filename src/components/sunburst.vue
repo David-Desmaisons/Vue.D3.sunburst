@@ -4,11 +4,10 @@
 </template>
 <script>
 import resize from "vue-resize-directive";
-import { arc, select, hierarchy, partition } from "d3";
+import { colorSchemes } from "../infra/colorSchemes";
+import { arc, hierarchy, partition, scaleOrdinal, select } from "d3";
 
-const directives = {
-  resize
-};
+const schemeValues = Object.keys(colorSchemes);
 
 const arcSunburst = arc()
   .startAngle(d => d.x0)
@@ -30,6 +29,8 @@ function recursiveName(node) {
   return res;
 }
 
+const getCategoryColor = (scale, d) => scale(d.data.name);
+
 export default {
   name: "sunburst",
 
@@ -42,19 +43,24 @@ export default {
       required: true
     },
     /**
-     * Object or function used to map an item and its color.
+     * D3 color scheme to be used.
      */
-    colors: {
-      type: [Object, Function],
-      required: false
-    },
-    /**
-     * Default sunburst color if colors is not provided.
-     */
-    defaultColor: {
+    colorScheme: {
       type: String,
       required: false,
-      default: "#7b615c"
+      default: "schemeCategory10",
+      validator: function(value) {
+        return schemeValues.indexOf(value) !== -1;
+      }
+    },
+    /**
+     * Function used to map an item and its color.
+     * (nodeD3: Object) => color: String
+     */
+    getColorForNode: {
+      type: Function,
+      required: false,
+      default: getCategoryColor
     },
     /**
      * Minimal arc angle to be displayed (in radian).
@@ -66,7 +72,7 @@ export default {
     },
     /**
      * Function used to identify an arc, will be used during graph updates.
-     * (node: Object) => id: String
+     * (nodeD3: Object) => id: String
      * @default id based on recursive agregation of node parent name
      */
     arcIdentification: {
@@ -76,7 +82,9 @@ export default {
     }
   },
 
-  directives,
+  directives: {
+    resize
+  },
 
   data() {
     return {};
@@ -116,31 +124,18 @@ export default {
         .selectAll("path")
         .data(nodes, this.arcIdentification);
 
+      const colorGetter = this.getColorForNode.bind(this, this.colorScale);
+
       pathes
         .enter()
         .append("svg:path")
         .attr("display", d => (d.depth ? null : "none"))
-        .style("fill", this.getColor)
         .style("opacity", 1)
         .merge(pathes)
         .attr("d", arcSunburst)
-        .style("fill", this.getColor);
+        .style("fill", colorGetter);
 
       pathes.exit().remove();
-    },
-
-    /**
-     * @private
-     */
-    getColor(d) {
-      const colors = this.colors;
-      if (!colors) {
-        return this.defaultColor;
-      }
-      if (Array.isArray(colors)) {
-        return colors[d.data.name];
-      }
-      return colors(d.data.name);
     },
 
     /**
@@ -159,17 +154,31 @@ export default {
         this.radius * this.radius
       ]);
       this.onData(this.data);
+    },
+
+    /**
+     * @private
+     */
+    reDraw() {
+      this.onData(this.data);
     }
   },
 
-  computed: {},
+  computed: {
+    colorScale() {
+      return scaleOrdinal(colorSchemes[this.colorScheme]);
+    }
+  },
 
   watch: {
     data(current) {
       this.onData(current);
     },
+    colorScheme() {
+      this.reDraw();
+    },
     minAngleDisplayed() {
-      this.onData(this.data);
+      this.reDraw();
     }
   }
 };

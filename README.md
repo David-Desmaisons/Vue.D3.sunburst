@@ -69,9 +69,9 @@ export default {
 
    Sunburst data where children property is a array containing children. 
 
-- `colors` ***Object|Function*** (*optional*) 
+- `get-color-for-node` ***Function*** (*optional*) 
 
-   Object or function used to map an item and its color. 
+   Function used to map an item and its color. (nodeD3: Object) => color: String 
 
 - `default-color` ***String*** (*optional*) `default: '#7b615c'` 
 
@@ -83,7 +83,7 @@ export default {
 
 - `arc-identification` ***Function*** (*optional*) `default: 'recursiveName'` 
 
-   Function used to identify an arc, will be used during graph updates. (node: Object) => id: String 
+   Function used to identify an arc, will be used during graph updates. (nodeD3: Object) => id: String 
 
 ## Installation
 
