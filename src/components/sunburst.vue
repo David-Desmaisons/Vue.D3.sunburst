@@ -7,8 +7,6 @@ import resize from "vue-resize-directive";
 import { colorSchemes } from "../infra/colorSchemes";
 import { arc, hierarchy, partition, scaleOrdinal, select } from "d3";
 
-const schemeValues = Object.keys(colorSchemes);
-
 const arcSunburst = arc()
   .startAngle(d => d.x0)
   .endAngle(d => d.x1)
@@ -49,9 +47,7 @@ export default {
       type: String,
       required: false,
       default: "schemeCategory10",
-      validator: function(value) {
-        return schemeValues.indexOf(value) !== -1;
-      }
+      validator: value => Object.keys(colorSchemes).indexOf(value) !== -1
     },
     /**
      * Function used to map an item and its color.
@@ -165,6 +161,9 @@ export default {
   },
 
   computed: {
+    /**
+     * @private
+     */
     colorScale() {
       return scaleOrdinal(colorSchemes[this.colorScheme]);
     }

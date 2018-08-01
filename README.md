@@ -69,13 +69,13 @@ export default {
 
    Sunburst data where children property is a array containing children. 
 
-- `get-color-for-node` ***Function*** (*optional*) 
+- `color-scheme` ***String*** (*optional*) `default: 'schemeCategory10'` 
+
+   D3 color scheme to be used. 
+
+- `get-color-for-node` ***Function*** (*optional*) `default: 'getCategoryColor'` 
 
    Function used to map an item and its color. (nodeD3: Object) => color: String 
-
-- `default-color` ***String*** (*optional*) `default: '#7b615c'` 
-
-   Default sunburst color if colors is not provided. 
 
 - `min-angle-displayed` ***Number*** (*optional*) `default: 0.005` 
 
