@@ -32,6 +32,12 @@ const getCategoryColor = (scale, d) => scale(d.data.name);
 export default {
   name: "sunburst",
 
+  inject: {
+    defaultSchemeColor: {
+      default: Object.keys(colorSchemes)[0]
+    }
+  },
+
   props: {
     /**
      * Sunburst data where children property is a array containing children.
@@ -46,7 +52,9 @@ export default {
     colorScheme: {
       type: String,
       required: false,
-      default: "schemeCategory10",
+      default() {
+        return this.defaultSchemeColor;
+      },
       validator: value => Object.keys(colorSchemes).indexOf(value) !== -1
     },
     /**
@@ -179,10 +187,12 @@ export default {
     data(current) {
       this.onData(current);
     },
+
     colorScheme() {
       const colorGetter = this.getColorForNode.bind(this, this.colorScale);
       this.getPathes().style("fill", colorGetter);
     },
+
     minAngleDisplayed() {
       this.reDraw();
     }
