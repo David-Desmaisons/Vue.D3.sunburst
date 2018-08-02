@@ -47,16 +47,9 @@ import { colorSchemes } from "@/infra/colorSchemes";
 import VueDraggableResizable from "vue-draggable-resizable";
 import data from "../data/data";
 
-function toDisplay(value) {
-  return value
-    .replace(/(^.+)([A-Z])/g, (_, m1, m2) => m1 + " " + m2)
-    .replace(/(^.+)([1-9])(?:[0-9]*)/g, (_, m1, m2) => m1 + " " + m2)
-    .replace(/^\w/, c => c.toUpperCase());
-}
-
 const colorSchemesNames = Object.keys(colorSchemes).map(key => ({
   value: key,
-  text: toDisplay(key)
+  text: colorSchemes[key].name
 }));
 
 export default {

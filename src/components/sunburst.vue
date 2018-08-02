@@ -5,7 +5,7 @@
 <script>
 import resize from "vue-resize-directive";
 import { colorSchemes } from "../infra/colorSchemes";
-import { arc, hierarchy, partition, scaleOrdinal, select } from "d3";
+import { arc, hierarchy, partition, select } from "d3";
 
 const arcSunburst = arc()
   .startAngle(d => d.x0)
@@ -171,7 +171,7 @@ export default {
      * @private
      */
     colorScale() {
-      return scaleOrdinal(colorSchemes[this.colorScheme]);
+      return colorSchemes[this.colorScheme].scale;
     }
   },
 
