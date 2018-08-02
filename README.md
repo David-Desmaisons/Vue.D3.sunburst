@@ -69,7 +69,7 @@ export default {
 
    Sunburst data where children property is a array containing children. 
 
-- `color-scheme` ***String*** (*optional*) `default: 'schemeCategory10'` 
+- `color-scheme` ***String*** (*optional*) `default: provided by injected defaultSchemeColor with a fall back to schemeAccent` 
 
    D3 color scheme to be used. 
 
