@@ -69,7 +69,7 @@ export default {
 
    Sunburst data where children property is a array containing children. 
 
-- `color-scheme` ***String*** (*optional*) `default: provided by injected defaultSchemeColor with a fall back to schemeAccent` 
+- `color-scheme` ***String*** (*optional*) `default: provided by injected defaultSchemeColor with a fall back to schemeAccent`
 
    D3 color scheme to be used. 
 
@@ -84,6 +84,16 @@ export default {
 - `arc-identification` ***Function*** (*optional*) `default: 'recursiveName'` 
 
    Function used to identify an arc, will be used during graph updates. (nodeD3: Object) => id: String 
+
+#### events 
+
+- `mouseOver` 
+
+   Fired mouse is over an sunburst node. 
+
+   **arguments:** 
+
+     - `value` **Object** - The corresponding node 
 
 ## Installation
 

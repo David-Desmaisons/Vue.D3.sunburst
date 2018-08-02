@@ -126,12 +126,14 @@ export default {
 
       const pathes = this.getPathes();
       const colorGetter = this.getColorForNode.bind(this, this.colorScale);
+      const mouseOver = this.mouseOver.bind(this);
 
       pathes
         .enter()
         .append("svg:path")
         .attr("display", d => (d.depth ? null : "none"))
         .style("opacity", 1)
+        .on("mouseover", mouseOver)
         .merge(pathes)
         .attr("d", arcSunburst)
         .style("fill", colorGetter);
@@ -171,6 +173,17 @@ export default {
      */
     reDraw() {
       this.onData(this.data);
+    },
+
+    /**
+     * @private
+     */
+    mouseOver(value) {
+      /**
+       * Fired mouse is over an sunburst node.
+       * @param {Object} value - The corresponding node
+       */
+      this.$emit("mouseOver", value);
     }
   },
 
