@@ -191,7 +191,7 @@ export default {
     mouseOver(value) {
       /**
        * Fired mouse is over an sunburst node.
-       * @param {Object} value - The corresponding node
+       * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
        */
       this.$emit("mouseOverNode", { node: value, sunburst: this });
     },

@@ -69,7 +69,7 @@ export default {
 
    Sunburst data where children property is a array containing children. 
 
-- `color-scheme` ***String*** (*optional*) `default: provided by injected defaultSchemeColor with a fall back to schemeAccent`
+- `color-scheme` ***String*** (*optional*) `default: provided by injected defaultSchemeColor with a fall back to schemeAccent` 
 
    D3 color scheme to be used. 
 
@@ -85,15 +85,38 @@ export default {
 
    Function used to identify an arc, will be used during graph updates. (nodeD3: Object) => id: String 
 
+- `in-animation-duration` ***Number*** (*optional*) `default: 100` 
+
+   Duration for in animation in milliseconds 
+
+- `out-animation-duration` ***Number*** (*optional*) `default: 1000` 
+
+   Duration for out animation in milliseconds 
+
 #### events 
 
-- `mouseOver` 
+- `mouseOverNode` 
 
    Fired mouse is over an sunburst node. 
 
    **arguments:** 
 
-     - `value` **Object** - The corresponding node 
+     - `value` **Object** - {node, sunburst} The corresponding node and sunburst component 
+
+#### methods 
+
+- `highlightPath(node, opacity)` 
+
+   Highlight the arc path leading to a given node. 
+
+   **parameters:** 
+
+     - `node` **Object** - the D3 node to highlight 
+     - `opacity` **Number** - opacity of the none highlighted nodes, default to 0.3 
+
+- `resetHighlight()` 
+
+   Reset the highlighted path 
 
 ## Installation
 
