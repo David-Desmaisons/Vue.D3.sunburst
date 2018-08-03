@@ -23,6 +23,26 @@
                 </div>
               </div>
 
+              <div class="form-group">
+                <label for="inAnimationDuration">Duration animation in</label>
+                <div>
+                  <input id="inAnimationDuration" class="form-control" type="range" min="0" max="250" v-model.number="inAnimationDuration">
+                </div>
+                <div>
+                  <p>{{inAnimationDuration}} ms</p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="minAngleDisplayed">Duration animation out</label>
+                <div>
+                  <input id="outAnimationDuration" class="form-control" type="range" min="0" max="2000" v-model.number="outAnimationDuration">
+                </div>
+                <div>
+                  <p>{{outAnimationDuration}} ms</p>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -32,7 +52,7 @@
           <div class="card-header">Sunburst</div>
           <div class="card-body father-draggable">
             <vue-draggable-resizable :w="500" :h="500" :parent="true">
-              <sunburst id="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" />
+              <sunburst ref="sunburst" id="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration" @mouseOverNode="onMouseOver" @mouseleave.native="onMouseLeave" />
             </vue-draggable-resizable>
           </div>
         </div>
@@ -59,10 +79,19 @@ export default {
       data,
       minAngleDisplayed: 0.05,
       colorScheme: colorSchemesNames[0].value,
-      colorSchemes: colorSchemesNames
+      colorSchemes: colorSchemesNames,
+      inAnimationDuration: 100,
+      outAnimationDuration: 1000
     };
   },
-  methods: {},
+  methods: {
+    onMouseOver(data) {
+      data.sunburst.highlightPath(data.node, 0.1);
+    },
+    onMouseLeave() {
+      this.$refs.sunburst.resetHighlight();
+    }
+  },
   components: {
     sunburst,
     VueDraggableResizable

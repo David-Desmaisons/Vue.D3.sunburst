@@ -13,15 +13,9 @@ const arcSunburst = arc()
   .innerRadius(d => Math.sqrt(d.y0))
   .outerRadius(d => Math.sqrt(d.y1));
 
-function getParents(node) {
-  if (node == null) {
-    return [];
-  }
-  return [node, ...getParents(node.parent)];
-}
-
 function recursiveName(node) {
-  const res = getParents(node)
+  const res = node
+    .ancestors()
     .map(node => node.data.name)
     .join("-");
   return res;
@@ -83,6 +77,22 @@ export default {
       type: Function,
       required: false,
       default: recursiveName
+    },
+    /**
+     *  Duration for in animation in milliseconds
+     */
+    inAnimationDuration: {
+      type: Number,
+      required: false,
+      default: 100
+    },
+    /**
+     *  Duration for out animation in milliseconds
+     */
+    outAnimationDuration: {
+      type: Number,
+      required: false,
+      default: 1000
     }
   },
 
@@ -183,7 +193,39 @@ export default {
        * Fired mouse is over an sunburst node.
        * @param {Object} value - The corresponding node
        */
-      this.$emit("mouseOver", value);
+      this.$emit("mouseOverNode", { node: value, sunburst: this });
+    },
+
+    /**
+     * Highlight the arc path leading to a given node.
+     * @param {Object} node the D3 node to highlight
+     * @param {Number} opacity opacity of the none highlighted nodes, default to 0.3
+     */
+    highlightPath(node, opacity = 0.3) {
+      const sequenceArray = node.ancestors();
+
+      this.vis
+        .selectAll("path")
+        .filter(d => sequenceArray.indexOf(d) === -1)
+        .transition()
+        .duration(this.inAnimationDuration)
+        .style("opacity", opacity);
+
+      this.vis
+        .selectAll("path")
+        .filter(d => sequenceArray.indexOf(d) >= 0)
+        .style("opacity", 1);
+    },
+
+    /**
+     * Reset the highlighted path
+     */
+    resetHighlight() {
+      this.vis
+        .selectAll("path")
+        .transition()
+        .duration(this.outAnimationDuration)
+        .style("opacity", 1);
     }
   },
 
