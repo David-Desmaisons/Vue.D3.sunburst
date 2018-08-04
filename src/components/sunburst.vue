@@ -147,8 +147,9 @@ export default {
         .style("opacity", 1)
         .on("mouseover", mouseOver)
         .merge(pathes)
-        .attr("d", arcSunburst)
-        .style("fill", colorGetter);
+        .style("fill", colorGetter)
+        .transition(this.inAnimationDuration)
+        .attr("d", arcSunburst);
 
       pathes.exit().remove();
     },
@@ -241,8 +242,11 @@ export default {
   },
 
   watch: {
-    data(current) {
-      this.onData(current);
+    data: {
+      handler(current) {
+        this.onData(current);
+      },
+      deep: true
     },
 
     colorScheme() {
