@@ -21,7 +21,7 @@ function recursiveName(node) {
   return res;
 }
 
-const getCategoryColor = (scale, d) => scale(d.data.name);
+const useNameForColor = d => d.data.name;
 
 export default {
   name: "sunburst",
@@ -53,12 +53,13 @@ export default {
     },
     /**
      * Function used to map an item and its color.
-     * (nodeD3: Object) => color: String
+     * (nodeD3: Object) => color: Number | String
+     * By default use the node name
      */
-    getColorForNode: {
+    getCategoryForColor: {
       type: Function,
       required: false,
-      default: getCategoryColor
+      default: useNameForColor
     },
     /**
      * Minimal arc angle to be displayed (in radian).
@@ -135,7 +136,8 @@ export default {
         .filter(d => Math.abs(d.x1 - d.x0) > this.minAngleDisplayed);
 
       const pathes = this.getPathes();
-      const colorGetter = this.getColorForNode.bind(this, this.colorScale);
+      const colorGetter = d => this.colorScale(this.getCategoryForColor(d));
+
       const mouseOver = this.mouseOver.bind(this);
 
       pathes
@@ -244,7 +246,7 @@ export default {
     },
 
     colorScheme() {
-      const colorGetter = this.getColorForNode.bind(this, this.colorScale);
+      const colorGetter = d => this.colorScale(this.getCategoryForColor(d));
       this.getPathes().style("fill", colorGetter);
     },
 
