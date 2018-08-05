@@ -38,7 +38,7 @@ export default {
      */
     data: {
       type: Object,
-      required: true
+      required: false
     },
     /**
      * D3 color scheme to be used.
@@ -127,6 +127,11 @@ export default {
      * @private
      */
     onData(data) {
+      if (!data) {
+        this.vis.selectAll("path").remove()
+        return;
+      }
+
       this.root = hierarchy(data)
         .sum(d => d.size)
         .sort((a, b) => b.value - a.value);
