@@ -5,13 +5,19 @@
 <script>
 import resize from "vue-resize-directive";
 import { colorSchemes } from "../infra/colorSchemes";
-import { arc, hierarchy, interpolate, partition, select } from "d3";
+import {
+  arc,
+  hierarchy,
+  interpolate,
+  partition,
+  scaleLinear,
+  scaleSqrt,
+  select
+} from "d3";
 
-const arcSunburst = arc()
-  .startAngle(d => d.x0)
-  .endAngle(d => d.x1)
-  .innerRadius(d => Math.sqrt(d.y0))
-  .outerRadius(d => Math.sqrt(d.y1));
+const scaleX = scaleLinear()
+  .range([0, 2 * Math.PI])
+  .clamp(true);
 
 function recursiveName(node) {
   const res = node
@@ -26,7 +32,7 @@ function copyCurrentValues(to, from) {
   to._current = { x0, x1, y0, y1 };
 }
 
-function arc2Tween(d, indx) {
+function arc2Tween(d, indx, arcSunburst) {
   const positionsKeys = ["x0", "x1", "y0", "y1"];
   const interpolates = {};
   positionsKeys.forEach(key => {
@@ -158,13 +164,19 @@ export default {
         .sum(d => d.size)
         .sort((a, b) => b.value - a.value);
 
-      this.nodes = this.partition(this.root)
+      this.nodes = partition()(this.root)
         .descendants()
-        .filter(d => Math.abs(d.x1 - d.x0) > this.minAngleDisplayed);
+        .filter(d => Math.abs(scaleX(d.x1 - d.x0)) > this.minAngleDisplayed);
+
+      const scaleY = this.scaleY;
+      const arcSunburst = arc()
+        .startAngle(d => scaleX(d.x0))
+        .endAngle(d => scaleX(d.x1))
+        .innerRadius(d => scaleY(d.y0))
+        .outerRadius(d => scaleY(d.y1));
 
       const pathes = this.getPathes();
       const colorGetter = d => this.colorScale(this.getCategoryForColor(d));
-
       const mouseOver = this.mouseOver.bind(this);
       const click = this.click.bind(this);
 
@@ -181,7 +193,9 @@ export default {
         .merge(pathes)
         .style("fill", colorGetter)
         .transition(this.inAnimationDuration)
-        .attrTween("d", arc2Tween);
+        .attrTween("d", function(d, idx) {
+          return arc2Tween.call(this, d, idx, arcSunburst);
+        });
 
       pathes.exit().remove();
     },
@@ -206,10 +220,7 @@ export default {
         .attr("transform", `translate(${width / 2}, ${height / 2} )`);
 
       this.radius = Math.min(width, height) / 2;
-      this.partition = partition().size([
-        2 * Math.PI,
-        this.radius * this.radius
-      ]);
+      this.scaleY = scaleSqrt().range([0, this.radius]);
       this.onData(this.data);
     },
 
