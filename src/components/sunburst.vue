@@ -128,7 +128,7 @@ export default {
      */
     onData(data) {
       if (!data) {
-        this.vis.selectAll("path").remove()
+        this.vis.selectAll("path").remove();
         return;
       }
 
@@ -144,6 +144,7 @@ export default {
       const colorGetter = d => this.colorScale(this.getCategoryForColor(d));
 
       const mouseOver = this.mouseOver.bind(this);
+      const click = this.click.bind(this);
 
       pathes
         .enter()
@@ -151,6 +152,7 @@ export default {
         .attr("display", d => (d.depth ? null : "none"))
         .style("opacity", 1)
         .on("mouseover", mouseOver)
+        .on("click", click)
         .merge(pathes)
         .style("fill", colorGetter)
         .transition(this.inAnimationDuration)
@@ -198,10 +200,21 @@ export default {
      */
     mouseOver(value) {
       /**
-       * Fired mouse is over an sunburst node.
+       * Fired when mouse is over a sunburst node.
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
        */
       this.$emit("mouseOverNode", { node: value, sunburst: this });
+    },
+
+    /**
+     * @private
+     */
+    click(value) {
+      /**
+       * Fired when sunburst node is cliscked.
+       * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
+       */
+      this.$emit("clickNode", { node: value, sunburst: this });
     },
 
     /**
