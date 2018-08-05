@@ -5,7 +5,7 @@
 <script>
 import resize from "vue-resize-directive";
 import { colorSchemes } from "../infra/colorSchemes";
-import { arc, hierarchy, partition, select } from "d3";
+import { arc, hierarchy, interpolate, partition, select } from "d3";
 
 const arcSunburst = arc()
   .startAngle(d => d.x0)
@@ -19,6 +19,28 @@ function recursiveName(node) {
     .map(node => node.data.name)
     .join("-");
   return res;
+}
+
+function copyCurrentValues(to, from) {
+  const { x0, x1, y0, y1 } = from;
+  to._current = { x0, x1, y0, y1 };
+}
+
+function arc2Tween(d, indx) {
+  const positionsKeys = ["x0", "x1", "y0", "y1"];
+  const interpolates = {};
+  positionsKeys.forEach(key => {
+    interpolates[key] = interpolate(this._current[key], d[key]);
+  });
+  copyCurrentValues(this, d);
+
+  return function(t) {
+    const tmp = {};
+    positionsKeys.forEach(key => {
+      tmp[key] = interpolates[key](t);
+    });
+    return arcSunburst(tmp, indx);
+  };
 }
 
 const useNameForColor = d => d.data.name;
@@ -153,10 +175,13 @@ export default {
         .style("opacity", 1)
         .on("mouseover", mouseOver)
         .on("click", click)
+        .each(function(d) {
+          copyCurrentValues(this, d);
+        })
         .merge(pathes)
         .style("fill", colorGetter)
         .transition(this.inAnimationDuration)
-        .attr("d", arcSunburst);
+        .attrTween("d", arc2Tween);
 
       pathes.exit().remove();
     },
