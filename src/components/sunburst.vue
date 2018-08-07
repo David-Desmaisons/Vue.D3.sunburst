@@ -1,5 +1,7 @@
 <template>
   <div class="viewport" v-resize="resize">
+    <slot :vis="vis" :colorScale="colorScale" :lastClickedNode="lastClickedNode" :lastMouseOverNode="lastMouseOverNode" :rootNode="rootNode" :highlightPath="highlightPath" :zoomToNode="zoomToNode">
+    </slot>
   </div>
 </template>
 <script>
@@ -138,7 +140,12 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      vis: null,
+      lastClickedNode: null,
+      lastMouseOverNode: null,
+      rootNode: null
+    };
   },
 
   mounted() {
@@ -237,6 +244,7 @@ export default {
      * @private
      */
     mouseOver(value) {
+      this.lastClickedNode = value;
       /**
        * Fired when mouse is over a sunburst node.
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
@@ -248,6 +256,7 @@ export default {
      * @private
      */
     click(value) {
+      this.lastMouseOverNode = value;
       /**
        * Fired when sunburst node is cliscked.
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
