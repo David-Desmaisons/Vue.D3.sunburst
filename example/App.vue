@@ -52,7 +52,7 @@
           <div class="card-header">Sunburst</div>
           <div class="card-body father-draggable">
             <vue-draggable-resizable :w="500" :h="500" :parent="true">
-              <sunburst ref="sunburst" id="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration" @mouseOverNode="onMouseOver" @mouseleave.native="onMouseLeave" />
+              <sunburst ref="sunburst" id="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration" @mouseOverNode="onMouseOver" @mouseleave.native="onMouseLeave" @clickNode="onClickNode" />
             </vue-draggable-resizable>
           </div>
         </div>
@@ -87,6 +87,9 @@ export default {
   methods: {
     onMouseOver(data) {
       data.sunburst.highlightPath(data.node, 0.1);
+    },
+    onClickNode(data) {
+      data.sunburst.zoomToNode(data.node);
     },
     onMouseLeave() {
       this.$refs.sunburst.resetHighlight();

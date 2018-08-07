@@ -19,6 +19,14 @@ const scaleX = scaleLinear()
   .range([0, 2 * Math.PI])
   .clamp(true);
 
+const scaleY = scaleSqrt().range([0, 1]);
+
+const arcSunburst = arc()
+  .startAngle(d => scaleX(d.x0))
+  .endAngle(d => scaleX(d.x1))
+  .innerRadius(d => Math.max(0, scaleY(d.y0)))
+  .outerRadius(d => Math.max(0, scaleY(d.y1)));
+
 function recursiveName(node) {
   const res = node
     .ancestors()
@@ -32,7 +40,7 @@ function copyCurrentValues(to, from) {
   to._current = { x0, x1, y0, y1 };
 }
 
-function arc2Tween(d, indx, arcSunburst) {
+function arc2Tween(d, indx) {
   const positionsKeys = ["x0", "x1", "y0", "y1"];
   const interpolates = {};
   positionsKeys.forEach(key => {
@@ -168,13 +176,6 @@ export default {
         .descendants()
         .filter(d => Math.abs(scaleX(d.x1 - d.x0)) > this.minAngleDisplayed);
 
-      const scaleY = this.scaleY;
-      const arcSunburst = arc()
-        .startAngle(d => scaleX(d.x0))
-        .endAngle(d => scaleX(d.x1))
-        .innerRadius(d => scaleY(d.y0))
-        .outerRadius(d => scaleY(d.y1));
-
       const pathes = this.getPathes();
       const colorGetter = d => this.colorScale(this.getCategoryForColor(d));
       const mouseOver = this.mouseOver.bind(this);
@@ -182,8 +183,8 @@ export default {
 
       pathes
         .enter()
-        .append("svg:path")
-        .attr("display", d => (d.depth ? null : "none"))
+        .append("path")
+        // .attr("display", d => (d.depth ? null : "none"))
         .style("opacity", 1)
         .on("mouseover", mouseOver)
         .on("click", click)
@@ -192,10 +193,9 @@ export default {
         })
         .merge(pathes)
         .style("fill", colorGetter)
-        .transition(this.inAnimationDuration)
-        .attrTween("d", function(d, idx) {
-          return arc2Tween.call(this, d, idx, arcSunburst);
-        });
+        .transition("enter")
+        .duration(this.inAnimationDuration)
+        .attrTween("d", arc2Tween);
 
       pathes.exit().remove();
     },
@@ -220,7 +220,9 @@ export default {
         .attr("transform", `translate(${width / 2}, ${height / 2} )`);
 
       this.radius = Math.min(width, height) / 2;
-      this.scaleY = scaleSqrt().range([0, this.radius]);
+      const [scaleYMin] = scaleY.range();
+      scaleY.range([scaleYMin, this.radius]);
+
       this.onData(this.data);
     },
 
@@ -272,6 +274,28 @@ export default {
         .selectAll("path")
         .filter(d => sequenceArray.indexOf(d) >= 0)
         .style("opacity", 1);
+    },
+
+    /**
+     * Zoom to a given node.
+     * @param {Object} node the D3 node to zoom to.
+     */
+    zoomToNode(d) {
+      this.vis
+        .transition("zoom")
+        .duration(750)
+        .tween("scale", () => {
+          const xd = interpolate(scaleX.domain(), [d.x0, d.x1]);
+          const yd = interpolate(scaleY.domain(), [d.y0, 1]);
+          const yr = interpolate(scaleY.range(), [d.y0 ? 20 : 0, this.radius]);
+
+          return t => {
+            scaleX.domain(xd(t));
+            scaleY.domain(yd(t)).range(yr(t));
+          };
+        })
+        .selectAll("path")
+        .attrTween("d", nd => () => arcSunburst(nd));
     },
 
     /**
