@@ -52,7 +52,13 @@
           <div class="card-header">Sunburst</div>
           <div class="card-body father-draggable">
             <vue-draggable-resizable :w="500" :h="500" :parent="true">
-              <sunburst ref="sunburst" id="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration" @mouseOverNode="onMouseOver" @mouseleave.native="onMouseLeave" @clickNode="onClickNode" />
+              <sunburst ref="sunburst" id="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration" @mouseOverNode="onMouseOver" @mouseleave.native="onMouseLeave" @clickNode="onClickNode">
+                <template class="explanation" slot-scope="{ nodes }">
+                  <div v-if="nodes.mouseOver" class="info">
+                    <span>{{(100 * nodes.mouseOver.value / nodes.root.value).toPrecision(3)}} %</span><br/> of visits begin with this sequence of pages
+                  </div>
+                </template>
+              </sunburst>
             </vue-draggable-resizable>
           </div>
         </div>
@@ -130,6 +136,24 @@ export default {
   #sunburst {
     width: 100%;
     height: 100%;
+    position: relative;
+
+    .info {
+      width: 300px;
+      height: 100px;
+      padding: 20px;
+      pointer-events: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 10;
+      margin-left: -150px;
+      margin-top: -70px;
+
+      span {
+        font-size: 2em;
+      }
+    }
   }
 }
 </style>

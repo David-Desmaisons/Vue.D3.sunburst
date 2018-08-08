@@ -1,6 +1,6 @@
 <template>
   <div class="viewport" v-resize="resize">
-    <slot :vis="vis" :colorScale="colorScale" :lastClickedNode="lastClickedNode" :lastMouseOverNode="lastMouseOverNode" :rootNode="rootNode" :highlightPath="highlightPath" :zoomToNode="zoomToNode">
+    <slot :vis="vis" :colorScale="colorScale" :nodes="graphNodes" :highlightPath="highlightPath" :zoomToNode="zoomToNode">
     </slot>
   </div>
 </template>
@@ -142,9 +142,12 @@ export default {
   data() {
     return {
       vis: null,
-      lastClickedNode: null,
-      lastMouseOverNode: null,
-      rootNode: null
+      graphNodes: {
+        clicked: null,
+        mouseOver: null,
+        zoomed: null,
+        root: null
+      }
     };
   },
 
@@ -153,6 +156,11 @@ export default {
       .append("svg")
       .style("overflow", "visible")
       .attr("class", "root");
+
+    select(this.$el).on("mouseleave", () => {
+      this.graphNodes.mouseOver = null;
+    });
+
     this.resize();
   },
 
@@ -172,6 +180,7 @@ export default {
     onData(data) {
       if (!data) {
         this.vis.selectAll("path").remove();
+        Object.keys(this.graphNodes).forEach(k => (this.graphNodes[k] = null));
         return;
       }
 
@@ -205,6 +214,8 @@ export default {
         .attrTween("d", arc2Tween);
 
       pathes.exit().remove();
+
+      this.graphNodes.root = this.nodes[0];
     },
 
     /**
@@ -244,7 +255,7 @@ export default {
      * @private
      */
     mouseOver(value) {
-      this.lastClickedNode = value;
+      this.graphNodes.mouseOver = value;
       /**
        * Fired when mouse is over a sunburst node.
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
@@ -256,7 +267,7 @@ export default {
      * @private
      */
     click(value) {
-      this.lastMouseOverNode = value;
+      this.graphNodes.clicked = value;
       /**
        * Fired when sunburst node is cliscked.
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
