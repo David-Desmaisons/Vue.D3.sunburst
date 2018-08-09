@@ -146,7 +146,8 @@ export default {
         clicked: null,
         mouseOver: null,
         zoomed: null,
-        root: null
+        root: null,
+        highlighted: null
       }
     };
   },
@@ -294,20 +295,25 @@ export default {
         .selectAll("path")
         .filter(d => sequenceArray.indexOf(d) >= 0)
         .style("opacity", 1);
+
+      this.graphNodes.highlighted = node;
     },
 
     /**
      * Zoom to a given node.
      * @param {Object} node the D3 node to zoom to.
      */
-    zoomToNode(d) {
+    zoomToNode(node) {
       this.vis
         .transition("zoom")
         .duration(750)
         .tween("scale", () => {
-          const xd = interpolate(scaleX.domain(), [d.x0, d.x1]);
-          const yd = interpolate(scaleY.domain(), [d.y0, 1]);
-          const yr = interpolate(scaleY.range(), [d.y0 ? 20 : 0, this.radius]);
+          const xd = interpolate(scaleX.domain(), [node.x0, node.x1]);
+          const yd = interpolate(scaleY.domain(), [node.y0, 1]);
+          const yr = interpolate(scaleY.range(), [
+            node.y0 ? 20 : 0,
+            this.radius
+          ]);
 
           return t => {
             scaleX.domain(xd(t));
@@ -316,6 +322,8 @@ export default {
         })
         .selectAll("path")
         .attrTween("d", nd => () => arcSunburst(nd));
+
+      this.graphNodes.zoomed = node;
     },
 
     /**
