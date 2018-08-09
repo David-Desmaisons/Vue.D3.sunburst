@@ -91,7 +91,7 @@ export default {
     },
     /**
      * Function used to map an item and its color.
-     * (nodeD3: Object) => color: Number | String
+     * (nodeD3: Object) => category: Number | String
      * By default use the node name
      */
     getCategoryForColor: {
@@ -141,7 +141,14 @@ export default {
 
   data() {
     return {
+      /**
+       * @private
+       */
       vis: null,
+
+      /**
+       * @private
+       */
       graphNodes: {
         clicked: null,
         mouseOver: null,
@@ -269,7 +276,7 @@ export default {
     click(value) {
       this.graphNodes.clicked = value;
       /**
-       * Fired when sunburst node is cliscked.
+       * Fired when sunburst node is clicked.
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
        */
       this.$emit("clickNode", { node: value, sunburst: this });

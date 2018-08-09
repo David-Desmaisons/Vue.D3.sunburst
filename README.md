@@ -63,9 +63,13 @@ export default {
 
 ### sunburst 
 
+#### slots 
+
+- `default`  
+
 #### props 
 
-- `data` ***Object*** (*required*) 
+- `data` ***Object*** (*optional*) 
 
    Sunburst data where children property is a array containing children. 
 
@@ -73,9 +77,9 @@ export default {
 
    D3 color scheme to be used. 
 
-- `get-color-for-node` ***Function*** (*optional*) `default: 'getCategoryColor'` 
+- `get-category-for-color` ***Function*** (*optional*) `default: 'useNameForColor'` 
 
-   Function used to map an item and its color. (nodeD3: Object) => color: String 
+   Function used to map an item and its color. (nodeD3: Object) => category: Number | String By default use the node name 
 
 - `min-angle-displayed` ***Number*** (*optional*) `default: 0.005` 
 
@@ -97,7 +101,15 @@ export default {
 
 - `mouseOverNode` 
 
-   Fired mouse is over an sunburst node. 
+   Fired when mouse is over a sunburst node. 
+
+   **arguments:** 
+
+     - `value` **Object** - {node, sunburst} The corresponding node and sunburst component 
+
+- `clickNode` 
+
+   Fired when sunburst node is clicked. 
 
    **arguments:** 
 
@@ -113,6 +125,14 @@ export default {
 
      - `node` **Object** - the D3 node to highlight 
      - `opacity` **Number** - opacity of the none highlighted nodes, default to 0.3 
+
+- `zoomToNode(node)` 
+
+   Zoom to a given node. 
+
+   **parameters:** 
+
+     - `node` **Object** - the D3 node to zoom to. 
 
 - `resetHighlight()` 
 
