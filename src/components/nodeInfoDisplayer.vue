@@ -10,7 +10,7 @@ export default {
       required: false,
       type: Object
     },
-    description:{
+    description: {
       required: true,
       type: String
     }
@@ -21,7 +21,10 @@ export default {
         return null;
       }
 
-      return `${(100 * this.nodes.mouseOver.value / this.nodes.root.value ).toPrecision(3)} %`;
+      return `${(
+        (100 * this.nodes.mouseOver.value) /
+        this.nodes.root.value
+      ).toPrecision(3)} %`;
     }
   }
 };

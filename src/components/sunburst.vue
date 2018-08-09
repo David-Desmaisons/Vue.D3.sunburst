@@ -201,7 +201,6 @@ export default {
       pathes
         .enter()
         .append("path")
-        // .attr("display", d => (d.depth ? null : "none"))
         .style("opacity", 1)
         .on("mouseover", mouseOver)
         .on("click", click)
