@@ -53,7 +53,10 @@
           <div class="card-body father-draggable">
             <vue-draggable-resizable :w="500" :h="500" :parent="true">
               <sunburst ref="sunburst" id="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration" @mouseOverNode="onMouseOver" @mouseleave.native="onMouseLeave" @clickNode="onClickNode">
-                <nodeInfoDisplayer slot-scope="{ nodes }" :nodes="nodes" description="of visits begin with this sequence of pages">
+                <breadcrumbTrail slot="top" slot-scope="{ nodes, colorGetter, width }" :nodes="nodes" :colorGetter="colorGetter" :width="width">
+                </breadcrumbTrail>
+
+                <nodeInfoDisplayer slot="center" slot-scope="{ nodes }" :nodes="nodes" description="of visits begin with this sequence of pages">
                 </nodeInfoDisplayer>
               </sunburst>
             </vue-draggable-resizable>
@@ -67,6 +70,7 @@
 <script>
 import sunburst from "@/components/sunburst";
 import nodeInfoDisplayer from "@/components/nodeInfoDisplayer";
+import breadcrumbTrail from "@/components/breadcrumbTrail";
 import { colorSchemes } from "@/infra/colorSchemes";
 import VueDraggableResizable from "vue-draggable-resizable";
 import data from "../data/data";
@@ -102,6 +106,7 @@ export default {
   components: {
     sunburst,
     nodeInfoDisplayer,
+    breadcrumbTrail,
     VueDraggableResizable
   }
 };

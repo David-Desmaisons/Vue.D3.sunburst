@@ -1,5 +1,5 @@
 <template>
-  <div v-if="percentage" class="info">
+  <div class="info" v-if="percentage">
     <span>{{percentage}}</span><br/> {{description}}
   </div>
 </template>
@@ -22,7 +22,8 @@ export default {
       }
 
       return `${(
-        (100 * this.nodes.mouseOver.value) /
+        100 *
+        this.nodes.mouseOver.value /
         this.nodes.root.value
       ).toPrecision(3)} %`;
     }

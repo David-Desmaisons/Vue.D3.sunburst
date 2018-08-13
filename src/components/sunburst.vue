@@ -1,7 +1,12 @@
 <template>
-  <div class="viewport" v-resize="resize">
-    <slot :vis="vis" :colorScale="colorScale" :nodes="graphNodes" :highlightPath="highlightPath" :zoomToNode="zoomToNode">
+  <div class="graph">
+    <slot name="top" :width="width" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
     </slot>
+
+    <div class="viewport" v-resize="resize">
+      <slot name="center" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
+      </slot>
+    </div>
   </div>
 </template>
 <script>
@@ -144,28 +149,35 @@ export default {
       /**
        * @private
        */
-      vis: null,
-
-      /**
-       * @private
-       */
       graphNodes: {
         clicked: null,
         mouseOver: null,
         zoomed: null,
         root: null,
         highlighted: null
-      }
+      },
+
+      /**
+       * @private
+       */
+      width: null,
+
+      /**
+       * @private
+       */
+      height: null
     };
   },
 
   mounted() {
-    this.vis = select(this.$el)
+    const [viewport] = this.$el.getElementsByClassName("viewport");
+    this.viewport = viewport;
+    this.vis = select(viewport)
       .append("svg")
       .style("overflow", "visible")
       .attr("class", "root");
 
-    select(this.$el).on("mouseleave", () => {
+    select(viewport).on("mouseleave", () => {
       this.graphNodes.mouseOver = null;
     });
 
@@ -177,8 +189,8 @@ export default {
      * @private
      */
     getSize() {
-      var width = this.$el.clientWidth;
-      var height = this.$el.clientHeight;
+      var width = this.viewport.clientWidth;
+      var height = this.viewport.clientHeight;
       return { width, height };
     },
 
@@ -201,7 +213,7 @@ export default {
         .filter(d => Math.abs(scaleX(d.x1 - d.x0)) > this.minAngleDisplayed);
 
       const pathes = this.getPathes();
-      const colorGetter = d => this.colorScale(this.getCategoryForColor(d));
+      const colorGetter = this.colorGetter;
       const mouseOver = this.mouseOver.bind(this);
       const click = this.click.bind(this);
 
@@ -249,6 +261,8 @@ export default {
       scaleY.range([scaleYMin, this.radius]);
 
       this.onData(this.data);
+      this.width = width;
+      this.height = height;
     },
 
     /**
@@ -348,9 +362,20 @@ export default {
     /**
      * @private
      */
-    colorScale() {
-      return colorSchemes[this.colorScheme].scale;
-    }
+    actions() {
+      return {
+        highlightPath: this.highlightPath.bind(this),
+        zoomToNode: this.zoomToNode.bind(this)
+      };
+    },
+
+    /**
+     * @private
+     */
+     colorGetter() {
+       const colorScale = colorSchemes[this.colorScheme].scale;
+       return d => colorScale(this.getCategoryForColor(d))
+     }
   },
 
   watch: {
@@ -361,9 +386,8 @@ export default {
       deep: true
     },
 
-    colorScheme() {
-      const colorGetter = d => this.colorScale(this.getCategoryForColor(d));
-      this.getPathes().style("fill", colorGetter);
+    colorGetter(value) {
+      this.getPathes().style("fill", value);
     },
 
     minAngleDisplayed() {
@@ -374,4 +398,15 @@ export default {
 </script>
 
 <style lang="less">
+.graph {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.viewport {
+  height: fill-available;
+  width: 100%;
+}
 </style>
