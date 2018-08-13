@@ -4,6 +4,9 @@
 [![Npm version](https://img.shields.io/npm/v/vue-d3-sunburst.svg?maxAge=2592000)](https://www.npmjs.com/package/vue-d3-sunburst)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/Vue.D3.sunburst.svg)](https://github.com/David-Desmaisons/Vue.D3.sunburst/blob/master/LICENSE)
 
+https://en.wikipedia.org/wiki/Pie_chart#Ring
+https://datavizcatalogue.com/methods/sunburst_diagram.html
+
 ## Usage
 
 ```HTML
