@@ -5,27 +5,6 @@
 <script>
 import { select } from "d3";
 
-var b = {
-  w: 80,
-  h: 30,
-  s: 3,
-  t: 10
-};
-
-function breadcrumbPoints(d, i) {
-  var points = [];
-  points.push("0,0");
-  points.push(b.w + ",0");
-  points.push(b.w + b.t + "," + b.h / 2);
-  points.push(b.w + "," + b.h);
-  points.push("0," + b.h);
-  if (i > 0) {
-    // Leftmost breadcrumb; don't include 6th vertex.
-    points.push(b.t + "," + b.h / 2);
-  }
-  return points.join(" ");
-}
-
 export default {
   props: {
     nodes: {
@@ -44,6 +23,26 @@ export default {
       required: false,
       type: Number,
       default: 1
+    },
+    itemWidth: {
+      required: false,
+      type: Number,
+      default: 80
+    },
+    itemHeight: {
+      required: false,
+      type: Number,
+      default: 30
+    },
+    spacing: {
+      required: false,
+      type: Number,
+      default: 3
+    },
+    tailWidth: {
+      required: false,
+      type: Number,
+      default: 10
     }
   },
   mounted() {
@@ -58,7 +57,21 @@ export default {
       .attr("class", "endlabel")
       .style("fill", "#000");
   },
-  computed: {},
+  methods: {
+    breadcrumbPoints(_, i) {
+      var points = [];
+      points.push("0,0");
+      points.push(this.itemWidth + ",0");
+      points.push(this.itemWidth + this.tailWidth + "," + this.itemHeight / 2);
+      points.push(this.itemWidth + "," + this.itemHeight);
+      points.push("0," + this.itemHeight);
+      if (i > 0) {
+        // Leftmost breadcrumb; don't include 6th vertex.
+        points.push(this.tailWidth + "," + this.itemHeight / 2);
+      }
+      return points.join(" ");
+    }
+  },
   watch: {
     width() {
       select(this.$el)
@@ -90,21 +103,25 @@ export default {
 
         entering
           .append("svg:polygon")
-          .attr("points", breadcrumbPoints)
+          .attr("points", this.breadcrumbPoints)
           .style("fill", this.colorGetter);
 
         entering
           .append("svg:text")
-          .attr("x", (b.w + b.t) / 2)
-          .attr("y", b.h / 2)
+          .attr("x", (this.itemWidth + this.tailWidth) / 2)
+          .attr("y", this.itemHeight / 2)
           .attr("dy", "0.25em")
           .attr("text-anchor", "middle")
           .text(d => d.data.name);
 
         // Merge enter and update selections; set position for all nodes.
-        entering.merge(trail).attr("transform", function(d, i) {
-          return "translate(" + i * (b.w + b.s) + ", 0)";
-        });
+        entering
+          .merge(trail)
+          .attr(
+            "transform",
+            (d, i) =>
+              "translate(" + i * (this.itemWidth + this.spacing) + ", 0)"
+          );
 
         const text = `${(
           (100 * this.nodes.mouseOver.value) /
@@ -115,8 +132,8 @@ export default {
         select(this.$el)
           .select(".trail")
           .select(".endlabel")
-          .attr("x", (nodeArray.length + 0.5) * (b.w + b.s))
-          .attr("y", b.h / 2)
+          .attr("x", (nodeArray.length + 0.5) * (this.itemWidth + this.spacing))
+          .attr("y", this.itemHeight / 2)
           .attr("dy", "0.35em")
           .attr("text-anchor", "middle")
           .text(text);

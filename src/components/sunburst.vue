@@ -372,10 +372,10 @@ export default {
     /**
      * @private
      */
-     colorGetter() {
-       const colorScale = colorSchemes[this.colorScheme].scale;
-       return d => colorScale(this.getCategoryForColor(d))
-     }
+    colorGetter() {
+      const colorScale = colorSchemes[this.colorScheme].scale;
+      return d => colorScale(this.getCategoryForColor(d));
+    }
   },
 
   watch: {

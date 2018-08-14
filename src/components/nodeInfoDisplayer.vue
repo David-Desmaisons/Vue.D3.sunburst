@@ -22,8 +22,7 @@ export default {
       }
 
       return `${(
-        100 *
-        this.nodes.mouseOver.value /
+        (100 * this.nodes.mouseOver.value) /
         this.nodes.root.value
       ).toPrecision(3)} %`;
     }
