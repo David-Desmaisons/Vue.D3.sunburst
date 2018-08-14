@@ -7,7 +7,8 @@
     "build": "vue-cli-service build --name vue-d3-sunburst --entry ./src/index.js --target lib",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "prepublishOnly": "npm run lint && npm run build && npm run doc:build",
+    "prepublishOnly": "npm run lint && npm run build && npm run doc:build && npm run example:build",
+    "example:build": "vue-cli-service build --modern --entry ./example/main.js --dest docs",
     "doc:build": "npx vuedoc.md --section API --output README.md ./src/components/sunburst.vue"
   },
   "dependencies": {
