@@ -180,7 +180,10 @@ export default {
     this.vis = select(viewport)
       .append("svg")
       .style("overflow", "visible")
-      .attr("class", "root");
+      .attr("class", "root")
+      .attr("width", "100%")
+      .attr("height", "100%")
+      .append("g");
 
     select(viewport).on("mouseleave", () => {
       this.graphNodes.mouseOver = null;
@@ -403,16 +406,16 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .graph {
   height: 100%;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
 }
 
 .viewport {
-  height: fill-available;
+  height: 100%;
   width: 100%;
 }
 </style>
