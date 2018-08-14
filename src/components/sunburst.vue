@@ -4,8 +4,13 @@
     </slot>
 
     <div class="viewport" v-resize="resize">
+
       <slot name="center" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
       </slot>
+
+      <slot :nodes="graphNodes" :actions="actions">
+      </slot>
+
     </div>
   </div>
 </template>
@@ -365,7 +370,8 @@ export default {
     actions() {
       return {
         highlightPath: this.highlightPath.bind(this),
-        zoomToNode: this.zoomToNode.bind(this)
+        zoomToNode: this.zoomToNode.bind(this),
+        resetHighlight: this.resetHighlight.bind(this)
       };
     },
 

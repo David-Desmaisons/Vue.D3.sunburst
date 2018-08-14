@@ -6,7 +6,11 @@
 <script>
 export default {
   props: {
-    nodes: {
+    root: {
+      required: false,
+      type: Object
+    },
+    current: {
       required: false,
       type: Object
     },
@@ -17,14 +21,11 @@ export default {
   },
   computed: {
     percentage() {
-      if (this.nodes.mouseOver == null || this.nodes.root == null) {
+      if (this.current == null || this.root == null) {
         return null;
       }
 
-      return `${(
-        (100 * this.nodes.mouseOver.value) /
-        this.nodes.root.value
-      ).toPrecision(3)} %`;
+      return `${(100 * this.current.value / this.root.value).toPrecision(3)} %`;
     }
   }
 };

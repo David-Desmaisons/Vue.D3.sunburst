@@ -52,12 +52,17 @@
           <div class="card-header">Sunburst</div>
           <div class="card-body father-draggable">
             <vue-draggable-resizable :w="500" :h="500" :parent="true">
-              <sunburst ref="sunburst" id="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration" @mouseOverNode="onMouseOver" @mouseleave.native="onMouseLeave" @clickNode="onClickNode">
-                <breadcrumbTrail slot="top" slot-scope="{ nodes, colorGetter, width }" :nodes="nodes" :colorGetter="colorGetter" :width="width">
-                </breadcrumbTrail>
+              <sunburst ref="sunburst" id="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
 
-                <nodeInfoDisplayer slot="center" slot-scope="{ nodes }" :nodes="nodes" description="of visits begin with this sequence of pages">
-                </nodeInfoDisplayer>
+                <breadcrumbTrail slot="top" slot-scope="{ nodes, colorGetter, width }" :nodes="nodes" :colorGetter="colorGetter" :width="width" />
+
+                <nodeInfoDisplayer slot="center" slot-scope="{ nodes }" :current="nodes.mouseOver" :root="nodes.root" description="of visits begin with this sequence of pages" />
+
+                <template slot-scope="{ nodes, actions }">
+                  <hilightOnHover :nodes="nodes" :actions="actions" />
+                  <zoomOnClick :nodes="nodes" :actions="actions"/>
+                </template>
+
               </sunburst>
             </vue-draggable-resizable>
           </div>
@@ -71,8 +76,12 @@
 import sunburst from "@/components/sunburst";
 import nodeInfoDisplayer from "@/components/nodeInfoDisplayer";
 import breadcrumbTrail from "@/components/breadcrumbTrail";
-import { colorSchemes } from "@/infra/colorSchemes";
+//behaviours
+import hilightOnHover from "@/components/hilightOnHover";
+import zoomOnClick from "@/components/zoomOnClick";
+
 import VueDraggableResizable from "vue-draggable-resizable";
+import { colorSchemes } from "@/infra/colorSchemes";
 import data from "../data/data";
 
 const colorSchemesNames = Object.keys(colorSchemes).map(key => ({
@@ -93,20 +102,13 @@ export default {
     };
   },
   methods: {
-    onMouseOver(data) {
-      data.sunburst.highlightPath(data.node, 0.1);
-    },
-    onClickNode(data) {
-      data.sunburst.zoomToNode(data.node);
-    },
-    onMouseLeave() {
-      this.$refs.sunburst.resetHighlight();
-    }
   },
   components: {
     sunburst,
     nodeInfoDisplayer,
     breadcrumbTrail,
+    hilightOnHover,
+    zoomOnClick,
     VueDraggableResizable
   }
 };

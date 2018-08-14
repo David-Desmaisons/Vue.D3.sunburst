@@ -124,7 +124,8 @@ export default {
           );
 
         const text = `${(
-          (100 * this.nodes.mouseOver.value) /
+          100 *
+          this.nodes.mouseOver.value /
           this.nodes.root.value
         ).toPrecision(3)} %`;
 
