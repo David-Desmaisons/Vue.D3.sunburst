@@ -7,11 +7,15 @@ import { select } from "d3";
 
 export default {
   props: {
+    root: {
+      required: false,
+      type: Object
+    },
     current: {
       required: false,
       type: Object
     },
-    root: {
+    from: {
       required: false,
       type: Object
     },
@@ -83,6 +87,8 @@ export default {
         return;
       }
       const nodeArray = this.current.ancestors().reverse();
+      const origin = this.from || this.root;
+      const [_, ...nodeFrom] = origin.ancestors();
 
       // Data join; key function combines name and depth (= position in sequence).
       var trail = select(this.$el)
@@ -115,9 +121,10 @@ export default {
         .attr(
           "transform",
           (d, i) => "translate(" + i * (this.itemWidth + this.spacing) + ", 0)"
-        );
+        )
+        .style("opacity", d => (nodeFrom.indexOf(d) === -1 ? 1 : 0.5));
 
-      const percentage = (100 * this.current.value) / this.root.value;
+      const percentage = 100 * this.current.value / this.root.value;
       const text = `${percentage.toPrecision(3)} %`;
 
       // Now move and update the percentage at the end.
@@ -152,6 +159,9 @@ export default {
       handler() {
         this.draw();
       }
+    },
+    from() {
+      this.draw();
     }
   }
 };

@@ -93,5 +93,6 @@
     "component",
     "D3",
     "Sunburst"
-  ]
+  ],
+  "license":"MIT"
 }

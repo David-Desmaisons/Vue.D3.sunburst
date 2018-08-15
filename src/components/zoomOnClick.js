@@ -15,13 +15,8 @@ export default {
   },
 
   watch: {
-    "nodes.mouseOver": function(node) {
-      if (!node) {
-        this.actions.resetHighlight();
-        return;
-      }
-
-      this.actions.highlightPath(node);
+    "nodes.clicked": function(node) {
+      this.actions.zoomToNode(node);
     }
   }
 };
