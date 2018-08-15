@@ -25,7 +25,8 @@ export default {
         return null;
       }
 
-      return `${(100 * this.current.value / this.root.value).toPrecision(3)} %`;
+      const percentage = (100 * this.current.value) / this.root.value;
+      return `${percentage.toPrecision(3)} %`;
     }
   }
 };

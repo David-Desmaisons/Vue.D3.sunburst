@@ -15,7 +15,7 @@ export default {
   },
 
   watch: {
-    "nodes.mouseOver": function (node) {
+    "nodes.mouseOver": function(node) {
       if (!node) {
         this.actions.resetHighlight();
         return;

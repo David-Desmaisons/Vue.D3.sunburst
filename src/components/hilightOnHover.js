@@ -15,7 +15,7 @@ export default {
   },
 
   watch: {
-    "nodes.clicked": function (node) {
+    "nodes.clicked": function(node) {
       this.actions.zoomToNode(node);
     }
   }

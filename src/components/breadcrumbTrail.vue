@@ -7,7 +7,11 @@ import { select } from "d3";
 
 export default {
   props: {
-    nodes: {
+    current: {
+      required: false,
+      type: Object
+    },
+    root: {
       required: false,
       type: Object
     },
@@ -78,7 +82,7 @@ export default {
         .select(".trail")
         .attr("width", this.width);
     },
-    "nodes.mouseOver": {
+    current: {
       deep: true,
       handler(current) {
         if (!current) {
@@ -124,9 +128,8 @@ export default {
           );
 
         const text = `${(
-          100 *
-          this.nodes.mouseOver.value /
-          this.nodes.root.value
+          (100 * this.current.value) /
+          this.root.value
         ).toPrecision(3)} %`;
 
         // Now move and update the percentage at the end.
