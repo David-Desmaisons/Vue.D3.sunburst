@@ -411,11 +411,11 @@ export default {
   height: 100%;
   width: 100%;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column wrap;
 }
 
 .viewport {
-  height: 100%;
   width: 100%;
+  flex: 1 1 auto;
 }
 </style>
