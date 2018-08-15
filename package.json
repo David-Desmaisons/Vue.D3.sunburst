@@ -31,7 +31,6 @@
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "vue-cli-plugin-component": "^1.4.2",
-    "vue-draggable-resizable": "^1.7.1",
     "vue-template-compiler": "^2.5.16"
   },
   "eslintConfig": {

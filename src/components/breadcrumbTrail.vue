@@ -117,7 +117,7 @@ export default {
           (d, i) => "translate(" + i * (this.itemWidth + this.spacing) + ", 0)"
         );
 
-      const percentage = 100 * this.current.value / this.root.value;
+      const percentage = (100 * this.current.value) / this.root.value;
       const text = `${percentage.toPrecision(3)} %`;
 
       // Now move and update the percentage at the end.

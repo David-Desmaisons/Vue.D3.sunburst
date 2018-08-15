@@ -50,8 +50,7 @@
       <div class="col-9">
         <div class="card control-left">
           <div class="card-header">Sunburst</div>
-          <div class="card-body father-draggable">
-            <vue-draggable-resizable :w="500" :h="500" :parent="true">
+          <div class="card-body father">
               <sunburst ref="sunburst" id="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
 
                 <breadcrumbTrail slot="top" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :width="width" />
@@ -60,11 +59,10 @@
 
                 <template slot-scope="{ nodes, actions }">
                   <hilightOnHover :nodes="nodes" :actions="actions" />
-                  <zoomOnClick :nodes="nodes" :actions="actions"/>
+                  <zoomOnClick :nodes="nodes" :actions="actions" />
                 </template>
 
               </sunburst>
-            </vue-draggable-resizable>
           </div>
         </div>
       </div>
@@ -80,7 +78,6 @@ import breadcrumbTrail from "@/components/breadcrumbTrail";
 import hilightOnHover from "@/components/hilightOnHover";
 import zoomOnClick from "@/components/zoomOnClick";
 
-import VueDraggableResizable from "vue-draggable-resizable";
 import { colorSchemes } from "@/infra/colorSchemes";
 import data from "../data/data";
 
@@ -101,15 +98,13 @@ export default {
       outAnimationDuration: 1000
     };
   },
-  methods: {
-  },
+  methods: {},
   components: {
     sunburst,
     nodeInfoDisplayer,
     breadcrumbTrail,
     hilightOnHover,
-    zoomOnClick,
-    VueDraggableResizable
+    zoomOnClick
   }
 };
 </script>
@@ -133,15 +128,21 @@ export default {
     height: 100%;
   }
 
-  .father-draggable {
+  .resizable {
+    margin-left: calc(50% - 50px);
+  }
+
+  .father {
     position: relative;
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
   }
 
   #sunburst {
-    width: 100%;
-    height: 100%;
+    width: 500px;
+    height: 500px;
     position: relative;
   }
 }
