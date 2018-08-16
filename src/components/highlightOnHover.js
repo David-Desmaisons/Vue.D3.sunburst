@@ -1,9 +1,15 @@
 export default {
   props: {
+    /**
+     *  Sunburst nodes
+     */
     nodes: {
       required: false,
       type: Object
     },
+    /**
+     *  Sunburst actions
+     */
     actions: {
       required: true,
       type: Object

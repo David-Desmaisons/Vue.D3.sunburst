@@ -6,10 +6,16 @@
 <script>
 export default {
   props: {
+    /**
+     *  Root node
+     */
     root: {
       required: false,
       type: Object
     },
+    /**
+     *  Current node
+     */
     current: {
       required: false,
       type: Object

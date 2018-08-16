@@ -7,46 +7,76 @@ import { select } from "d3";
 
 export default {
   props: {
+    /**
+     *  Root node
+     */
     root: {
       required: false,
       type: Object
     },
+    /**
+     *  Current node
+     */
     current: {
       required: false,
       type: Object
     },
+    /**
+     *  Reference node, parents nodes of the current will have an opacity below 1
+     */
     from: {
       required: false,
       type: Object
     },
+    /**
+     *  ColorGetter exposed by sunburst
+     */
     colorGetter: {
       required: true,
       tyoe: Function
     },
+    /**
+     *  Sunburst width
+     */
     width: {
       required: false,
       type: Number
     },
+    /**
+     *  Css Order. If 1 the slot is displayed below the sunburst, if 0 the slot is displayed on top the sunburst
+     */
     order: {
       required: false,
       type: Number,
       default: 1
     },
+    /**
+     *  Bread crumb iten width
+     */
     itemWidth: {
       required: false,
       type: Number,
       default: 80
     },
+    /**
+     * Bread crumb iten height
+     */
     itemHeight: {
       required: false,
       type: Number,
       default: 30
     },
+    /**
+     * Spacing beetween read crumb iten height
+     */
     spacing: {
       required: false,
       type: Number,
       default: 3
     },
+    /**
+     * With of tailing element
+     */
     tailWidth: {
       required: false,
       type: Number,
@@ -66,6 +96,9 @@ export default {
       .style("fill", "#000");
   },
   methods: {
+    /**
+     * @private
+     */
     breadcrumbPoints(_, i) {
       var points = [];
       points.push("0,0");
@@ -79,6 +112,10 @@ export default {
       }
       return points.join(" ");
     },
+
+    /**
+     * @private
+     */
     draw() {
       if (!this.current) {
         select(this.$el)
@@ -88,7 +125,7 @@ export default {
       }
       const nodeArray = this.current.ancestors().reverse();
       const origin = this.from || this.root;
-      const [_, ...nodeFrom] = origin.ancestors();
+      const [, ...nodeFrom] = origin.ancestors();
 
       // Data join; key function combines name and depth (= position in sequence).
       var trail = select(this.$el)
@@ -124,7 +161,7 @@ export default {
         )
         .style("opacity", d => (nodeFrom.indexOf(d) === -1 ? 1 : 0.5));
 
-      const percentage = 100 * this.current.value / this.root.value;
+      const percentage = (100 * this.current.value) / this.root.value;
       const text = `${percentage.toPrecision(3)} %`;
 
       // Now move and update the percentage at the end.

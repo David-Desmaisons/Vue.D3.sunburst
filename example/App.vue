@@ -58,7 +58,7 @@
                 <nodeInfoDisplayer slot="center" slot-scope="{ nodes }" :current="nodes.mouseOver" :root="nodes.root" description="of visits begin with this sequence of pages" />
 
                 <template slot-scope="{ nodes, actions }">
-                  <hilightOnHover :nodes="nodes" :actions="actions" />
+                  <highlightOnHover :nodes="nodes" :actions="actions" />
                   <zoomOnClick :nodes="nodes" :actions="actions" />
                 </template>
 
@@ -75,7 +75,7 @@ import sunburst from "@/components/sunburst";
 import nodeInfoDisplayer from "@/components/nodeInfoDisplayer";
 import breadcrumbTrail from "@/components/breadcrumbTrail";
 //behaviours
-import hilightOnHover from "@/components/hilightOnHover";
+import highlightOnHover from "@/components/highlightOnHover";
 import zoomOnClick from "@/components/zoomOnClick";
 
 import { colorSchemes } from "@/infra/colorSchemes";
@@ -103,7 +103,7 @@ export default {
     sunburst,
     nodeInfoDisplayer,
     breadcrumbTrail,
-    hilightOnHover,
+    highlightOnHover,
     zoomOnClick
   }
 };

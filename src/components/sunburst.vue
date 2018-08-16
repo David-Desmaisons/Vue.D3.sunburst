@@ -1,13 +1,17 @@
 <template>
   <div class="graph">
+
+    <!-- Use this slot to add information on top or bottom of the graph-->
     <slot name="top" :width="width" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
     </slot>
 
     <div class="viewport" v-resize="resize">
 
+      <!-- Use this slot to add information on top of the graph -->
       <slot name="center" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
       </slot>
 
+       <!-- Use this slot to add behaviours to the sunburst -->
       <slot :nodes="graphNodes" :actions="actions">
       </slot>
 
