@@ -8,8 +8,12 @@
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
     "prepublishOnly": "npm run lint && npm run build && npm run doc:build && npm run example:build",
-    "example:build": "vue-cli-service build --modern --entry ./example/main.js --dest docs --mode dev",
-    "doc:build": "npx vuedoc.md --section API --output README.md ./src/components/sunburst.vue"
+    "doc-sun:build": "npx vuedoc.md --section API --output README.md ./src/components/sunburst.vue",
+    "doc-bread:build": "npx vuedoc.md --section \"breadcrumbTrail\" --output README.md --ignore-name ./src/components/breadcrumbTrail.vue",
+    "doc-node:build": "npx vuedoc.md --section \"nodeInfoDisplayer\" --output README.md --ignore-name ./src/components/nodeInfoDisplayer.vue",
+    "doc-zoom:build": "npx vuedoc.md --section \"zoomOnClick\" --output README.md --ignore-name ./src/components/zoomOnClick.js",
+    "doc-highlight:build": "npx vuedoc.md --section \"highlightOnHover\" --output README.md --ignore-name ./src/components/highlightOnHover.js",
+    "doc:build": "npm run doc-sun:build && npm run doc-bread:build && npm run doc-node:build && npm run doc-zoom:build && npm run doc-highlight:build"
   },
   "dependencies": {
     "d3": "^5.5.0",

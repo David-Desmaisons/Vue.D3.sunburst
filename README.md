@@ -146,6 +146,100 @@ export default {
 
    Reset the highlighted path 
 
+## Other optional components provided as slot implementation
+
+### Display
+
+#### breadcrumbTrail
+
+##### props 
+
+- `root` ***Object*** (*optional*) 
+
+   Root node 
+
+- `current` ***Object*** (*optional*) 
+
+   Current node 
+
+- `from` ***Object*** (*optional*) 
+
+   Reference node, parents nodes of the current will have an opacity below 1 
+
+- `color-getter` ***[object Object]*** (*required*) 
+
+   ColorGetter exposed by sunburst 
+
+- `width` ***Number*** (*optional*) 
+
+   Sunburst width 
+
+- `order` ***Number*** (*optional*) `default: 1` 
+
+   Css Order. If 1 the slot is displayed below the sunburst, if 0 the slot is displayed on top the sunburst 
+
+- `item-width` ***Number*** (*optional*) `default: 80` 
+
+   Bread crumb iten width 
+
+- `item-height` ***Number*** (*optional*) `default: 30` 
+
+   Bread crumb iten height 
+
+- `spacing` ***Number*** (*optional*) `default: 3` 
+
+   Spacing beetween read crumb iten height 
+
+- `tail-width` ***Number*** (*optional*) `default: 10` 
+
+   With of tailing element 
+
+#### nodeInfoDisplayer
+
+##### props 
+
+- `root` ***Object*** (*optional*) 
+
+   Root node 
+
+- `current` ***Object*** (*optional*) 
+
+   Current node 
+
+- `description` ***String*** (*required*) 
+
+##### computed properties 
+
+- `percentage` 
+
+   **dependencies:** `current`, `root`, `current`, `root` 
+
+### Behavioral
+
+#### zoomOnClick
+
+##### props 
+
+- `nodes` ***Object*** (*optional*) 
+
+   Sunburst nodes 
+
+- `actions` ***Object*** (*required*) 
+
+   Sunburst actions 
+
+#### highlightOnHover
+
+##### props 
+
+- `nodes` ***Object*** (*optional*) 
+
+   Sunburst nodes 
+
+- `actions` ***Object*** (*required*) 
+
+   Sunburst actions 
+
 ## Installation
 
 ```
