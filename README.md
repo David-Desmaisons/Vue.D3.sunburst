@@ -4,9 +4,9 @@
 [![Npm version](https://img.shields.io/npm/v/vue-d3-sunburst.svg?maxAge=2592000)](https://www.npmjs.com/package/vue-d3-sunburst)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/Vue.D3.sunburst.svg)](https://github.com/David-Desmaisons/Vue.D3.sunburst/blob/master/LICENSE)
 
-Live example:
-https://david-desmaisons.github.io/Vue.D3.sunburst/
+## Live example:
 
+https://david-desmaisons.github.io/Vue.D3.sunburst/
 
 ## Usage
 
@@ -69,7 +69,11 @@ export default {
 
 #### slots 
 
-- `default`  
+- `top` Use this slot to add information on top or bottom of the graph 
+
+- `center` Use this slot to add information on top of the graph 
+
+- `default` Use this slot to add behaviors to the sunburst 
 
 #### props 
 

@@ -11,7 +11,7 @@
       <slot name="center" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
       </slot>
 
-       <!-- Use this slot to add behaviours to the sunburst -->
+       <!-- Use this slot to add behaviors to the sunburst -->
       <slot :nodes="graphNodes" :actions="actions">
       </slot>
 
