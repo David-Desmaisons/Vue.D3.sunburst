@@ -5,12 +5,12 @@
 <script>
 import { select } from "d3";
 
-  /**
-   * Breadcrumb trail component displaying path between root node and current node.
-   * Can be used as a "legend" slot of sunburst component.
-   */
+/**
+ * Breadcrumb trail component displaying path between root node and current node.
+ * Can be used as a "legend" slot of sunburst component.
+ */
 export default {
-  name : "breadcrumbTrail",
+  name: "breadcrumbTrail",
   props: {
     /**
      *  Root node

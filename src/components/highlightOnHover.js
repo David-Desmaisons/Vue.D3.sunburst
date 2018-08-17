@@ -1,9 +1,9 @@
-  /**
-   * Renderless component providing path highlighting on mouse over behavior.
-   * Can be used as a default slot of sunburst component.
-   */
+/**
+ * Renderless component providing path highlighting on mouse over behavior.
+ * Can be used as a default slot of sunburst component.
+ */
 export default {
-  name : "highlightOnHover",
+  name: "highlightOnHover",
   props: {
     /**
      *  Sunburst nodes. Typically provided by sunburst default slot.

@@ -1,9 +1,9 @@
-  /**
-   * Renderless component providing the zoom on click behavior.
-   * Can be used as a default slot of sunburst component.
-   */
+/**
+ * Renderless component providing the zoom on click behavior.
+ * Can be used as a default slot of sunburst component.
+ */
 export default {
-  name : "zoomOnClick",
+  name: "zoomOnClick",
   props: {
     /**
      *  Sunburst nodes. Typically provided by sunburst default slot.
