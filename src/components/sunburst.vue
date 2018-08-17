@@ -2,13 +2,13 @@
   <div class="graph">
 
     <!-- Use this slot to add information on top or bottom of the graph-->
-    <slot name="top" :width="width" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
+    <slot name="legend" :width="width" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
     </slot>
 
     <div class="viewport" v-resize="resize">
 
       <!-- Use this slot to add information on top of the graph -->
-      <slot name="center" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
+      <slot name="top" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
       </slot>
 
        <!-- Use this slot to add behaviors to the sunburst -->

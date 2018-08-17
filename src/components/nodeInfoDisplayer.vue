@@ -4,7 +4,12 @@
   </div>
 </template>
 <script>
+/**
+ * Component that display the percentage value of the current node relative to root.
+ * Can be used as a "top" slot of sunburst component.
+ */
 export default {
+  name: "nodeInfoDisplayer",
   props: {
     /**
      *  Root node
@@ -20,18 +25,24 @@ export default {
       required: false,
       type: Object
     },
+    /**
+     *  Text to be displayed
+     */
     description: {
       required: true,
       type: String
     }
   },
   computed: {
+    /**
+     * @private
+     */
     percentage() {
       if (this.current == null || this.root == null) {
         return null;
       }
 
-      const percentage = (100 * this.current.value) / this.root.value;
+      const percentage = 100 * this.current.value / this.root.value;
       return `${percentage.toPrecision(3)} %`;
     }
   }

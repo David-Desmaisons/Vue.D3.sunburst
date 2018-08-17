@@ -51,11 +51,11 @@
         <div class="card control-left">
           <div class="card-header">Sunburst</div>
           <div class="card-body father">
-              <sunburst ref="sunburst" id="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
+              <sunburst class="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
 
-                <breadcrumbTrail slot="top" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.clicked" :width="width" />
+                <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.clicked" :width="width" />
 
-                <nodeInfoDisplayer slot="center" slot-scope="{ nodes }" :current="nodes.mouseOver" :root="nodes.root" description="of visits begin with this sequence of pages" />
+                <nodeInfoDisplayer slot="top" slot-scope="{ nodes }" :current="nodes.mouseOver" :root="nodes.root" description="of visits begin with this sequence of pages" />
 
                 <template slot-scope="{ nodes, actions }">
                   <highlightOnHover :nodes="nodes" :actions="actions" />
@@ -140,7 +140,7 @@ export default {
     justify-content: center;
   }
 
-  #sunburst {
+  .sunburst {
     width: 500px;
     height: 500px;
     position: relative;

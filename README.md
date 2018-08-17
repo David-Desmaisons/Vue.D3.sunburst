@@ -4,6 +4,8 @@
 [![Npm version](https://img.shields.io/npm/v/vue-d3-sunburst.svg?maxAge=2592000)](https://www.npmjs.com/package/vue-d3-sunburst)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/Vue.D3.sunburst.svg)](https://github.com/David-Desmaisons/Vue.D3.sunburst/blob/master/LICENSE)
 
+![demo gif](.\docs\img\sunburst.gif)
+
 ## Live example:
 
 https://david-desmaisons.github.io/Vue.D3.sunburst/
@@ -11,15 +13,39 @@ https://david-desmaisons.github.io/Vue.D3.sunburst/
 ## Usage
 
 ```HTML
-<sunburst :data="tree"></sunburst>
+<sunburst :data="data">
+
+  <!-- Add behaviors -->
+  <template slot-scope="{ nodes, actions }">
+    <highlightOnHover :nodes="nodes" :actions="actions" />
+    <zoomOnClick :nodes="nodes" :actions="actions" />
+  </template>
+
+  <!-- Add information to be displayed on top the graph -->
+  <nodeInfoDisplayer slot="top" slot-scope="{ nodes }" :current="nodes.mouseOver" :root="nodes.root" description="of visits begin with this sequence of pages" />
+
+  <!-- Add bottom legend -->
+  <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.clicked" :width="width" />
+
+</sunburst>
 ```
 
 ```javascript
-import { sunburst } from 'vue-d3-sunburst'
+import {
+  breadcrumbTrail,
+  highlightOnHover,
+  nodeInfoDisplayer,
+  sunburst,
+  zoomOnClick
+} from 'vue-d3-sunburst'
 
 export default {
   components: {
-    sunburst
+    breadcrumbTrail,
+    highlightOnHover,
+    nodeInfoDisplayer,
+    sunburst,
+    zoomOnClick
   },
   data() {
     return { 
@@ -69,9 +95,9 @@ export default {
 
 #### slots 
 
-- `top` Use this slot to add information on top or bottom of the graph 
+- `legend` Use this slot to add information on top or bottom of the graph 
 
-- `center` Use this slot to add information on top of the graph 
+- `top` Use this slot to add information on top of the graph 
 
 - `default` Use this slot to add behaviors to the sunburst 
 
@@ -148,9 +174,17 @@ export default {
 
 ## Other optional components provided as slot implementation
 
-### Display
+Besides sunburst component, Vue.D3.Sunburst provides additional optional components that can be used out of the box as slot implementations.
+There are two kinds of additional components: 
+
+* the "renderfull" components provide visual additional visual information on the nodes. They can be used as `legend` or `top` slots.
+* the renderless components provide predefined behaviors for the sunburst components. They can be used as default slots. It is possible to combine behavior using a root template slot element.
+
+### "Renderfull" components
 
 #### breadcrumbTrail
+
+Breadcrumb trail component displaying path between root node and current node. Can be used as a `legend` slot of sunburst component. 
 
 ##### props 
 
@@ -196,6 +230,8 @@ export default {
 
 #### nodeInfoDisplayer
 
+Component that display the percentage value of the current node relative to root. Can be used as a "top" slot of sunburst component. 
+
 ##### props 
 
 - `root` ***Object*** (*optional*) 
@@ -208,37 +244,39 @@ export default {
 
 - `description` ***String*** (*required*) 
 
-##### computed properties 
-
-- `percentage` 
-
-   **dependencies:** `current`, `root`, `current`, `root` 
+   Text to be displayed 
 
 ### Behavioral
 
 #### zoomOnClick
 
+Renderless component providing the zoom on click behavior.
+ Can be used as a default slot of sunburst component. 
+
 ##### props 
 
 - `nodes` ***Object*** (*optional*) 
 
-   Sunburst nodes 
+   Sunburst nodes. Typically provided by sunburst default slot. 
 
 - `actions` ***Object*** (*required*) 
 
-   Sunburst actions 
+   Sunburst actions. Typically provided by sunburst default slot. 
 
 #### highlightOnHover
 
+Renderless component providing path highlighting on mouse over behavior.
+ Can be used as a default slot of sunburst component. 
+
 ##### props 
 
 - `nodes` ***Object*** (*optional*) 
 
-   Sunburst nodes 
+   Sunburst nodes. Typically provided by sunburst default slot. 
 
 - `actions` ***Object*** (*required*) 
 
-   Sunburst actions 
+   Sunburst nodes. Typically provided by sunburst default slot. 
 
 ## Installation
 

@@ -3,7 +3,7 @@ import sunburst from "./components/sunburst";
 //slots info
 import nodeInfoDisplayer from "./components/nodeInfoDisplayer";
 import breadcrumbTrail from "./components/breadcrumbTrail";
-//slots behaviours
+//slots behaviors
 import highlightOnHover from "./components/highlightOnHover";
 import zoomOnClick from "./components/zoomOnClick";
 
