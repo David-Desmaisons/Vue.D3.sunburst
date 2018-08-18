@@ -3,7 +3,7 @@
   </div>
 </template>
 <script>
-import { select } from "d3";
+import { select } from "d3-selection";
 
 /**
  * Breadcrumb trail component displaying path between root node and current node.

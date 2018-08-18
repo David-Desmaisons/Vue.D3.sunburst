@@ -1,6 +1,6 @@
 {
   "name": "vue-d3-sunburst",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve ./example/main.js --open",
@@ -17,15 +17,21 @@
     "doc:build": "npm run doc-sun:build && npm run doc-bread:build && npm run doc-node:build && npm run doc-zoom:build && npm run doc-highlight:build"
   },
   "dependencies": {
-    "d3": "^5.5.0",
+    "d3-hierarchy": "^1.1.6",
+    "d3-interpolate": "^1.2.0",
+    "d3-scale": "^2.1.0",
+    "d3-scale-chromatic": "^1.3.0",
+    "d3-selection": "^1.3.0",
+    "d3-shape": "^1.2.0",
+    "d3-transition": "^1.1.1",
     "vue": "^2.5.16",
     "vue-resize-directive": "^1.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-rc.8",
-    "@vue/cli-plugin-eslint": "^3.0.0-rc.8",
-    "@vue/cli-plugin-unit-jest": "^3.0.0-rc.8",
-    "@vue/cli-service": "^3.0.0-rc.8",
+    "@vue/cli-plugin-babel": "^3.0.1",
+    "@vue/cli-plugin-eslint": "^3.0.1",
+    "@vue/cli-plugin-unit-jest": "^3.0.1",
+    "@vue/cli-service": "^3.0.1",
     "@vue/eslint-config-prettier": "^3.0.0-rc.8",
     "@vue/test-utils": "^1.0.0-beta.20",
     "@vuedoc/md": "^1.3.3",
@@ -35,7 +41,7 @@
     "font-awesome": "^4.7.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
-    "vue-cli-plugin-component": "^1.4.2",
+    "vue-cli-plugin-component": "^1.7.1",
     "vue-template-compiler": "^2.5.16"
   },
   "eslintConfig": {

@@ -1,5 +1,5 @@
+import { scaleOrdinal } from "d3-scale";
 import {
-  scaleOrdinal,
   schemeAccent,
   schemeCategory10,
   schemePaired,
@@ -8,7 +8,7 @@ import {
   schemeSet1,
   schemeSet2,
   schemeSet3
-} from "d3";
+} from "d3-scale-chromatic";
 
 const rawColorSchemes = {
   schemeAccent,

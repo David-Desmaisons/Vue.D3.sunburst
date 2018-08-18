@@ -11,7 +11,7 @@
       <slot name="top" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
       </slot>
 
-       <!-- Use this slot to add behaviors to the sunburst -->
+      <!-- Use this slot to add behaviors to the sunburst -->
       <slot :nodes="graphNodes" :actions="actions">
       </slot>
 
@@ -19,17 +19,16 @@
   </div>
 </template>
 <script>
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "transition" }]*/
+
 import resize from "vue-resize-directive";
+import { select } from "d3-selection";
+import { scaleLinear, scaleSqrt } from "d3-scale";
+import { hierarchy, partition } from "d3-hierarchy";
+import { interpolate } from "d3-interpolate";
+import { arc } from "d3-shape";
+import { transition } from "d3-transition";
 import { colorSchemes } from "../infra/colorSchemes";
-import {
-  arc,
-  hierarchy,
-  interpolate,
-  partition,
-  scaleLinear,
-  scaleSqrt,
-  select
-} from "d3";
 
 const scaleX = scaleLinear()
   .range([0, 2 * Math.PI])
