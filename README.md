@@ -10,6 +10,26 @@
 
 https://david-desmaisons.github.io/Vue.D3.sunburst/
 
+## About 
+
+Vue.D3.Sunburst provides a reusable vue [sunburst charts](http://www.cc.gatech.edu/gvu/ii/sunburst/) component relying on [D3.js](https://d3js.org/).
+
+
+`Sunburst` is the main component of this library and offers sunburst chart based on data using `children` property for hierarchy, `name` property for naming and `size` property for arcs size.
+
+`Sunburst` component provides three optional slots:
+  * `legend` and `top` slots are intended to be used to display additional information such as legend on the graph
+  * `default slot` is intended to receive renderless component providing behavior; for example: highlighting on mouse over or zoom on click
+
+Additional components providing standard and reusable features are also provided.
+
+## Features
+
+  * Reactive to data changes
+  * Responsive to size changes
+  * Customizable with slot or exposed methods and events
+  * Zoomable 
+
 ## Usage
 
 ```HTML
@@ -88,6 +108,14 @@ export default {
   }
 }
 ```
+
+## Gotchas
+
+This component is responsive and will adjust to resizing. In order for this to work properly, you must define for this component or its parent wether:
+* a height or a max-height
+* or a width or a max-width.
+
+Failing to do so may result in a component whose size that will keep increasing.
 
 ## API
 
@@ -178,7 +206,7 @@ Besides sunburst component, Vue.D3.Sunburst provides additional optional compone
 There are two kinds of additional components: 
 
 * the "renderfull" components provide visual additional visual information on the nodes. They can be used as `legend` or `top` slots.
-* the renderless components provide predefined behaviors for the sunburst components. They can be used as default slots. It is possible to combine behavior using a root template slot element.
+* the renderless components provide predefined behaviors for the sunburst components. They can be used as default slots. It is possible to combine behavior using a root template slot element as in the example.
 
 ### "Renderfull" components
 
@@ -200,7 +228,7 @@ Breadcrumb trail component displaying path between root node and current node. C
 
    Reference node, parents nodes of the current will have an opacity below 1 
 
-- `color-getter` ***[object Object]*** (*required*) 
+- `color-getter` ***Function*** (*required*) 
 
    ColorGetter exposed by sunburst 
 
@@ -214,15 +242,15 @@ Breadcrumb trail component displaying path between root node and current node. C
 
 - `item-width` ***Number*** (*optional*) `default: 80` 
 
-   Bread crumb iten width 
+   Bread crumb item width 
 
 - `item-height` ***Number*** (*optional*) `default: 30` 
 
-   Bread crumb iten height 
+   Bread crumb item height 
 
 - `spacing` ***Number*** (*optional*) `default: 3` 
 
-   Spacing beetween read crumb iten height 
+   Spacing between breadcrumb items 
 
 - `tail-width` ***Number*** (*optional*) `default: 10` 
 
@@ -248,10 +276,24 @@ Component that display the percentage value of the current node relative to root
 
 ### Behavioral
 
+These components can be used as a default slot of the `sunburst` component which received as attributes:
+
+* `nodes` which is an object containing the attributes:
+  * `root`: the graph root node
+  * `clicked`: the last clicked node or null
+  * `mouseOver`: the last node that received a mouse-over event or null if the mouse leaves the graph
+  * `zoomed`: the zoomed node 
+  * `highlighted`: the highlighted node
+
+* `actions` which is an object containing the attributes:
+  * `highlightPath`: function that takes a node and highlight the path going from the root to the given node
+  * `zoomToNode`: function that takes a node and zoom to the corresponding node
+  * `resetHighlight`: function that resets the highlighting
+
 #### zoomOnClick
 
 Renderless component providing the zoom on click behavior.
- Can be used as a default slot of sunburst component. 
+Can be used as a default slot of sunburst component. 
 
 ##### props 
 

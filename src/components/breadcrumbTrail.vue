@@ -38,7 +38,7 @@ export default {
      */
     colorGetter: {
       required: true,
-      tyoe: Function
+      type: Function
     },
     /**
      *  Sunburst width
@@ -56,7 +56,7 @@ export default {
       default: 1
     },
     /**
-     *  Bread crumb iten width
+     *  Bread crumb item width
      */
     itemWidth: {
       required: false,
@@ -64,7 +64,7 @@ export default {
       default: 80
     },
     /**
-     * Bread crumb iten height
+     * Bread crumb item height
      */
     itemHeight: {
       required: false,
@@ -72,7 +72,7 @@ export default {
       default: 30
     },
     /**
-     * Spacing beetween read crumb iten height
+     * Spacing between breadcrumb items
      */
     spacing: {
       required: false,
