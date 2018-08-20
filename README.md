@@ -1,7 +1,7 @@
 # Vue.D3.Sunburst
 
 [![GitHub open issues](https://img.shields.io/github/issues/David-Desmaisons/Vue.D3.sunburst.svg?maxAge=2592000)](https://github.com/David-Desmaisons/Vue.D3.sunburst/issues)
-[![Npm version](https://img.shields.io/npm/v/vue-d3-sunburst.svg?maxAge=2592000)](https://www.npmjs.com/package/vue-d3-sunburst)
+[![Npm version](https://img.shields.io/npm/v/vue-d3-sunburst.svg?maxAge=2)](https://www.npmjs.com/package/vue-d3-sunburst)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/Vue.D3.sunburst.svg)](https://github.com/David-Desmaisons/Vue.D3.sunburst/blob/master/LICENSE)
 
 ![demo gif](./img/sunburst.gif)
@@ -29,6 +29,12 @@ Additional components providing standard and reusable features are also provided
   * Responsive to size changes
   * Customizable with slot or exposed methods and events
   * Zoomable 
+  
+## Install
+
+```
+npm i vue-d3-sunburst
+```
 
 ## Usage
 
