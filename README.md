@@ -14,14 +14,13 @@ https://david-desmaisons.github.io/Vue.D3.sunburst/
 
 Vue.D3.Sunburst provides a reusable vue [sunburst charts](http://www.cc.gatech.edu/gvu/ii/sunburst/) component relying on [D3.js](https://d3js.org/).
 
-
-`Sunburst` is the main component of this library and offers sunburst chart based on data using `children` property for hierarchy, `name` property for naming and `size` property for arcs size.
+`Sunburst` is the main component of this library and display sunburst chart based on `data` props using `children` property for hierarchy, `name` property for naming and `size` property for arcs size.
 
 `Sunburst` component provides three optional slots:
-  * `legend` and `top` slots are intended to be used to display additional information such as legend on the graph
-  * `default slot` is intended to receive renderless component providing behavior; for example: highlighting on mouse over or zoom on click
+  * `legend` and `top` slots are intended to be used to display additional information such as legend
+  * `default slot` is intended to receive renderless component providing behavior: for example, highlighting on mouse over or zoom on click
 
-Additional components providing standard and reusable features are also provided.
+Components providing standard and reusable features are provided.
 
 ## Features
 
