@@ -1,6 +1,6 @@
 # Vue.D3.Sunburst
 
-[![GitHub open issues](https://img.shields.io/github/issues/David-Desmaisons/Vue.D3.sunburst.svg?maxAge=2592000)](https://github.com/David-Desmaisons/Vue.D3.sunburst/issues)
+[![GitHub open issues](https://img.shields.io/github/issues/David-Desmaisons/Vue.D3.sunburst.svg?maxAge=30)](https://github.com/David-Desmaisons/Vue.D3.sunburst/issues)
 [![Npm version](https://img.shields.io/npm/v/vue-d3-sunburst.svg?maxAge=2)](https://www.npmjs.com/package/vue-d3-sunburst)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/Vue.D3.sunburst.svg)](https://github.com/David-Desmaisons/Vue.D3.sunburst/blob/master/LICENSE)
 
