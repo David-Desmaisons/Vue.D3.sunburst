@@ -1,7 +1,7 @@
 # Vue.D3.Sunburst
 
 [![GitHub open issues](https://img.shields.io/github/issues/David-Desmaisons/Vue.D3.sunburst.svg?maxAge=2592000)](https://github.com/David-Desmaisons/Vue.D3.sunburst/issues)
-[![Npm version](https://img.shields.io/npm/v/vue-d3-sunburst.svg?maxAge=2592000)](https://www.npmjs.com/package/vue-d3-sunburst)
+[![Npm version](https://img.shields.io/npm/v/vue-d3-sunburst.svg?maxAge=2)](https://www.npmjs.com/package/vue-d3-sunburst)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/Vue.D3.sunburst.svg)](https://github.com/David-Desmaisons/Vue.D3.sunburst/blob/master/LICENSE)
 
 ![demo gif](./img/sunburst.gif)
@@ -14,14 +14,13 @@ https://david-desmaisons.github.io/Vue.D3.sunburst/
 
 Vue.D3.Sunburst provides a reusable vue [sunburst charts](http://www.cc.gatech.edu/gvu/ii/sunburst/) component relying on [D3.js](https://d3js.org/).
 
-
-`Sunburst` is the main component of this library and offers sunburst chart based on data using `children` property for hierarchy, `name` property for naming and `size` property for arcs size.
+`Sunburst` is the main component of this library and display sunburst chart based on `data` props using `children` property for hierarchy, `name` property for naming and `size` property for arcs size.
 
 `Sunburst` component provides three optional slots:
-  * `legend` and `top` slots are intended to be used to display additional information such as legend on the graph
-  * `default slot` is intended to receive renderless component providing behavior; for example: highlighting on mouse over or zoom on click
+  * `legend` and `top` slots are intended to be used to display additional information such as legend
+  * `default slot` is intended to receive renderless component providing behavior: for example, highlighting on mouse over or zoom on click
 
-Additional components providing standard and reusable features are also provided.
+Components providing standard and reusable features are provided.
 
 ## Features
 
@@ -29,6 +28,12 @@ Additional components providing standard and reusable features are also provided
   * Responsive to size changes
   * Customizable with slot or exposed methods and events
   * Zoomable 
+  
+## Install
+
+```
+npm i vue-d3-sunburst
+```
 
 ## Usage
 
