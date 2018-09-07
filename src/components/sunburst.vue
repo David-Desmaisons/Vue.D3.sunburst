@@ -30,18 +30,6 @@ import { arc } from "d3-shape";
 import { transition } from "d3-transition";
 import { colorSchemes } from "../infra/colorSchemes";
 
-const scaleX = scaleLinear()
-  .range([0, 2 * Math.PI])
-  .clamp(true);
-
-const scaleY = scaleSqrt().range([0, 1]);
-
-const arcSunburst = arc()
-  .startAngle(d => scaleX(d.x0))
-  .endAngle(d => scaleX(d.x1))
-  .innerRadius(d => Math.max(0, scaleY(d.y0)))
-  .outerRadius(d => Math.max(0, scaleY(d.y1)));
-
 function recursiveName(node) {
   const res = node
     .ancestors()
@@ -55,7 +43,7 @@ function copyCurrentValues(to, from) {
   to._current = { x0, x1, y0, y1 };
 }
 
-function arc2Tween(d, indx) {
+function arc2Tween(arcSunburst, d, indx) {
   const positionsKeys = ["x0", "x1", "y0", "y1"];
   const interpolates = {};
   positionsKeys.forEach(key => {
@@ -153,6 +141,21 @@ export default {
   },
 
   data() {
+    const scaleX = scaleLinear()
+      .range([0, 2 * Math.PI])
+      .clamp(true);
+
+    const scaleY = scaleSqrt().range([0, 1]);
+
+    this.arcSunburst = arc()
+      .startAngle(d => scaleX(d.x0))
+      .endAngle(d => scaleX(d.x1))
+      .innerRadius(d => Math.max(0, scaleY(d.y0)))
+      .outerRadius(d => Math.max(0, scaleY(d.y1)));
+
+    this.scaleX = scaleX;
+    this.scaleY = scaleY;
+
     return {
       /**
        * @private
@@ -221,12 +224,15 @@ export default {
 
       this.nodes = partition()(this.root)
         .descendants()
-        .filter(d => Math.abs(scaleX(d.x1 - d.x0)) > this.minAngleDisplayed);
+        .filter(
+          d => Math.abs(this.scaleX(d.x1 - d.x0)) > this.minAngleDisplayed
+        );
 
       const pathes = this.getPathes();
       const colorGetter = this.colorGetter;
       const mouseOver = this.mouseOver.bind(this);
       const click = this.click.bind(this);
+      const { arcSunburst } = this;
 
       pathes
         .enter()
@@ -241,7 +247,9 @@ export default {
         .style("fill", colorGetter)
         .transition("enter")
         .duration(this.inAnimationDuration)
-        .attrTween("d", arc2Tween);
+        .attrTween("d", function(d, index) {
+          return arc2Tween.call(this, arcSunburst, d, index);
+        });
 
       pathes.exit().remove();
 
@@ -268,8 +276,8 @@ export default {
         .attr("transform", `translate(${width / 2}, ${height / 2} )`);
 
       this.radius = Math.min(width, height) / 2;
-      const [scaleYMin] = scaleY.range();
-      scaleY.range([scaleYMin, this.radius]);
+      const [scaleYMin] = this.scaleY.range();
+      this.scaleY.range([scaleYMin, this.radius]);
 
       this.onData(this.data);
       this.width = width;
@@ -339,20 +347,20 @@ export default {
         .transition("zoom")
         .duration(750)
         .tween("scale", () => {
-          const xd = interpolate(scaleX.domain(), [node.x0, node.x1]);
-          const yd = interpolate(scaleY.domain(), [node.y0, 1]);
-          const yr = interpolate(scaleY.range(), [
+          const xd = interpolate(this.scaleX.domain(), [node.x0, node.x1]);
+          const yd = interpolate(this.scaleY.domain(), [node.y0, 1]);
+          const yr = interpolate(this.scaleY.range(), [
             node.y0 ? 20 : 0,
             this.radius
           ]);
 
           return t => {
-            scaleX.domain(xd(t));
-            scaleY.domain(yd(t)).range(yr(t));
+            this.scaleX.domain(xd(t));
+            this.scaleY.domain(yd(t)).range(yr(t));
           };
         })
         .selectAll("path")
-        .attrTween("d", nd => () => arcSunburst(nd));
+        .attrTween("d", nd => () => this.arcSunburst(nd));
 
       this.graphNodes.zoomed = node;
     },
