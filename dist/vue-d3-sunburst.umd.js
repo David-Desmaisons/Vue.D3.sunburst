@@ -347,12 +347,14 @@ __webpack_require__("8378").inspectSource = function (it) {
 /***/ "2ad6":
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+"use strict";
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;
+
+/**
  * Copyright Marc J. Schmidt. See the LICENSE file at the top-level
  * directory of this distribution and at
  * https://github.com/marcj/css-element-queries/blob/master/LICENSE.
  */
-;
 (function (root, factory) {
     if (true) {
         !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
@@ -361,13 +363,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 				__WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
     } else {}
-}(this, function () {
+}(typeof window !== 'undefined' ? window : this, function () {
 
-    //Make sure it does not throw in a SSR (Server Side Rendering) situation
+    // Make sure it does not throw in a SSR (Server Side Rendering) situation
     if (typeof window === "undefined") {
         return null;
     }
-    // Only used for the dirty checking, so the event callback count is limted to max 1 call per fps per sensor.
+    // Only used for the dirty checking, so the event callback count is limited to max 1 call per fps per sensor.
     // In combination with the event based resize sensor this saves cpu time, because the sensor is too fast and
     // would generate too many unnecessary events.
     var requestAnimationFrame = window.requestAnimationFrame ||
@@ -403,6 +405,26 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
     }
 
     /**
+    * Get element size
+    * @param {HTMLElement} element
+    * @returns {Object} {width, height}
+    */
+    function getElementSize(element) {
+        if (!element.getBoundingClientRect) {
+            return {
+                width: element.offsetWidth,
+                height: element.offsetHeight
+            }
+        }
+
+        var rect = element.getBoundingClientRect();
+        return {
+            width: Math.round(rect.width),
+            height: Math.round(rect.height)
+        }
+    }
+
+    /**
      * Class for dimension change detection.
      *
      * @param {Element|Element[]|Elements|jQuery} element
@@ -434,25 +456,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                     if(q[i] !== ev) newQueue.push(q[i]);
                 }
                 q = newQueue;
-            }
+            };
 
             this.length = function() {
                 return q.length;
-            }
-        }
-
-        /**
-         * @param {HTMLElement} element
-         * @param {String}      prop
-         * @returns {String|Number}
-         */
-        function getComputedStyle(element, prop) {
-            if (element.currentStyle) {
-                return element.currentStyle[prop];
-            } else if (window.getComputedStyle) {
-                return window.getComputedStyle(element, null).getPropertyValue(prop);
-            } else {
-                return element.style[prop];
             }
         }
 
@@ -462,17 +469,19 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
          * @param {Function}    resized
          */
         function attachResizeEvent(element, resized) {
-            if (!element.resizedAttached) {
-                element.resizedAttached = new EventQueue();
-                element.resizedAttached.add(resized);
-            } else if (element.resizedAttached) {
+            if (!element) return;
+            if (element.resizedAttached) {
                 element.resizedAttached.add(resized);
                 return;
             }
 
+            element.resizedAttached = new EventQueue();
+            element.resizedAttached.add(resized);
+
             element.resizeSensor = document.createElement('div');
+            element.resizeSensor.dir = 'ltr';
             element.resizeSensor.className = 'resize-sensor';
-            var style = 'position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;';
+            var style = 'position: absolute; left: -10px; top: -10px; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;';
             var styleChild = 'position: absolute; left: 0; top: 0; transition: 0s;';
 
             element.resizeSensor.style.cssText = style;
@@ -485,7 +494,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                 '</div>';
             element.appendChild(element.resizeSensor);
 
-            if (getComputedStyle(element, 'position') == 'static') {
+            var position = window.getComputedStyle(element).getPropertyValue('position');
+            if ('absolute' !== position && 'relative' !== position && 'fixed' !== position) {
                 element.style.position = 'relative';
             }
 
@@ -493,10 +503,19 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             var expandChild = expand.childNodes[0];
             var shrink = element.resizeSensor.childNodes[1];
             var dirty, rafId, newWidth, newHeight;
-            var lastWidth = element.offsetWidth;
-            var lastHeight = element.offsetHeight;
+            var size = getElementSize(element);
+            var lastWidth = size.width;
+            var lastHeight = size.height;
 
             var reset = function() {
+                //set display to block, necessary otherwise hidden elements won't ever work
+                var invisible = element.offsetWidth === 0 && element.offsetHeight === 0;
+
+                if (invisible) {
+                    var saveDisplay = element.style.display;
+                    element.style.display = 'block';
+                }
+
                 expandChild.style.width = '100000px';
                 expandChild.style.height = '100000px';
 
@@ -505,9 +524,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 
                 shrink.scrollLeft = 100000;
                 shrink.scrollTop = 100000;
-            };
 
-            reset();
+                if (invisible) {
+                    element.style.display = saveDisplay;
+                }
+            };
+            element.resizeSensor.resetSensor = reset;
 
             var onResized = function() {
                 rafId = 0;
@@ -523,8 +545,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             };
 
             var onScroll = function() {
-                newWidth = element.offsetWidth;
-                newHeight = element.offsetHeight;
+                var size = getElementSize(element);
+                var newWidth = size.width;
+                var newHeight = size.height;
                 dirty = newWidth != lastWidth || newHeight != lastHeight;
 
                 if (dirty && !rafId) {
@@ -544,6 +567,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 
             addEvent(expand, 'scroll', onScroll);
             addEvent(shrink, 'scroll', onScroll);
+            
+			// Fix for custom Elements
+			requestAnimationFrame(reset);
         }
 
         forEachElement(element, function(elem){
@@ -553,11 +579,22 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
         this.detach = function(ev) {
             ResizeSensor.detach(element, ev);
         };
+
+        this.reset = function() {
+            element.resizeSensor.resetSensor();
+        };
+    };
+
+    ResizeSensor.reset = function(element, ev) {
+        forEachElement(element, function(elem){
+            elem.resizeSensor.resetSensor();
+        });
     };
 
     ResizeSensor.detach = function(element, ev) {
         forEachElement(element, function(elem){
-            if(elem.resizedAttached && typeof ev == "function"){
+            if (!elem) return;
+            if(elem.resizedAttached && typeof ev === "function"){
                 elem.resizedAttached.remove(ev);
                 if(elem.resizedAttached.length()) return;
             }
@@ -762,7 +799,7 @@ module.exports = function (Constructor, NAME, next) {
 /***/ "428d":
 /***/ (function(module, exports, __webpack_require__) {
 
-!function(n,t){ true?module.exports=t(__webpack_require__("2ad6"),__webpack_require__("f7fe")):undefined}(this,function(n,t){return function(n){function t(r){if(e[r])return e[r].exports;var o=e[r]={exports:{},id:r,loaded:!1};return n[r].call(o.exports,o,o.exports,t),o.loaded=!0,o.exports}var e={};return t.m=n,t.c=e,t.p="/",t(0)}([function(n,t,e){var r,o,u;!function(i,c){o=[n,t,e(9),e(36),e(37)],r=c,u="function"==typeof r?r.apply(t,o):r,!(void 0!==u&&(n.exports=u))}(this,function(n,t,e,r,o){"use strict";function u(n){return n&&n.__esModule?n:{default:n}}function i(n){if(!n)return{delay:v,initial:!1};var t=n.initial,e=void 0!==t&&t,r=(0,a.default)(n).map(function(n){return parseInt(n)}).find(function(n){return!isNaN(n)});return r=r||v,{delay:r,initial:e}}function c(n){var t=n.style.display;if(t)return t;var e=n.currentStyle?n.currentStyle:getComputedStyle(n,null);return e.display}function f(n,t){var e=t.value,r=t.arg,o=t.modifiers;if(!n.resizeSensor&&"none"!==c(n)){var u=function(){return e(n)},f=i(o);switch(r){case"debounce":u=d(function(){return e(n)},f.delay);break;case"throttle":u=d(function(){return e(n)},f.delay,{leading:!0,trailing:!0,maxWait:f.delay})}var a=new s.default(n,u);return f.initial&&e(n),a}}Object.defineProperty(t,"__esModule",{value:!0});var a=u(e),s=u(r),l=u(o),p=l.default.debounce,d=void 0===p?l.default:p,v=150;t.default={inserted:function(n,t){var e=t.value,r=t.arg,o=t.modifiers;return e&&"function"==typeof e?void f(n,{value:e,arg:r,modifiers:o}):void console.warn("v-resize should received a function as value")},componentUpdated:function(n,t){var e=t.value,r=t.arg,o=t.modifiers;f(n,{value:e,arg:r,modifiers:o})},unbind:function(n){n.resizeSensor&&s.default.detach(n)}},n.exports=t.default})},function(n,t){var e=n.exports={version:"2.4.0"};"number"==typeof __e&&(__e=e)},function(n,t,e){n.exports=!e(3)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(n,t){n.exports=function(n){try{return!!n()}catch(n){return!0}}},function(n,t){var e=n.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=e)},function(n,t){n.exports=function(n){return"object"==typeof n?null!==n:"function"==typeof n}},function(n,t){n.exports=function(n){if(void 0==n)throw TypeError("Can't call method on  "+n);return n}},function(n,t){var e=Math.ceil,r=Math.floor;n.exports=function(n){return isNaN(n=+n)?0:(n>0?r:e)(n)}},function(n,t,e){var r=e(22),o=e(6);n.exports=function(n){return r(o(n))}},function(n,t,e){n.exports={default:e(10),__esModule:!0}},function(n,t,e){e(35),n.exports=e(1).Object.keys},function(n,t){n.exports=function(n){if("function"!=typeof n)throw TypeError(n+" is not a function!");return n}},function(n,t,e){var r=e(5);n.exports=function(n){if(!r(n))throw TypeError(n+" is not an object!");return n}},function(n,t,e){var r=e(8),o=e(31),u=e(30);n.exports=function(n){return function(t,e,i){var c,f=r(t),a=o(f.length),s=u(i,a);if(n&&e!=e){for(;a>s;)if(c=f[s++],c!=c)return!0}else for(;a>s;s++)if((n||s in f)&&f[s]===e)return n||s||0;return!n&&-1}}},function(n,t){var e={}.toString;n.exports=function(n){return e.call(n).slice(8,-1)}},function(n,t,e){var r=e(11);n.exports=function(n,t,e){if(r(n),void 0===t)return n;switch(e){case 1:return function(e){return n.call(t,e)};case 2:return function(e,r){return n.call(t,e,r)};case 3:return function(e,r,o){return n.call(t,e,r,o)}}return function(){return n.apply(t,arguments)}}},function(n,t,e){var r=e(5),o=e(4).document,u=r(o)&&r(o.createElement);n.exports=function(n){return u?o.createElement(n):{}}},function(n,t){n.exports="constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",")},function(n,t,e){var r=e(4),o=e(1),u=e(15),i=e(20),c="prototype",f=function(n,t,e){var a,s,l,p=n&f.F,d=n&f.G,v=n&f.S,y=n&f.P,x=n&f.B,h=n&f.W,b=d?o:o[t]||(o[t]={}),m=b[c],g=d?r:v?r[t]:(r[t]||{})[c];d&&(e=t);for(a in e)s=!p&&g&&void 0!==g[a],s&&a in b||(l=s?g[a]:e[a],b[a]=d&&"function"!=typeof g[a]?e[a]:x&&s?u(l,r):h&&g[a]==l?function(n){var t=function(t,e,r){if(this instanceof n){switch(arguments.length){case 0:return new n;case 1:return new n(t);case 2:return new n(t,e)}return new n(t,e,r)}return n.apply(this,arguments)};return t[c]=n[c],t}(l):y&&"function"==typeof l?u(Function.call,l):l,y&&((b.virtual||(b.virtual={}))[a]=l,n&f.R&&m&&!m[a]&&i(m,a,l)))};f.F=1,f.G=2,f.S=4,f.P=8,f.B=16,f.W=32,f.U=64,f.R=128,n.exports=f},function(n,t){var e={}.hasOwnProperty;n.exports=function(n,t){return e.call(n,t)}},function(n,t,e){var r=e(23),o=e(27);n.exports=e(2)?function(n,t,e){return r.f(n,t,o(1,e))}:function(n,t,e){return n[t]=e,n}},function(n,t,e){n.exports=!e(2)&&!e(3)(function(){return 7!=Object.defineProperty(e(16)("div"),"a",{get:function(){return 7}}).a})},function(n,t,e){var r=e(14);n.exports=Object("z").propertyIsEnumerable(0)?Object:function(n){return"String"==r(n)?n.split(""):Object(n)}},function(n,t,e){var r=e(12),o=e(21),u=e(33),i=Object.defineProperty;t.f=e(2)?Object.defineProperty:function(n,t,e){if(r(n),t=u(t,!0),r(e),o)try{return i(n,t,e)}catch(n){}if("get"in e||"set"in e)throw TypeError("Accessors not supported!");return"value"in e&&(n[t]=e.value),n}},function(n,t,e){var r=e(19),o=e(8),u=e(13)(!1),i=e(28)("IE_PROTO");n.exports=function(n,t){var e,c=o(n),f=0,a=[];for(e in c)e!=i&&r(c,e)&&a.push(e);for(;t.length>f;)r(c,e=t[f++])&&(~u(a,e)||a.push(e));return a}},function(n,t,e){var r=e(24),o=e(17);n.exports=Object.keys||function(n){return r(n,o)}},function(n,t,e){var r=e(18),o=e(1),u=e(3);n.exports=function(n,t){var e=(o.Object||{})[n]||Object[n],i={};i[n]=t(e),r(r.S+r.F*u(function(){e(1)}),"Object",i)}},function(n,t){n.exports=function(n,t){return{enumerable:!(1&n),configurable:!(2&n),writable:!(4&n),value:t}}},function(n,t,e){var r=e(29)("keys"),o=e(34);n.exports=function(n){return r[n]||(r[n]=o(n))}},function(n,t,e){var r=e(4),o="__core-js_shared__",u=r[o]||(r[o]={});n.exports=function(n){return u[n]||(u[n]={})}},function(n,t,e){var r=e(7),o=Math.max,u=Math.min;n.exports=function(n,t){return n=r(n),n<0?o(n+t,0):u(n,t)}},function(n,t,e){var r=e(7),o=Math.min;n.exports=function(n){return n>0?o(r(n),9007199254740991):0}},function(n,t,e){var r=e(6);n.exports=function(n){return Object(r(n))}},function(n,t,e){var r=e(5);n.exports=function(n,t){if(!r(n))return n;var e,o;if(t&&"function"==typeof(e=n.toString)&&!r(o=e.call(n)))return o;if("function"==typeof(e=n.valueOf)&&!r(o=e.call(n)))return o;if(!t&&"function"==typeof(e=n.toString)&&!r(o=e.call(n)))return o;throw TypeError("Can't convert object to primitive value")}},function(n,t){var e=0,r=Math.random();n.exports=function(n){return"Symbol(".concat(void 0===n?"":n,")_",(++e+r).toString(36))}},function(n,t,e){var r=e(32),o=e(25);e(26)("keys",function(){return function(n){return o(r(n))}})},function(t,e){t.exports=n},function(n,e){n.exports=t}])});
+!function(n,t){ true?module.exports=t(__webpack_require__("2ad6"),__webpack_require__("f7fe")):undefined}(this,function(n,t){return function(n){function t(r){if(e[r])return e[r].exports;var o=e[r]={exports:{},id:r,loaded:!1};return n[r].call(o.exports,o,o.exports,t),o.loaded=!0,o.exports}var e={};return t.m=n,t.c=e,t.p="/",t(0)}([function(n,t,e){var r,o,i;!function(u,c){o=[n,t,e(10),e(37),e(38),e(9)],r=c,i="function"==typeof r?r.apply(t,o):r,!(void 0!==i&&(n.exports=i))}(this,function(n,t,e,r,o){"use strict";function i(n){return n&&n.__esModule?n:{default:n}}function u(n){if(!n)return{delay:d,initial:!1};var t=n.initial,e=void 0!==t&&t,r=(0,f.default)(n).map(function(n){return parseInt(n)}).find(function(n){return!isNaN(n)});return r=r||d,{delay:r,initial:e}}function c(n,t){var e=t.value,r=t.arg,o=t.modifiers,i=function(){return e(n)},c=u(o);switch(r){case"debounce":i=l(function(){return e(n)},c.delay);break;case"throttle":i=l(function(){return e(n)},c.delay,{leading:!0,trailing:!0,maxWait:c.delay})}var f=new a.default(n,i);return c.initial&&e(n),f}Object.defineProperty(t,"__esModule",{value:!0});var f=i(e),a=i(r),s=i(o),p=s.default.debounce,l=void 0===p?s.default:p,d=150;t.default={inserted:function(n,t){var e=t.value,r=t.arg,o=t.modifiers;return e&&"function"==typeof e?void c(n,{value:e,arg:r,modifiers:o}):void console.warn("v-resize should received a function as value")},unbind:function(n){n.resizeSensor&&a.default.detach(n)}},n.exports=t.default})},function(n,t){var e=n.exports={version:"2.4.0"};"number"==typeof __e&&(__e=e)},function(n,t,e){n.exports=!e(3)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(n,t){n.exports=function(n){try{return!!n()}catch(n){return!0}}},function(n,t){var e=n.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=e)},function(n,t){n.exports=function(n){return"object"==typeof n?null!==n:"function"==typeof n}},function(n,t){n.exports=function(n){if(void 0==n)throw TypeError("Can't call method on  "+n);return n}},function(n,t){var e=Math.ceil,r=Math.floor;n.exports=function(n){return isNaN(n=+n)?0:(n>0?r:e)(n)}},function(n,t,e){var r=e(23),o=e(6);n.exports=function(n){return r(o(n))}},function(n,t,e){var r,o,i;!function(e,u){o=[],r=u,i="function"==typeof r?r.apply(t,o):r,!(void 0!==i&&(n.exports=i))}(this,function(){"use strict";Array.prototype.find||Object.defineProperty(Array.prototype,"find",{value:function(n){if(null==this)throw new TypeError('"this" is null or not defined');var t=Object(this),e=t.length>>>0;if("function"!=typeof n)throw new TypeError("predicate must be a function");for(var r=arguments[1],o=0;o<e;){var i=t[o];if(n.call(r,i,o,t))return i;o++}},configurable:!0,writable:!0})})},function(n,t,e){n.exports={default:e(11),__esModule:!0}},function(n,t,e){e(36),n.exports=e(1).Object.keys},function(n,t){n.exports=function(n){if("function"!=typeof n)throw TypeError(n+" is not a function!");return n}},function(n,t,e){var r=e(5);n.exports=function(n){if(!r(n))throw TypeError(n+" is not an object!");return n}},function(n,t,e){var r=e(8),o=e(32),i=e(31);n.exports=function(n){return function(t,e,u){var c,f=r(t),a=o(f.length),s=i(u,a);if(n&&e!=e){for(;a>s;)if(c=f[s++],c!=c)return!0}else for(;a>s;s++)if((n||s in f)&&f[s]===e)return n||s||0;return!n&&-1}}},function(n,t){var e={}.toString;n.exports=function(n){return e.call(n).slice(8,-1)}},function(n,t,e){var r=e(12);n.exports=function(n,t,e){if(r(n),void 0===t)return n;switch(e){case 1:return function(e){return n.call(t,e)};case 2:return function(e,r){return n.call(t,e,r)};case 3:return function(e,r,o){return n.call(t,e,r,o)}}return function(){return n.apply(t,arguments)}}},function(n,t,e){var r=e(5),o=e(4).document,i=r(o)&&r(o.createElement);n.exports=function(n){return i?o.createElement(n):{}}},function(n,t){n.exports="constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",")},function(n,t,e){var r=e(4),o=e(1),i=e(16),u=e(21),c="prototype",f=function(n,t,e){var a,s,p,l=n&f.F,d=n&f.G,v=n&f.S,y=n&f.P,x=n&f.B,h=n&f.W,b=d?o:o[t]||(o[t]={}),m=b[c],w=d?r:v?r[t]:(r[t]||{})[c];d&&(e=t);for(a in e)s=!l&&w&&void 0!==w[a],s&&a in b||(p=s?w[a]:e[a],b[a]=d&&"function"!=typeof w[a]?e[a]:x&&s?i(p,r):h&&w[a]==p?function(n){var t=function(t,e,r){if(this instanceof n){switch(arguments.length){case 0:return new n;case 1:return new n(t);case 2:return new n(t,e)}return new n(t,e,r)}return n.apply(this,arguments)};return t[c]=n[c],t}(p):y&&"function"==typeof p?i(Function.call,p):p,y&&((b.virtual||(b.virtual={}))[a]=p,n&f.R&&m&&!m[a]&&u(m,a,p)))};f.F=1,f.G=2,f.S=4,f.P=8,f.B=16,f.W=32,f.U=64,f.R=128,n.exports=f},function(n,t){var e={}.hasOwnProperty;n.exports=function(n,t){return e.call(n,t)}},function(n,t,e){var r=e(24),o=e(28);n.exports=e(2)?function(n,t,e){return r.f(n,t,o(1,e))}:function(n,t,e){return n[t]=e,n}},function(n,t,e){n.exports=!e(2)&&!e(3)(function(){return 7!=Object.defineProperty(e(17)("div"),"a",{get:function(){return 7}}).a})},function(n,t,e){var r=e(15);n.exports=Object("z").propertyIsEnumerable(0)?Object:function(n){return"String"==r(n)?n.split(""):Object(n)}},function(n,t,e){var r=e(13),o=e(22),i=e(34),u=Object.defineProperty;t.f=e(2)?Object.defineProperty:function(n,t,e){if(r(n),t=i(t,!0),r(e),o)try{return u(n,t,e)}catch(n){}if("get"in e||"set"in e)throw TypeError("Accessors not supported!");return"value"in e&&(n[t]=e.value),n}},function(n,t,e){var r=e(20),o=e(8),i=e(14)(!1),u=e(29)("IE_PROTO");n.exports=function(n,t){var e,c=o(n),f=0,a=[];for(e in c)e!=u&&r(c,e)&&a.push(e);for(;t.length>f;)r(c,e=t[f++])&&(~i(a,e)||a.push(e));return a}},function(n,t,e){var r=e(25),o=e(18);n.exports=Object.keys||function(n){return r(n,o)}},function(n,t,e){var r=e(19),o=e(1),i=e(3);n.exports=function(n,t){var e=(o.Object||{})[n]||Object[n],u={};u[n]=t(e),r(r.S+r.F*i(function(){e(1)}),"Object",u)}},function(n,t){n.exports=function(n,t){return{enumerable:!(1&n),configurable:!(2&n),writable:!(4&n),value:t}}},function(n,t,e){var r=e(30)("keys"),o=e(35);n.exports=function(n){return r[n]||(r[n]=o(n))}},function(n,t,e){var r=e(4),o="__core-js_shared__",i=r[o]||(r[o]={});n.exports=function(n){return i[n]||(i[n]={})}},function(n,t,e){var r=e(7),o=Math.max,i=Math.min;n.exports=function(n,t){return n=r(n),n<0?o(n+t,0):i(n,t)}},function(n,t,e){var r=e(7),o=Math.min;n.exports=function(n){return n>0?o(r(n),9007199254740991):0}},function(n,t,e){var r=e(6);n.exports=function(n){return Object(r(n))}},function(n,t,e){var r=e(5);n.exports=function(n,t){if(!r(n))return n;var e,o;if(t&&"function"==typeof(e=n.toString)&&!r(o=e.call(n)))return o;if("function"==typeof(e=n.valueOf)&&!r(o=e.call(n)))return o;if(!t&&"function"==typeof(e=n.toString)&&!r(o=e.call(n)))return o;throw TypeError("Can't convert object to primitive value")}},function(n,t){var e=0,r=Math.random();n.exports=function(n){return"Symbol(".concat(void 0===n?"":n,")_",(++e+r).toString(36))}},function(n,t,e){var r=e(33),o=e(26);e(27)("keys",function(){return function(n){return o(r(n))}})},function(t,e){t.exports=n},function(n,e){n.exports=t}])});
 //# sourceMappingURL=Vueresize.js.map
 
 /***/ }),
