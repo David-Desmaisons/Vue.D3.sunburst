@@ -1,6 +1,8 @@
 <template>
   <div class="info" v-if="percentage">
-    <span>{{percentage}}</span><br/> {{description}}
+    <span>{{percentage}}</span>
+    <br/> {{description}}
+    <br/> ({{current.value}} / {{base}})
   </div>
 </template>
 <script>
@@ -26,6 +28,13 @@ export default {
       type: Object
     },
     /**
+     *  Clicked node
+     */
+    clicked: {
+      required: false,
+      type: Object
+    },
+    /**
      *  Text to be displayed
      */
     description: {
@@ -37,12 +46,15 @@ export default {
     /**
      * @private
      */
+    base() {
+      return this.clicked ? this.clicked.value : this.root.value;
+    },
     percentage() {
       if (this.current == null || this.root == null) {
         return null;
       }
 
-      const percentage = (100 * this.current.value) / this.root.value;
+      const percentage = (100 * this.current.value) / this.base;
       return `${percentage.toPrecision(3)} %`;
     }
   }
