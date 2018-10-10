@@ -205,6 +205,19 @@ Failing to do so may result in a component whose size that will keep increasing.
 
    Reset the highlighted path 
 
+#### example usage
+Start by setting a ref on the sunburst component, so that you can reference it:
+```
+    <sunburst 
+      ref="sunburst"
+      :data="tree" >
+```
+
+Now, if you would like to zoom to the root node, you can call the exposed `zoomToNode` method:
+```
+  this.$refs.sunburst.zoomToNode(this.$refs.sunburst.graphNodes.root)
+`` 
+
 ## Other optional components provided as slot implementation
 
 Besides sunburst component, Vue.D3.Sunburst provides additional optional components that can be used out of the box as slot implementations.
