@@ -62,7 +62,8 @@ import {
   nodeInfoDisplayer,
   sunburst,
   zoomOnClick
-} from 'vue-d3-sunburst'
+} from 'vue-d3-sunburst';
+import "vue-d3-sunburst/dist/vue-d3-sunburst.css";
 
 export default {
   components: {
