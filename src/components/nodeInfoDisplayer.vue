@@ -1,8 +1,14 @@
 <template>
-  <div class="infornation-sunburst" v-if="percentage">
-    <span>{{percentage}}</span>
-    <br/> {{description}}
-    <br/> ({{current.value}} / {{base}})
+  <div
+    class="infornation-sunburst"
+    v-if="show"
+  >
+    <span>{{displayPercentage}}</span>
+    <br /> {{description}}
+    <br /><span
+      v-if="showAllNumber"
+      class="detail"
+    >({{current.value}} / {{base}})</span>
   </div>
 </template>
 <script>
@@ -40,6 +46,14 @@ export default {
     description: {
       required: true,
       type: String
+    },
+    /**
+     *  Text to be displayed
+     */
+    showAllNumber: {
+      required: false,
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -54,8 +68,15 @@ export default {
         return null;
       }
 
-      const percentage = (100 * this.current.value) / this.base;
-      return `${percentage.toPrecision(3)} %`;
+      return (100 * this.current.value) / this.base;
+    },
+    displayPercentage() {
+      const percentage = this.percentage;
+      return percentage === null ? null : `${percentage.toPrecision(3)} %`;
+    },
+    show() {
+      const percentage = this.percentage;
+      return percentage !== null && percentage <= 100;
     }
   }
 };
@@ -75,6 +96,10 @@ export default {
 
   span {
     font-size: 2em;
+  }
+
+  span.detail {
+    font-size: 1em;
   }
 }
 </style>
