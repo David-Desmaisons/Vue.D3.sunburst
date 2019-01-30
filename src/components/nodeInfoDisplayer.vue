@@ -48,7 +48,7 @@ export default {
       type: String
     },
     /**
-     *  Text to be displayed
+     *  Show fraction format of size if true
      */
     showAllNumber: {
       required: false,
