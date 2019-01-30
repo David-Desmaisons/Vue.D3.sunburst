@@ -5,7 +5,7 @@
     <slot name="legend" :width="width" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
     </slot>
 
-    <div class="viewport" v-resize="resize">
+    <div class="viewport" v-resize.throttle.250="resize">
 
       <!-- Use this slot to add information on top of the graph -->
       <slot name="top" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">

@@ -1,5 +1,5 @@
 <template>
-  <div class="info" v-if="percentage">
+  <div class="infornation-sunburst" v-if="percentage">
     <span>{{percentage}}</span>
     <br/> {{description}}
     <br/> ({{current.value}} / {{base}})
@@ -61,7 +61,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.info {
+.infornation-sunburst {
   width: 300px;
   height: 100px;
   padding: 20px;
