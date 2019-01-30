@@ -93,6 +93,7 @@ export default {
   z-index: 10;
   margin-left: -150px;
   margin-top: -70px;
+  text-align: center;
 
   span {
     font-size: 2em;
