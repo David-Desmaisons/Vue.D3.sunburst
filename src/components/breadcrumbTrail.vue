@@ -167,13 +167,13 @@ export default {
         .style("opacity", d => (nodeFrom.indexOf(d) === -1 ? 1 : 0.5));
 
       const percentage = (100 * this.current.value) / this.root.value;
-      const text = `${percentage.toPrecision(3)} %`;
+      const text = `${percentage.toPrecision(3)} % of total`;
 
       // Now move and update the percentage at the end.
       select(this.$el)
         .select(".trail")
         .select(".endlabel")
-        .attr("x", (nodeArray.length + 0.5) * (this.itemWidth + this.spacing))
+        .attr("x", (nodeArray.length + 0.75) * (this.itemWidth + this.spacing))
         .attr("y", this.itemHeight / 2)
         .attr("dy", "0.35em")
         .attr("text-anchor", "middle")

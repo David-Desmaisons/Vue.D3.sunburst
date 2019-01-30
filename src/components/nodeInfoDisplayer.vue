@@ -1,6 +1,14 @@
 <template>
-  <div class="infornation-sunburst" v-if="percentage">
-    <span>{{percentage}}</span><br/> {{description}}
+  <div
+    class="infornation-sunburst"
+    v-if="show"
+  >
+    <span>{{displayPercentage}}</span>
+    <br /> {{description}}
+    <br /><span
+      v-if="showAllNumber"
+      class="detail"
+    >({{current.value}} / {{base}})</span>
   </div>
 </template>
 <script>
@@ -26,24 +34,49 @@ export default {
       type: Object
     },
     /**
+     *  Clicked node
+     */
+    clicked: {
+      required: false,
+      type: Object
+    },
+    /**
      *  Text to be displayed
      */
     description: {
       required: true,
       type: String
+    },
+    /**
+     *  Show fraction format of size if true
+     */
+    showAllNumber: {
+      required: false,
+      type: Boolean,
+      default: true
     }
   },
   computed: {
     /**
      * @private
      */
+    base() {
+      return this.clicked ? this.clicked.value : this.root.value;
+    },
     percentage() {
       if (this.current == null || this.root == null) {
         return null;
       }
 
-      const percentage = (100 * this.current.value) / this.root.value;
-      return `${percentage.toPrecision(3)} %`;
+      return (100 * this.current.value) / this.base;
+    },
+    displayPercentage() {
+      const percentage = this.percentage;
+      return percentage === null ? null : `${percentage.toPrecision(3)} %`;
+    },
+    show() {
+      const percentage = this.percentage;
+      return percentage !== null && percentage <= 100;
     }
   }
 };
@@ -63,6 +96,10 @@ export default {
 
   span {
     font-size: 2em;
+  }
+
+  span.detail {
+    font-size: 1em;
   }
 }
 </style>

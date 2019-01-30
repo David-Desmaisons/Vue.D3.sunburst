@@ -17,6 +17,7 @@ Vue.D3.Sunburst provides a reusable vue [sunburst charts](http://www.cc.gatech.e
 `Sunburst` is the main component of this library and display sunburst chart based on `data` props using `children` property for hierarchy, `name` property for naming and `size` property for arcs size.
 
 `Sunburst` component provides three optional slots:
+
   * `legend` and `top` slots are intended to be used to display additional information such as legend
   * `default slot` is intended to receive renderless component providing behavior: for example, highlighting on mouse over or zoom on click
 
@@ -29,6 +30,7 @@ Components providing standard and reusable features are provided.
   * Customizable with slot or exposed methods and events
   * Zoomable 
   
+
 ## Install
 
 ```
@@ -118,6 +120,7 @@ export default {
 ## Gotchas
 
 This component is responsive and will adjust to resizing. In order for this to work properly, you must define for this component or its parent wether:
+
 * a height or a max-height
 * or a width or a max-width.
 
@@ -276,9 +279,31 @@ Component that display the percentage value of the current node relative to root
 
    Current node 
 
+- `clicked` ***Object*** (*optional*) 
+
+   Clicked node 
+
 - `description` ***String*** (*required*) 
 
    Text to be displayed 
+
+- `show-all-number` ***Boolean*** (*optional*) `default: true` 
+
+   Show fraction format of size if true 
+
+##### computed properties 
+
+- `percentage` 
+
+   **dependencies:** `current`, `root`, `current`, `base` 
+
+- `displayPercentage` 
+
+   **dependencies:** `percentage` 
+
+- `show` 
+
+   **dependencies:** `percentage` 
 
 ### Behavioral
 
