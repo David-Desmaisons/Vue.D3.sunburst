@@ -53,7 +53,7 @@
           <div class="card-body father">
             <sunburst class="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
 
-              <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.clicked" :width="width" />
+              <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.zoomed" :width="width" />
 
               <nodeInfoDisplayer slot="top" slot-scope="{ nodes }" :current="nodes.mouseOver" :root="nodes.root" :clicked="nodes.clicked" description="of selected" />
 

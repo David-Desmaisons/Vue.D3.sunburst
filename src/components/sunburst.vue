@@ -60,7 +60,7 @@ function arc2Tween(arcSunburst, d, indx) {
   };
 }
 
-const useNameForColor = d => d.data.name;
+const useNameForColor = d => d.name;
 
 export default {
   name: "sunburst",
@@ -244,7 +244,7 @@ export default {
           copyCurrentValues(this, d);
         })
         .merge(pathes)
-        .style("fill", colorGetter)
+        .style("fill", d => colorGetter(d.data))
         .transition("enter")
         .duration(this.inAnimationDuration)
         .attrTween("d", function(d, index) {

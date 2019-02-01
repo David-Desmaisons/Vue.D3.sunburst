@@ -1,9 +1,11 @@
 <template>
-  <div class="sequence" :style="{'order':order}">
-  </div>
+  <breadcrumb
+    :style="{'order':order}"
+    v-bind="{colorGetter, endText, from: fromItem, itemHeight, itemWidth, items, spacing, tailWidth, width}"
+  />
 </template>
 <script>
-import { select } from "d3-selection";
+import breadcrumb from "./breadcrumb";
 
 /**
  * Breadcrumb trail component displaying path between root node and current node.
@@ -11,6 +13,9 @@ import { select } from "d3-selection";
  */
 export default {
   name: "breadcrumbTrail",
+  components: {
+    breadcrumb
+  },
   props: {
     /**
      *  Root node
@@ -27,7 +32,7 @@ export default {
       type: Object
     },
     /**
-     *  Reference node, parents nodes of the current will have an opacity below 1
+     *  Reference node, parents nodes of the from node will have an opacity below 1
      */
     from: {
       required: false,
@@ -88,131 +93,35 @@ export default {
       default: 10
     }
   },
-  mounted() {
-    var trail = select(this.$el)
-      .append("svg:svg")
-      .attr("width", this.width)
-      .attr("height", 50)
-      .attr("class", "trail");
-    // Add the label at the end, for the percentage.
-    trail
-      .append("svg:text")
-      .attr("class", "endlabel")
-      .style("fill", "#000");
-  },
-  methods: {
-    /**
-     * @private
-     */
-    breadcrumbPoints(_, i) {
-      var points = [];
-      points.push("0,0");
-      points.push(this.itemWidth + ",0");
-      points.push(this.itemWidth + this.tailWidth + "," + this.itemHeight / 2);
-      points.push(this.itemWidth + "," + this.itemHeight);
-      points.push("0," + this.itemHeight);
-      if (i > 0) {
-        // Leftmost breadcrumb; don't include 6th vertex.
-        points.push(this.tailWidth + "," + this.itemHeight / 2);
-      }
-      return points.join(" ");
+  computed: {
+    items() {
+      const { current } = this;
+      return !current
+        ? []
+        : current
+            .ancestors()
+            .reverse()
+            .map(d => ({
+              id: d.data.name + d.depth,
+              data: d.data,
+              name: d.data.name
+            }));
     },
-
-    /**
-     * @private
-     */
-    draw() {
-      if (!this.current) {
-        select(this.$el)
-          .select(".trail")
-          .style("visibility", "hidden");
-        return;
+    fromItem() {
+      const { from } = this;
+      if (!from) {
+        return null;
       }
-      const nodeArray = this.current.ancestors().reverse();
-      const origin = this.from || this.root;
-      const [, ...nodeFrom] = origin.ancestors();
-
-      // Data join; key function combines name and depth (= position in sequence).
-      var trail = select(this.$el)
-        .select(".trail")
-        .selectAll("g")
-        .data(nodeArray, d => d.data.name + d.depth);
-
-      // Remove exiting nodes.
-      trail.exit().remove();
-
-      // Add breadcrumb and label for entering nodes.
-      var entering = trail.enter().append("svg:g");
-
-      entering
-        .append("svg:polygon")
-        .attr("points", this.breadcrumbPoints)
-        .style("fill", this.colorGetter);
-
-      entering
-        .append("svg:text")
-        .attr("x", (this.itemWidth + this.tailWidth) / 2)
-        .attr("y", this.itemHeight / 2)
-        .attr("dy", "0.25em")
-        .attr("text-anchor", "middle")
-        .text(d => d.data.name);
-
-      // Merge enter and update selections; set position for all nodes.
-      entering
-        .merge(trail)
-        .attr(
-          "transform",
-          (d, i) => "translate(" + i * (this.itemWidth + this.spacing) + ", 0)"
-        )
-        .style("opacity", d => (nodeFrom.indexOf(d) === -1 ? 1 : 0.5));
-
-      const percentage = (100 * this.current.value) / this.root.value;
-      const text = `${percentage.toPrecision(3)} % of total`;
-
-      // Now move and update the percentage at the end.
-      select(this.$el)
-        .select(".trail")
-        .select(".endlabel")
-        .attr("x", (nodeArray.length + 0.75) * (this.itemWidth + this.spacing))
-        .attr("y", this.itemHeight / 2)
-        .attr("dy", "0.35em")
-        .attr("text-anchor", "middle")
-        .text(text);
-
-      select(this.$el)
-        .select(".trail")
-        .style("visibility", "");
-    }
-  },
-  watch: {
-    width() {
-      select(this.$el)
-        .select(".trail")
-        .attr("width", this.width);
+      return this.items.find(it => it.data === from.data);
     },
-    current: {
-      deep: true,
-      handler() {
-        this.draw();
+    endText() {
+      const { current } = this;
+      if (!current) {
+        return "";
       }
-    },
-    root: {
-      deep: true,
-      handler() {
-        this.draw();
-      }
-    },
-    from() {
-      this.draw();
+      const percentage = (100 * current.value) / this.root.value;
+      return `${percentage.toPrecision(3)}% of total`;
     }
   }
 };
 </script>
-<style lang="less" scoped>
-.sequence {
-  width: 100%;
-  height: 50px;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-</style>
