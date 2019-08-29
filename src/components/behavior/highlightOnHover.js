@@ -6,7 +6,7 @@ export default {
   name: "highlightOnHover",
   props: {
     /**
-     *  Sunburst nodes. Typically provided by sunburst default slot.
+     *  Sunburst event listener. Same as component $on method.
      */
     on: {
       required: true,

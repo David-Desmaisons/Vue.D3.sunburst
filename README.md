@@ -309,21 +309,24 @@ Component that display the percentage value of the current node relative to root
 
 These components can be used as a default slot of the `sunburst` component which received as attributes:
 
-* `nodes` which is an object containing the attributes:
-  * `root`: the graph root node
-  * `clicked`: the last clicked node or null
-  * `mouseOver`: the last node that received a mouse-over event or null if the mouse leaves the graph
-  * `zoomed`: the zoomed node 
-  * `highlighted`: the highlighted node
+* `on` which is the $on method of the sunburst component:
 
 * `actions` which is an object containing the attributes:
   * `highlightPath`: function that takes a node and highlight the path going from the root to the given node
   * `zoomToNode`: function that takes a node and zoom to the corresponding node
   * `resetHighlight`: function that resets the highlighting
 
+
+Typical usage:
+```javascript
+   this.on("clickNode", ({node}) =>{
+      this.actions.zoomToNode(node);
+    });
+```
+
 #### zoomOnClick
 
-Renderless component providing the zoom on click behavior.
+Render-less component providing the zoom on click behavior.
 Can be used as a default slot of sunburst component. 
 
 ##### props 
@@ -338,7 +341,7 @@ Can be used as a default slot of sunburst component.
 
 #### highlightOnHover
 
-Renderless component providing path highlighting on mouse over behavior.
+Render-less component providing path highlighting on mouse over behavior.
  Can be used as a default slot of sunburst component. 
 
 ##### props 
