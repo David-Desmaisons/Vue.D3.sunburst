@@ -75,8 +75,8 @@ import sunburst from "@/components/sunburst";
 import nodeInfoDisplayer from "@/components/nodeInfoDisplayer";
 import breadcrumbTrail from "@/components/breadcrumbTrail";
 //behaviours
-import highlightOnHover from "@/components/highlightOnHover";
-import zoomOnClick from "@/components/zoomOnClick";
+import highlightOnHover from "@/components/behavior/highlightOnHover";
+import zoomOnClick from "@/components/behavior/zoomOnClick";
 
 import { colorSchemes } from "@/infra/colorSchemes";
 import data from "../data/data";
