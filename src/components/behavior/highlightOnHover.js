@@ -8,9 +8,9 @@ export default {
     /**
      *  Sunburst nodes. Typically provided by sunburst default slot.
      */
-    nodes: {
-      required: false,
-      type: Object
+    on: {
+      required: true,
+      type: Function
     },
     /**
      *  Sunburst nodes. Typically provided by sunburst default slot.
@@ -21,18 +21,16 @@ export default {
     }
   },
 
-  render() {
-    //no rendering
-  },
+  render: () => null,
 
-  watch: {
-    "nodes.mouseOver": function(node) {
-      if (!node) {
-        this.actions.resetHighlight();
-        return;
-      }
+  created() {
+    const {on, actions} = this;
+    on("mouseOverNode", ({node}) =>{
+      actions.highlightPath(node);
+    });
 
-      this.actions.highlightPath(node);
-    }
+    on("mouseLeave", () =>{
+      actions.resetHighlight();
+    });
   }
 };

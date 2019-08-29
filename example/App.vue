@@ -57,9 +57,9 @@
 
               <nodeInfoDisplayer slot="top" slot-scope="{ nodes }" :current="nodes.mouseOver" :root="nodes.root" :clicked="nodes.clicked" description="of selected" />
 
-              <template slot-scope="{ nodes, actions }">
-                <highlightOnHover :nodes="nodes" :actions="actions" />
-                <zoomOnClick :nodes="nodes" :actions="actions" />
+              <template slot-scope="{ on, actions }">
+                <highlightOnHover v-bind="{ on, actions }"/>
+                <zoomOnClick v-bind="{ on, actions }"/>
               </template>
 
             </sunburst>
