@@ -316,8 +316,8 @@ These components can be used as a default slot of the `sunburst` component which
   * `zoomToNode`: function that takes a node and zoom to the corresponding node
   * `resetHighlight`: function that resets the highlighting
 
-
 Typical usage:
+
 ```javascript
    this.on("clickNode", ({node}) =>{
       this.actions.zoomToNode(node);
@@ -326,14 +326,13 @@ Typical usage:
 
 #### zoomOnClick
 
-Render-less component providing the zoom on click behavior.
-Can be used as a default slot of sunburst component. 
+Renderless component providing the zoom on click behavior. Can be used as a default slot of sunburst component. 
 
 ##### props 
 
-- `nodes` ***Object*** (*optional*) 
+- `on` ***Function*** (*required*) 
 
-   Sunburst nodes. Typically provided by sunburst default slot. 
+   Sunburst event listener. Same as component $on method. 
 
 - `actions` ***Object*** (*required*) 
 
@@ -341,14 +340,13 @@ Can be used as a default slot of sunburst component.
 
 #### highlightOnHover
 
-Render-less component providing path highlighting on mouse over behavior.
- Can be used as a default slot of sunburst component. 
+Renderless component providing path highlighting on mouse over behavior. Can be used as a default slot of sunburst component. 
 
 ##### props 
 
-- `nodes` ***Object*** (*optional*) 
+- `on` ***Function*** (*required*) 
 
-   Sunburst nodes. Typically provided by sunburst default slot. 
+   Sunburst event listener. Same as component $on method. 
 
 - `actions` ***Object*** (*required*) 
 
