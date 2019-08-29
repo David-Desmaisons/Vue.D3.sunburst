@@ -43,9 +43,9 @@ npm i vue-d3-sunburst
 <sunburst :data="data">
 
   <!-- Add behaviors -->
-  <template slot-scope="{ nodes, actions }">
-    <highlightOnHover :nodes="nodes" :actions="actions" />
-    <zoomOnClick :nodes="nodes" :actions="actions" />
+  <template slot-scope="{ on, actions }">
+    <highlightOnHover v-bind="{ on, actions }"/>
+    <zoomOnClick v-bind="{ on, actions }"/>
   </template>
 
   <!-- Add information to be displayed on top the graph -->
@@ -326,7 +326,8 @@ Typical usage:
 
 #### zoomOnClick
 
-Renderless component providing the zoom on click behavior. Can be used as a default slot of sunburst component. 
+Renderless component providing the zoom on click behavior.
+ Can be used as a default slot of sunburst component. 
 
 ##### props 
 
@@ -340,7 +341,8 @@ Renderless component providing the zoom on click behavior. Can be used as a def
 
 #### highlightOnHover
 
-Renderless component providing path highlighting on mouse over behavior. Can be used as a default slot of sunburst component. 
+Renderless component providing path highlighting on mouse over behavior.
+ Can be used as a default slot of sunburst component. 
 
 ##### props 
 
