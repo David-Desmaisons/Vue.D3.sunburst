@@ -392,11 +392,8 @@ export default {
      * @private
      */
     actions() {
-      return {
-        highlightPath: this.highlightPath.bind(this),
-        zoomToNode: this.zoomToNode.bind(this),
-        resetHighlight: this.resetHighlight.bind(this)
-      };
+      const {highlightPath, zoomToNode, resetHighlight} = this;
+      return {highlightPath, zoomToNode, resetHighlight};
     },
 
     /**
