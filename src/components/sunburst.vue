@@ -197,7 +197,7 @@ export default {
       .append("g");
 
     select(viewport).on("mouseleave", () => {
-       this.$emit("mouseLeave")
+      this.$emit("mouseLeave");
       this.graphNodes.mouseOver = null;
     });
 
@@ -392,8 +392,8 @@ export default {
      * @private
      */
     actions() {
-      const {highlightPath, zoomToNode, resetHighlight} = this;
-      return {highlightPath, zoomToNode, resetHighlight};
+      const { highlightPath, zoomToNode, resetHighlight } = this;
+      return { highlightPath, zoomToNode, resetHighlight };
     },
 
     /**

@@ -24,12 +24,12 @@ export default {
   render: () => null,
 
   created() {
-    const {on, actions} = this;
-    on("mouseOverNode", ({node}) =>{
+    const { on, actions } = this;
+    on("mouseOverNode", ({ node }) => {
       actions.highlightPath(node);
     });
 
-    on("mouseLeave", () =>{
+    on("mouseLeave", () => {
       actions.resetHighlight();
     });
   }

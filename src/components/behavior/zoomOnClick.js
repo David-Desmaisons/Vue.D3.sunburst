@@ -24,7 +24,7 @@ export default {
   render: () => null,
 
   created() {
-    this.on("clickNode", ({node}) =>{
+    this.on("clickNode", ({ node }) => {
       this.actions.zoomToNode(node);
     });
   }
