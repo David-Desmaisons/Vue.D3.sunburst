@@ -1,6 +1,6 @@
 {
   "name": "vue-d3-sunburst",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve ./example/main.js --open",
@@ -12,8 +12,8 @@
     "doc-sun:build": "npx vuedoc.md --section API --output README.md ./src/components/sunburst.vue",
     "doc-bread:build": "npx vuedoc.md --section \"breadcrumbTrail\" --output README.md --ignore-name ./src/components/breadcrumbTrail.vue",
     "doc-node:build": "npx vuedoc.md --section \"nodeInfoDisplayer\" --output README.md --ignore-name ./src/components/nodeInfoDisplayer.vue",
-    "doc-zoom:build": "npx vuedoc.md --section \"zoomOnClick\" --output README.md --ignore-name ./src/components/zoomOnClick.js",
-    "doc-highlight:build": "npx vuedoc.md --section \"highlightOnHover\" --output README.md --ignore-name ./src/components/highlightOnHover.js",
+    "doc-zoom:build": "npx vuedoc.md --section \"zoomOnClick\" --output README.md --ignore-name ./src/components/behavior/zoomOnClick.js",
+    "doc-highlight:build": "npx vuedoc.md --section \"highlightOnHover\" --output README.md --ignore-name ./src/components/behavior/highlightOnHover.js",
     "doc:build": "npm run doc-sun:build && npm run doc-bread:build && npm run doc-node:build && npm run doc-zoom:build && npm run doc-highlight:build"
   },
   "dependencies": {

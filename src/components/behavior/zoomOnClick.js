@@ -6,11 +6,11 @@ export default {
   name: "zoomOnClick",
   props: {
     /**
-     *  Sunburst nodes. Typically provided by sunburst default slot.
+     *  Sunburst event listener. Same as component $on method.
      */
-    nodes: {
-      required: false,
-      type: Object
+    on: {
+      required: true,
+      type: Function
     },
     /**
      *  Sunburst actions. Typically provided by sunburst default slot.
@@ -21,13 +21,11 @@ export default {
     }
   },
 
-  render() {
-    //no rendering
-  },
+  render: () => null,
 
-  watch: {
-    "nodes.clicked": function(node) {
+  created() {
+    this.on("clickNode", ({ node }) => {
       this.actions.zoomToNode(node);
-    }
+    });
   }
 };

@@ -162,8 +162,9 @@ export default {
           (d, i) => "translate(" + i * (this.itemWidth + this.spacing) + ", 0)"
         )
         .transition(500)
-        .style("opacity", d =>
-          this.items.indexOf(d) >= originIndex ? 1 : 0.5
+        .style(
+          "opacity",
+          d => (this.items.indexOf(d) >= originIndex ? 1 : 0.5)
         );
 
       // Now move and update the percentage at the end.

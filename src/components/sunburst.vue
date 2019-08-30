@@ -12,7 +12,7 @@
       </slot>
 
       <!-- Use this slot to add behaviors to the sunburst -->
-      <slot :nodes="graphNodes" :actions="actions">
+      <slot :on="on" :actions="actions">
       </slot>
 
     </div>
@@ -160,6 +160,11 @@ export default {
       /**
        * @private
        */
+      on: null,
+
+      /**
+       * @private
+       */
       graphNodes: {
         clicked: null,
         mouseOver: null,
@@ -192,10 +197,15 @@ export default {
       .append("g");
 
     select(viewport).on("mouseleave", () => {
+      this.$emit("mouseLeave");
       this.graphNodes.mouseOver = null;
     });
 
     this.resize();
+  },
+
+  created() {
+    this.on = this.$on.bind(this);
   },
 
   methods: {
@@ -382,11 +392,8 @@ export default {
      * @private
      */
     actions() {
-      return {
-        highlightPath: this.highlightPath.bind(this),
-        zoomToNode: this.zoomToNode.bind(this),
-        resetHighlight: this.resetHighlight.bind(this)
-      };
+      const { highlightPath, zoomToNode, resetHighlight } = this;
+      return { highlightPath, zoomToNode, resetHighlight };
     },
 
     /**
