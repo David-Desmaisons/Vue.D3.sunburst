@@ -160,11 +160,6 @@ export default {
       /**
        * @private
        */
-      on: null,
-
-      /**
-       * @private
-       */
       graphNodes: {
         clicked: null,
         mouseOver: null,
@@ -202,10 +197,6 @@ export default {
     });
 
     this.resize();
-  },
-
-  created() {
-    this.on = this.$on.bind(this);
   },
 
   methods: {
@@ -394,6 +385,13 @@ export default {
     actions() {
       const { highlightPath, zoomToNode, resetHighlight } = this;
       return { highlightPath, zoomToNode, resetHighlight };
+    },
+
+    /**
+     * @private
+     */
+    on() {
+      return this.$on.bind(this);
     },
 
     /**
