@@ -412,7 +412,7 @@ export default {
     },
 
     colorGetter(value) {
-      this.getPathes().style("fill",  d => value(d.data));
+      this.getPathes().style("fill", d => value(d.data));
     },
 
     minAngleDisplayed() {
