@@ -51,17 +51,16 @@
         <div class="card control-left">
           <div class="card-header">Sunburst</div>
           <div class="card-body father">
-            <sunburst class="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
+            <sunburst class="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
 
               <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.zoomed" :width="width" />
 
               <nodeInfoDisplayer slot="top" slot-scope="{ nodes }" :current="nodes.mouseOver" :root="nodes.root" :clicked="nodes.clicked" description="of selected" />
 
               <template slot-scope="{ on, actions }">
-                <highlightOnHover v-bind="{ on, actions }"/>
-                <zoomOnClick v-bind="{ on, actions }"/>
+                <highlightOnHover v-bind="{ on, actions }" />
+                <zoomOnClick v-bind="{ on, actions }" />
               </template>
-
             </sunburst>
           </div>
         </div>
@@ -80,6 +79,7 @@ import zoomOnClick from "@/components/behavior/zoomOnClick";
 
 import { colorSchemes } from "@/infra/colorSchemes";
 import data from "../data/data";
+import { scaleOrdinal } from "d3-scale";
 
 const colorSchemesNames = Object.keys(colorSchemes).map(key => ({
   value: key,
@@ -95,7 +95,8 @@ export default {
       colorScheme: colorSchemesNames[0].value,
       colorSchemes: colorSchemesNames,
       inAnimationDuration: 100,
-      outAnimationDuration: 1000
+      outAnimationDuration: 1000,
+      colorScale: scaleOrdinal(["#e39b89", "#31ea74", "#3c7227", "#9dad1f"])
     };
   },
   methods: {},
