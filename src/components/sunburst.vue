@@ -237,7 +237,7 @@ export default {
      */
     onData(data) {
       if (!data) {
-        this.vis.selectAll("path").remove();
+        this.vis.selectAll("g").remove();
         Object.keys(this.graphNodes).forEach(k => (this.graphNodes[k] = null));
         return;
       }
@@ -260,16 +260,18 @@ export default {
       const click = this.click.bind(this);
       const { arcSunburst } = this;
 
-      const g = pathes.enter().append("g");
+      const g = pathes
+        .enter()
+        .append("g")
+        .on("mouseover", mouseOver)
+        .on("click", click)
+        .merge(pathes);
 
       g.append("path")
         .style("opacity", 1)
-        .on("mouseover", mouseOver)
-        .on("click", click)
         .each(function(d) {
           copyCurrentValues(this, d);
         })
-        .merge(pathes)
         .style("fill", d => colorGetter(d.data))
         .transition("enter")
         .duration(this.inAnimationDuration)
@@ -301,9 +303,7 @@ export default {
      * @private
      */
     getPathes() {
-      return this.vis
-        .selectAll("path")
-        .data(this.nodes, this.arcIdentification);
+      return this.vis.selectAll("g").data(this.nodes, this.arcIdentification);
     },
 
     /**
@@ -420,10 +420,9 @@ export default {
     /**
      * @private
      */
-    computeTextRotation: function(d) {
+    computeTextRotation(d) {
       const dx = d.x1 - d.x0;
-      let rot = ((this.scaleX(d.x0 + dx / 2) - Math.PI / 2) / Math.PI) * 180;
-      return rot;
+      return ((this.scaleX(d.x0 + dx / 2) - Math.PI / 2) / Math.PI) * 180;
     }
   },
 
@@ -466,6 +465,10 @@ export default {
     },
 
     minAngleDisplayed() {
+      this.reDraw();
+    },
+
+    showLabels() {
       this.reDraw();
     }
   }

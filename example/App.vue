@@ -113,8 +113,8 @@ export default {
       inAnimationDuration: 100,
       outAnimationDuration: 1000,
       overrideColorScale: false,
-      custoColorScale: scaleOrdinal(["#e39b89", "#31ea74", "#3c7227", "#9dad1f"])
-      showLabels: true
+      custoColorScale: scaleOrdinal(["#e39b89", "#31ea74", "#3c7227", "#9dad1f"]),
+      showLabels: false
     };
   },
   computed:{
