@@ -52,6 +52,13 @@
                 </div>
               </div>
 
+              <div class="form-group">
+                <label for="showLabels">Show labels</label>
+                <div>
+                    <input id="showLabels" type="checkbox" v-model="showLabels">
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -60,7 +67,7 @@
         <div class="card control-left">
           <div class="card-header">Sunburst</div>
           <div class="card-body father">
-            <sunburst class="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
+            <sunburst class="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration" :showLabels="showLabels">
 
               <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.zoomed" :width="width" />
 
@@ -107,6 +114,7 @@ export default {
       outAnimationDuration: 1000,
       overrideColorScale: false,
       custoColorScale: scaleOrdinal(["#e39b89", "#31ea74", "#3c7227", "#9dad1f"])
+      showLabels: true
     };
   },
   computed:{

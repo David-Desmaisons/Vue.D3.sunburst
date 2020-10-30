@@ -147,6 +147,15 @@ export default {
       type: Number,
       required: false,
       default: 1000
+    },
+    /**
+     *  Show labels for arcs
+     */
+    // TODO: Maybe this would be better as a slot?
+    showLabels: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
 
@@ -233,6 +242,8 @@ export default {
         return;
       }
 
+      const _this = this;
+
       this.root = hierarchy(data)
         .sum(d => d.size)
         .sort((a, b) => b.value - a.value);
@@ -249,9 +260,9 @@ export default {
       const click = this.click.bind(this);
       const { arcSunburst } = this;
 
-      pathes
-        .enter()
-        .append("path")
+      const g = pathes.enter().append("g");
+
+      g.append("path")
         .style("opacity", 1)
         .on("mouseover", mouseOver)
         .on("click", click)
@@ -265,6 +276,21 @@ export default {
         .attrTween("d", function(d, index) {
           return arc2Tween.call(this, arcSunburst, d, index);
         });
+
+      if (this.showLabels) {
+        g.append("text")
+          .attr("transform", function(d) {
+            return "rotate(" + _this.computeTextRotation(d) + ")";
+          })
+          .attr("x", function(d) {
+            return _this.scaleY(d.y0);
+          })
+          .attr("dx", "6") // margin
+          .attr("dy", ".35em") // vertical-align
+          .text(function(d) {
+            return d.data.name;
+          });
+      }
 
       pathes.exit().remove();
 
@@ -389,6 +415,15 @@ export default {
         .transition()
         .duration(this.outAnimationDuration)
         .style("opacity", 1);
+    },
+
+    /**
+     * @private
+     */
+    computeTextRotation: function(d) {
+      const dx = d.x1 - d.x0;
+      let rot = ((this.scaleX(d.x0 + dx / 2) - Math.PI / 2) / Math.PI) * 180;
+      return rot;
     }
   },
 
