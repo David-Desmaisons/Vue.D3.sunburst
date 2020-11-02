@@ -6,9 +6,18 @@
           <div class="card-header">Props</div>
           <div class="card-body">
             <div class="form-horizontal">
+
+               <div class="form-group custo-checkbox">
+                <label for="colorScheme" class="control-label">Use custom color scheme</label>
+                <div >
+                  <input id="override"  type="checkbox" v-model="overrideColorScale">
+                </div>
+              </div>
+
               <div class="form-group">
                 <label for="colorScheme" class="control-label">Color scheme</label>
-                <select id="colorScheme" class="form-control" v-model="colorScheme">
+
+                <select id="colorScheme" class="form-control" v-model="colorScheme" :disabled="overrideColorScale">
                   <option v-for="(scheme,index) in colorSchemes" :key="index" :value="scheme.value">{{scheme.text}}</option>
                 </select>
               </div>
@@ -51,17 +60,16 @@
         <div class="card control-left">
           <div class="card-header">Sunburst</div>
           <div class="card-body father">
-            <sunburst class="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
+            <sunburst class="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
 
               <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.zoomed" :width="width" />
 
               <nodeInfoDisplayer slot="top" slot-scope="{ nodes }" :current="nodes.mouseOver" :root="nodes.root" :clicked="nodes.clicked" description="of selected" />
 
               <template slot-scope="{ on, actions }">
-                <highlightOnHover v-bind="{ on, actions }"/>
-                <zoomOnClick v-bind="{ on, actions }"/>
+                <highlightOnHover v-bind="{ on, actions }" />
+                <zoomOnClick v-bind="{ on, actions }" />
               </template>
-
             </sunburst>
           </div>
         </div>
@@ -80,6 +88,7 @@ import zoomOnClick from "@/components/behavior/zoomOnClick";
 
 import { colorSchemes } from "@/infra/colorSchemes";
 import data from "../data/data";
+import { scaleOrdinal } from "d3-scale";
 
 const colorSchemesNames = Object.keys(colorSchemes).map(key => ({
   value: key,
@@ -95,10 +104,16 @@ export default {
       colorScheme: colorSchemesNames[0].value,
       colorSchemes: colorSchemesNames,
       inAnimationDuration: 100,
-      outAnimationDuration: 1000
+      outAnimationDuration: 1000,
+      overrideColorScale: false,
+      custoColorScale: scaleOrdinal(["#e39b89", "#31ea74", "#3c7227", "#9dad1f"])
     };
   },
-  methods: {},
+  computed:{
+    colorScale(){
+      return this.overrideColorScale ? this.custoColorScale : null;
+    }
+  },
   components: {
     sunburst,
     nodeInfoDisplayer,
@@ -144,6 +159,11 @@ export default {
     width: 500px;
     height: 500px;
     position: relative;
+  }
+
+  .custo-checkbox {
+    display: flex;
+    justify-content: space-between;
   }
 }
 </style>

@@ -1,14 +1,10 @@
 <template>
-  <div
-    class="infornation-sunburst"
-    v-if="show"
-  >
-    <span>{{displayPercentage}}</span>
-    <br /> {{description}}
-    <br /><span
-      v-if="showAllNumber"
-      class="detail"
-    >({{current.value}} / {{base}})</span>
+  <div class="infornation-sunburst" v-if="show">
+    <span>{{ displayPercentage }}</span>
+    <br />
+    {{ description }} <br /><span v-if="showAllNumber" class="detail"
+      >({{ current.value }} / {{ base }})</span
+    >
   </div>
 </template>
 <script>

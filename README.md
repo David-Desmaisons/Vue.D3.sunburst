@@ -146,7 +146,11 @@ Failing to do so may result in a component whose size that will keep increasing.
 
 - `color-scheme` ***String*** (*optional*) `default: provided by injected defaultSchemeColor with a fall back to schemeAccent` 
 
-   D3 color scheme to be used. 
+   D3 color scheme to be used.
+  
+- `color-scale` ***Function*** (*optional*) `default: undefined`
+
+   D3 scale of colors ([d3-scale](https://github.com/d3/d3-scale)). If specified, it overwrites the color-scheme props
 
 - `get-category-for-color` ***Function*** (*optional*) `default: 'useNameForColor'` 
 

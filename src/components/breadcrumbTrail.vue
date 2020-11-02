@@ -1,7 +1,17 @@
 <template>
   <breadcrumb
-    :style="{'order':order}"
-    v-bind="{colorGetter, endText, from: fromItem, itemHeight, itemWidth, items, spacing, tailWidth, width}"
+    :style="{ order: order }"
+    v-bind="{
+      colorGetter,
+      endText,
+      from: fromItem,
+      itemHeight,
+      itemWidth,
+      items,
+      spacing,
+      tailWidth,
+      width
+    }"
   />
 </template>
 <script>

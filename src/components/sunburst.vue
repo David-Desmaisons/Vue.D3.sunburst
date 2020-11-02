@@ -1,20 +1,27 @@
 <template>
   <div class="graph">
-
     <!-- Use this slot to add information on top or bottom of the graph-->
-    <slot name="legend" :width="width" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
+    <slot
+      name="legend"
+      :width="width"
+      :colorGetter="colorGetter"
+      :nodes="graphNodes"
+      :actions="actions"
+    >
     </slot>
 
     <div class="viewport" v-resize.throttle.250="resize">
-
       <!-- Use this slot to add information on top of the graph -->
-      <slot name="top" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
+      <slot
+        name="top"
+        :colorGetter="colorGetter"
+        :nodes="graphNodes"
+        :actions="actions"
+      >
       </slot>
 
       <!-- Use this slot to add behaviors to the sunburst -->
-      <slot :on="on" :actions="actions">
-      </slot>
-
+      <slot :on="on" :actions="actions"> </slot>
     </div>
   </div>
 </template>
@@ -89,6 +96,13 @@ export default {
         return this.defaultSchemeColor;
       },
       validator: value => Object.keys(colorSchemes).indexOf(value) !== -1
+    },
+    /**
+     * D3 color scale.
+     */
+    colorScale: {
+      type: Function,
+      required: false
     },
     /**
      * Function used to map an item and its color.
@@ -398,7 +412,8 @@ export default {
      * @private
      */
     colorGetter() {
-      const colorScale = colorSchemes[this.colorScheme].scale;
+      const colorScale =
+        this.colorScale || colorSchemes[this.colorScheme].scale;
       return d => colorScale(this.getCategoryForColor(d));
     }
   },
