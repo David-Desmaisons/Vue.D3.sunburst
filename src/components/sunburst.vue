@@ -242,8 +242,6 @@ export default {
         return;
       }
 
-      const _this = this;
-
       this.root = hierarchy(data)
         .sum(d => d.size)
         .sort((a, b) => b.value - a.value);
@@ -281,17 +279,11 @@ export default {
 
       if (this.showLabels) {
         g.append("text")
-          .attr("transform", function(d) {
-            return "rotate(" + _this.computeTextRotation(d) + ")";
-          })
-          .attr("x", function(d) {
-            return _this.scaleY(d.y0);
-          })
+          .attr("transform", (d) => `rotate(${this.computeTextRotation(d)})`)
+          .attr("x", (d) => this.scaleY(d.y0))
           .attr("dx", "6") // margin
           .attr("dy", ".35em") // vertical-align
-          .text(function(d) {
-            return d.data.name;
-          });
+          .text((d) => d.data.name);
       }
 
       pathes.exit().remove();
