@@ -6,9 +6,18 @@
           <div class="card-header">Props</div>
           <div class="card-body">
             <div class="form-horizontal">
+
+               <div class="form-group custo-checkbox">
+                <label for="colorScheme" class="control-label">Use custom color scheme</label>
+                <div >
+                  <input id="override"  type="checkbox" v-model="overrideColorScale">
+                </div>
+              </div>
+
               <div class="form-group">
                 <label for="colorScheme" class="control-label">Color scheme</label>
-                <select id="colorScheme" class="form-control" v-model="colorScheme">
+
+                <select id="colorScheme" class="form-control" v-model="colorScheme" :disabled="overrideColorScale">
                   <option v-for="(scheme,index) in colorSchemes" :key="index" :value="scheme.value">{{scheme.text}}</option>
                 </select>
               </div>
@@ -96,10 +105,15 @@ export default {
       colorSchemes: colorSchemesNames,
       inAnimationDuration: 100,
       outAnimationDuration: 1000,
-      colorScale: scaleOrdinal(["#e39b89", "#31ea74", "#3c7227", "#9dad1f"])
+      overrideColorScale: false,
+      custoColorScale: scaleOrdinal(["#e39b89", "#31ea74", "#3c7227", "#9dad1f"])
     };
   },
-  methods: {},
+  computed:{
+    colorScale(){
+      return this.overrideColorScale ? this.custoColorScale : null;
+    }
+  },
   components: {
     sunburst,
     nodeInfoDisplayer,
@@ -145,6 +159,11 @@ export default {
     width: 500px;
     height: 500px;
     position: relative;
+  }
+
+  .custo-checkbox {
+    display: flex;
+    justify-content: space-between;
   }
 }
 </style>
