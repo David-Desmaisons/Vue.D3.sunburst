@@ -151,7 +151,6 @@ export default {
     /**
      *  Show labels for arcs
      */
-    // TODO: Maybe this would be better as a slot?
     showLabels: {
       type: Boolean,
       required: false,
@@ -384,17 +383,35 @@ export default {
       const zoomedDepth = this.graphNodes.zoomed
         ? this.graphNodes.zoomed.depth
         : 0;
+
+      const width = 45;
+      const padding = 0;
+
+      // From: https://stackoverflow.com/a/27723752/965332
+      function wrap() {
+        var self = select(this),
+          textLength = self.node().getComputedTextLength(),
+          text = self.text();
+        while (textLength > width - 2 * padding && text.length > 0) {
+          text = text.slice(0, -1);
+          self.text(text + "\u2026");
+          textLength = self.node().getComputedTextLength();
+        }
+      }
+
       this.vis
         .selectAll("g")
         .filter(d => d.depth > zoomedDepth) // don't display a label for the zoomed node itself
-        .filter(d => d.depth < zoomedDepth + 3) // only show labels 3 levels deeper than the zoomed node
+        //.filter(d => d.depth < zoomedDepth + 3) // only show labels 3 levels deeper than the zoomed node
         .each(d => (d.rotation = this.computeTextRotation(d)))
         .filter(d => ![-90, 270].includes(d.rotation)) // only show labels for the children of the zoomed node
+        .filter(d => Math.abs(this.scaleX(d.x1 - d.x0)) > (Math.PI / 180) * 3)
+
         .append("text")
         .attr("x", d => this.scaleY(d.y0))
-        .attr("dx", d => 4 * (d.rotation > 90 ? -1 : 1)) // margin
+        .attr("dx", d => 3 * (d.rotation > 90 ? -1 : 1)) // margin
         .attr("dy", ".35em") // vertical-align
-        .style("font-size", "10px")
+        .style("font-size", d => `${12 - 1 * (d.depth - zoomedDepth)}px`)
         // Rotates text that becomes upside down
         .attr(
           "transform",
@@ -403,7 +420,8 @@ export default {
              translate(${d.rotation > 90 ? -2 * this.scaleY(d.y0) : 0}, 0)`
         )
         .style("text-anchor", d => (d.rotation > 90 ? "end" : "start"))
-        .text(d => d.data.name);
+        .text(d => d.data.name)
+        .each(wrap);
     },
 
     clearLabels() {

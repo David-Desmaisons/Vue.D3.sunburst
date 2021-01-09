@@ -7,6 +7,13 @@
           <div class="card-body">
             <div class="form-horizontal">
 
+              <div class="form-group custo-checkbox">
+                <label for="showLabels">Show labels</label>
+                <div>
+                    <input id="showLabels" type="checkbox" v-model="showLabels">
+                </div>
+              </div>
+
                <div class="form-group custo-checkbox">
                 <label for="colorScheme" class="control-label">Use custom color scheme</label>
                 <div >
@@ -49,13 +56,6 @@
                 </div>
                 <div>
                   <p>{{outAnimationDuration}} ms</p>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="showLabels">Show labels</label>
-                <div>
-                    <input id="showLabels" type="checkbox" v-model="showLabels">
                 </div>
               </div>
 
@@ -113,12 +113,17 @@ export default {
       inAnimationDuration: 100,
       outAnimationDuration: 1000,
       overrideColorScale: false,
-      custoColorScale: scaleOrdinal(["#e39b89", "#31ea74", "#3c7227", "#9dad1f"]),
+      custoColorScale: scaleOrdinal([
+        "#e39b89",
+        "#31ea74",
+        "#3c7227",
+        "#9dad1f"
+      ]),
       showLabels: false
     };
   },
-  computed:{
-    colorScale(){
+  computed: {
+    colorScale() {
       return this.overrideColorScale ? this.custoColorScale : null;
     }
   },
