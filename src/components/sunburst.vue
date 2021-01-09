@@ -261,12 +261,11 @@ export default {
       const g = pathes
         .enter()
         .append("g")
+        .style("opacity", 1)
         .on("mouseover", mouseOver)
-        .on("click", click)
-        .merge(pathes);
+        .on("click", click);
 
       g.append("path")
-        .style("opacity", 1)
         .each(function(d) {
           copyCurrentValues(this, d);
         })
@@ -277,18 +276,27 @@ export default {
           return arc2Tween.call(this, arcSunburst, d, index);
         });
 
-      if (this.showLabels) {
-        g.append("text")
-          .attr("transform", (d) => `rotate(${this.computeTextRotation(d)})`)
-          .attr("x", (d) => this.scaleY(d.y0))
-          .attr("dx", "6") // margin
-          .attr("dy", ".35em") // vertical-align
-          .text((d) => d.data.name);
-      }
+      // sort groups so that parents are layered above children
+      this.vis.selectAll("g").sort((a, b) => {
+        // sort by depth, then by position/rotation
+        if (a.depth == b.depth) {
+          return a.x0 - b.x0;
+        } else if (a.depth > b.depth) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
 
-      pathes.exit().remove();
+      g.merge(pathes);
+      g.exit().remove();
 
       this.graphNodes.root = this.nodes[0];
+
+      this.clearLabels();
+      if (this.showLabels) {
+        this.drawLabels();
+      }
     },
 
     /**
@@ -357,18 +365,49 @@ export default {
       const sequenceArray = node.ancestors();
 
       this.vis
-        .selectAll("path")
+        .selectAll("g")
         .filter(d => sequenceArray.indexOf(d) === -1)
         .transition()
         .duration(this.inAnimationDuration)
         .style("opacity", opacity);
 
       this.vis
-        .selectAll("path")
+        .selectAll("g")
         .filter(d => sequenceArray.indexOf(d) >= 0)
         .style("opacity", 1);
 
       this.graphNodes.highlighted = node;
+    },
+
+    drawLabels() {
+      // Could be improved by curving the text along the path: https://css-tricks.com/snippets/svg/curved-text-along-path/
+      const zoomedDepth = this.graphNodes.zoomed
+        ? this.graphNodes.zoomed.depth
+        : 0;
+      this.vis
+        .selectAll("g")
+        .filter(d => d.depth > zoomedDepth) // don't display a label for the zoomed node itself
+        .filter(d => d.depth < zoomedDepth + 3) // only show labels 3 levels deeper than the zoomed node
+        .each(d => (d.rotation = this.computeTextRotation(d)))
+        .filter(d => ![-90, 270].includes(d.rotation)) // only show labels for the children of the zoomed node
+        .append("text")
+        .attr("x", d => this.scaleY(d.y0))
+        .attr("dx", d => 4 * (d.rotation > 90 ? -1 : 1)) // margin
+        .attr("dy", ".35em") // vertical-align
+        .style("font-size", "10px")
+        // Rotates text that becomes upside down
+        .attr(
+          "transform",
+          d =>
+            `rotate(${d.rotation > 90 ? d.rotation - 180 : d.rotation}) 
+             translate(${d.rotation > 90 ? -2 * this.scaleY(d.y0) : 0}, 0)`
+        )
+        .style("text-anchor", d => (d.rotation > 90 ? "end" : "start"))
+        .text(d => d.data.name);
+    },
+
+    clearLabels() {
+      this.vis.selectAll("text").remove();
     },
 
     /**
@@ -392,6 +431,12 @@ export default {
             this.scaleY.domain(yd(t)).range(yr(t));
           };
         })
+        .on("start", () => {
+          this.clearLabels();
+        })
+        .on("end", () => {
+          this.drawLabels();
+        })
         .selectAll("path")
         .attrTween("d", nd => () => this.arcSunburst(nd));
 
@@ -403,18 +448,20 @@ export default {
      */
     resetHighlight() {
       this.vis
-        .selectAll("path")
+        .selectAll("g")
         .transition()
         .duration(this.outAnimationDuration)
         .style("opacity", 1);
     },
 
     /**
+     * Returns a value between -90 and 270
      * @private
      */
     computeTextRotation(d) {
       const dx = d.x1 - d.x0;
-      return ((this.scaleX(d.x0 + dx / 2) - Math.PI / 2) / Math.PI) * 180;
+      let deg = ((this.scaleX(d.x0 + dx / 2) - Math.PI / 2) / Math.PI) * 180;
+      return deg;
     }
   },
 
@@ -453,7 +500,9 @@ export default {
     },
 
     colorGetter(value) {
-      this.getPathes().style("fill", d => value(d.data));
+      this.getPathes()
+        .selectAll("path")
+        .style("fill", d => value(d.data));
     },
 
     minAngleDisplayed() {
