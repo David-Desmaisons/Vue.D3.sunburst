@@ -147,6 +147,14 @@ export default {
       type: Number,
       required: false,
       default: 1000
+    },
+    /**
+     *  Draw thin white borders around the cells, leading to margins between them.
+     */
+    drawMargin: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
 
@@ -260,6 +268,9 @@ export default {
         })
         .merge(pathes)
         .style("fill", d => colorGetter(d.data))
+        .style("stroke-opacity", this.drawMargin ? 1 : 0)
+        .style("stroke-width", 1)
+        .style("stroke", "#FFFFFF")
         .transition("enter")
         .duration(this.inAnimationDuration)
         .attrTween("d", function(d, index) {
@@ -431,6 +442,10 @@ export default {
     },
 
     minAngleDisplayed() {
+      this.reDraw();
+    },
+
+    drawMargin() {
       this.reDraw();
     }
   }

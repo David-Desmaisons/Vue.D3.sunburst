@@ -7,6 +7,13 @@
           <div class="card-body">
             <div class="form-horizontal">
 
+              <div class="form-group custo-checkbox">
+                <label for="drawMargin">Draw margin</label>
+                <div>
+                    <input id="drawMargin" type="checkbox" v-model="drawMargin">
+                </div>
+              </div>
+
                <div class="form-group custo-checkbox">
                 <label for="colorScheme" class="control-label">Use custom color scheme</label>
                 <div >
@@ -60,7 +67,7 @@
         <div class="card control-left">
           <div class="card-header">Sunburst</div>
           <div class="card-body father">
-            <sunburst class="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
+              <sunburst class="sunburst" :data="data" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration" :drawMargin="drawMargin">
 
               <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.zoomed" :width="width" />
 
@@ -106,11 +113,17 @@ export default {
       inAnimationDuration: 100,
       outAnimationDuration: 1000,
       overrideColorScale: false,
-      custoColorScale: scaleOrdinal(["#e39b89", "#31ea74", "#3c7227", "#9dad1f"])
+      custoColorScale: scaleOrdinal([
+        "#e39b89",
+        "#31ea74",
+        "#3c7227",
+        "#9dad1f"
+      ]),
+      drawMargin: true
     };
   },
-  computed:{
-    colorScale(){
+  computed: {
+    colorScale() {
       return this.overrideColorScale ? this.custoColorScale : null;
     }
   },
