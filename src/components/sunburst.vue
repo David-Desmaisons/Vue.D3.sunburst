@@ -226,6 +226,14 @@ export default {
     /**
      * @private
      */
+    getTextAngle(d) {
+      const { scaleX } = this;
+      return (scaleX((d.x0 + d.x1) / 2) * 180) / Math.PI;
+    },
+
+    /**
+     * @private
+     */
     onData(data) {
       if (!data) {
         this.vis.selectAll("g").remove();
@@ -273,13 +281,21 @@ export default {
       const newTextes = newGroups
         .append("svg:text")
         .attr("class", "node-info")
-        .attr("dx", "6")
         .attr("dy", ".35em");
 
       newTextes
         .merge(groups.select("svg:text"))
-        .attr("transform", d => `rotate(${-90 + (d.x0 + d.x1) * 180})`)
-        .attr("x", d => scaleY(d.y0))
+        .attr("transform", d => {
+          const x = this.getTextAngle(d);
+          const y = scaleY(d.y0);
+          return `rotate(${x - 90}) translate(${y},0) rotate(${
+            x < 180 ? 0 : 180
+          })`;
+        })
+        .attr(
+          "text-anchor",
+          d => (this.getTextAngle(d) < 180 ? "start" : "end")
+        )
         .attr("display", d => (d.depth ? null : "none")) // hide inner
         .text(d => d.data.name);
 
