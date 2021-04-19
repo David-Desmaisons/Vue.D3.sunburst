@@ -228,7 +228,7 @@ export default {
      */
     onData(data) {
       if (!data) {
-        this.vis.selectAll("path").remove();
+        this.vis.selectAll("g").remove();
         Object.keys(this.graphNodes).forEach(k => (this.graphNodes[k] = null));
         return;
       }
@@ -243,22 +243,23 @@ export default {
           d => Math.abs(this.scaleX(d.x1 - d.x0)) > this.minAngleDisplayed
         );
 
-      const pathes = this.getPathes();
+      const groups = this.getGroups();
       const colorGetter = this.colorGetter;
       const mouseOver = this.mouseOver.bind(this);
       const click = this.click.bind(this);
       const { arcSunburst } = this;
 
-      pathes
+      groups
         .enter()
-        .append("path")
+        .append("svg:g")
         .style("opacity", 1)
+        .append("path")
         .on("mouseover", mouseOver)
         .on("click", click)
         .each(function(d) {
           copyCurrentValues(this, d);
         })
-        .merge(pathes)
+        .merge(groups.select("path"))
         .style("fill", d => colorGetter(d.data))
         .transition("enter")
         .duration(this.inAnimationDuration)
@@ -266,7 +267,7 @@ export default {
           return arc2Tween.call(this, arcSunburst, d, index);
         });
 
-      pathes.exit().remove();
+      groups.exit().remove();
 
       this.graphNodes.root = this.nodes[0];
     },
@@ -274,9 +275,9 @@ export default {
     /**
      * @private
      */
-    getPathes() {
+    getGroups() {
       return this.vis
-        .selectAll("path")
+        .selectAll("g")
         .data(this.nodes, this.arcIdentification);
     },
 
@@ -339,14 +340,14 @@ export default {
       const sequenceArray = node.ancestors();
 
       this.vis
-        .selectAll("path")
+        .selectAll("g")
         .filter(d => sequenceArray.indexOf(d) === -1)
         .transition()
         .duration(this.inAnimationDuration)
         .style("opacity", opacity);
 
       this.vis
-        .selectAll("path")
+        .selectAll("g")
         .filter(d => sequenceArray.indexOf(d) >= 0)
         .style("opacity", 1);
 
@@ -385,7 +386,7 @@ export default {
      */
     resetHighlight() {
       this.vis
-        .selectAll("path")
+        .selectAll("g")
         .transition()
         .duration(this.outAnimationDuration)
         .style("opacity", 1);
@@ -427,7 +428,7 @@ export default {
     },
 
     colorGetter(value) {
-      this.getPathes().style("fill", d => value(d.data));
+      this.getGroups().select("path").style("fill", d => value(d.data));
     },
 
     minAngleDisplayed() {
