@@ -249,10 +249,12 @@ export default {
       const click = this.click.bind(this);
       const { arcSunburst } = this;
 
-      groups
+      const newGroups = groups
         .enter()
         .append("svg:g")
-        .style("opacity", 1)
+        .style("opacity", 1);
+
+      newGroups
         .append("path")
         .on("mouseover", mouseOver)
         .on("click", click)
@@ -267,6 +269,20 @@ export default {
           return arc2Tween.call(this, arcSunburst, d, index);
         });
 
+      const { scaleY } = this;
+      const newTextes = newGroups
+        .append("svg:text")
+        .attr("class", "node-info")
+        .attr("dx", "6")
+        .attr("dy", ".35em");
+
+      newTextes
+        .merge(groups.select("svg:text"))
+        .attr("transform", d => `rotate(${-90 + (d.x0 + d.x1) * 180})`)
+        .attr("x", d => scaleY(d.y0))
+        .attr("display", d => (d.depth ? null : "none")) // hide inner
+        .text(d => d.data.name);
+
       groups.exit().remove();
 
       this.graphNodes.root = this.nodes[0];
@@ -276,9 +292,7 @@ export default {
      * @private
      */
     getGroups() {
-      return this.vis
-        .selectAll("g")
-        .data(this.nodes, this.arcIdentification);
+      return this.vis.selectAll("g").data(this.nodes, this.arcIdentification);
     },
 
     /**
@@ -428,7 +442,9 @@ export default {
     },
 
     colorGetter(value) {
-      this.getGroups().select("path").style("fill", d => value(d.data));
+      this.getGroups()
+        .select("path")
+        .style("fill", d => value(d.data));
     },
 
     minAngleDisplayed() {
@@ -449,5 +465,13 @@ export default {
 .viewport {
   width: 100%;
   flex: 1 1 auto;
+}
+</style>
+
+<style lang="less">
+svg {
+  text.node-info {
+    pointer-events: none;
+  }
 }
 </style>
