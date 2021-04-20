@@ -234,6 +234,23 @@ export default {
     /**
      * @private
      */
+    getTextTransform(d) {
+      const { scaleY } = this;
+      const x = this.getTextAngle(d);
+      const y = scaleY(d.y0);
+      return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
+    },
+
+    /**
+     * @private
+     */
+    getTextAnchor(d) {
+      return this.getTextAngle(d) < 180 ? "start" : "end";
+    },
+
+    /**
+     * @private
+     */
     onData(data) {
       if (!data) {
         this.vis.selectAll("g").remove();
@@ -277,7 +294,6 @@ export default {
           return arc2Tween.call(this, arcSunburst, d, index);
         });
 
-      const { scaleY } = this;
       const newTextes = newGroups
         .append("text")
         .attr("class", "node-info")
@@ -286,17 +302,8 @@ export default {
 
       newTextes
         .merge(groups.select("text"))
-        .attr("transform", d => {
-          const x = this.getTextAngle(d);
-          const y = scaleY(d.y0);
-          return `rotate(${x - 90}) translate(${y},0) rotate(${
-            x < 180 ? 0 : 180
-          })`;
-        })
-        .attr(
-          "text-anchor",
-          d => (this.getTextAngle(d) < 180 ? "start" : "end")
-        )
+        .attr("transform", d => this.getTextTransform(d))
+        .attr("text-anchor", d => this.getTextAnchor(d))
         .attr("display", d => (d.depth ? null : "none")) // hide inner
         .text(d => d.data.name);
 
@@ -397,8 +404,7 @@ export default {
         .duration(550)
         .attr(
           "opacity",
-          d =>
-            d === node || node.descendants().indexOf(d) === -1 ? 0 : 1
+          d => (d === node || node.descendants().indexOf(d) === -1 ? 0 : 1)
         );
 
       const transitionSelection = this.vis
@@ -420,16 +426,8 @@ export default {
 
       transitionSelection
         .selectAll("text")
-        .attrTween("transform", d => () => {
-          const x = this.getTextAngle(d);
-          const y = this.scaleY(d.y0);
-          return `rotate(${x - 90}) translate(${y},0) rotate(${
-            x < 180 ? 0 : 180
-          })`;
-        })
-        .attrTween("text-anchor", d => () =>
-          this.getTextAngle(d) < 180 ? "start" : "end"
-        );
+        .attrTween("transform", d => () => this.getTextTransform(d))
+        .attrTween("text-anchor", d => () => this.getTextAnchor(d));
 
       transitionSelection
         .selectAll("path")
