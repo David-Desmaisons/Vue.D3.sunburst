@@ -259,7 +259,7 @@ export default {
 
       const newGroups = groups
         .enter()
-        .append("svg:g")
+        .append("g")
         .style("opacity", 1);
 
       newGroups
@@ -279,12 +279,13 @@ export default {
 
       const { scaleY } = this;
       const newTextes = newGroups
-        .append("svg:text")
+        .append("text")
         .attr("class", "node-info")
-        .attr("dy", ".35em");
+        .attr("dy", ".35em")
+        .attr("opacity", 1);
 
       newTextes
-        .merge(groups.select("svg:text"))
+        .merge(groups.select("text"))
         .attr("transform", d => {
           const x = this.getTextAngle(d);
           const y = scaleY(d.y0);
@@ -390,6 +391,17 @@ export default {
      */
     zoomToNode(node) {
       this.vis
+        .selectAll("text")
+        .transition()
+        .delay(200)
+        .duration(550)
+        .attr(
+          "opacity",
+          d =>
+            d === node || node.descendants().indexOf(d) === -1 ? 0 : 1
+        );
+
+      const transitionSelection = this.vis
         .transition("zoom")
         .duration(750)
         .tween("scale", () => {
@@ -404,7 +416,22 @@ export default {
             this.scaleX.domain(xd(t));
             this.scaleY.domain(yd(t)).range(yr(t));
           };
+        });
+
+      transitionSelection
+        .selectAll("text")
+        .attrTween("transform", d => () => {
+          const x = this.getTextAngle(d);
+          const y = this.scaleY(d.y0);
+          return `rotate(${x - 90}) translate(${y},0) rotate(${
+            x < 180 ? 0 : 180
+          })`;
         })
+        .attrTween("text-anchor", d => () =>
+          this.getTextAngle(d) < 180 ? "start" : "end"
+        );
+
+      transitionSelection
         .selectAll("path")
         .attrTween("d", nd => () => this.arcSunburst(nd));
 
