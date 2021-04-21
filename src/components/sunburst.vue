@@ -286,7 +286,7 @@ export default {
         .each(d => (d.textAngle = getTextAngle(d)))
         .attr("transform", d => getTextTransform(d))
         .attr("text-anchor", d => getTextAnchor(d))
-        .attr("dx", d => d.textAngle> 180? -3 : 3)
+        .attr("dx", d => (d.textAngle > 180 ? -3 : 3))
         .attr("display", d => (d.depth ? null : "none"))
         .text(d => d.data.name)
         .attr(
@@ -463,7 +463,12 @@ export default {
           d => (d === node || descendants.indexOf(d) === -1 ? 0 : 1)
         );
 
-      const { zoomedDepth, getTextAngle, getTextTransform, getTextAnchor } = this;
+      const {
+        zoomedDepth,
+        getTextAngle,
+        getTextTransform,
+        getTextAnchor
+      } = this;
       this.vis
         .selectAll("g")
         .attr("class", d => `slice-${d.depth - zoomedDepth}`);
@@ -492,7 +497,7 @@ export default {
         })
         .attrTween("transform", d => () => getTextTransform(d))
         .attrTween("text-anchor", d => () => getTextAnchor(d))
-        .attrTween("dx", d => () => d.textAngle> 180? -3 : 3);
+        .attrTween("dx", d => () => (d.textAngle > 180 ? -3 : 3));
 
       transitionSelection
         .selectAll("path")
