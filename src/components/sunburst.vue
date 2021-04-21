@@ -168,6 +168,14 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    /**
+     *  Max size for label, if null text will not be truncated
+     */
+    maxLabelText: {
+      type: Number,
+      required: false,
+      default: 45
     }
   },
 
@@ -274,7 +282,6 @@ export default {
      * @private
      */
     addTextAttribute(selection) {
-      const wrap = getTextWrapper({ width: 45, padding: 0 });
       const {
         graphNodes: { zoomed },
         getTextAngle,
@@ -282,7 +289,7 @@ export default {
         getTextAnchor
       } = this;
       const descendants = zoomed === null ? null : zoomed.descendants();
-      selection
+      const textSelection = selection
         .each(d => (d.textAngle = getTextAngle(d)))
         .attr("transform", d => getTextTransform(d))
         .attr("text-anchor", d => getTextAnchor(d))
@@ -295,8 +302,12 @@ export default {
             zoomed != null && (d === zoomed || descendants.indexOf(d) === -1)
               ? 0
               : 1
-        )
-        .each(wrap);
+        );
+      const { maxLabelText: width } = this;
+      if (width) {
+        const wrap = getTextWrapper({ width: 45, padding: 0 });
+        textSelection.each(wrap);
+      }
     },
 
     /**
