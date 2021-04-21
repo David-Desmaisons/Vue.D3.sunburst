@@ -317,10 +317,7 @@ export default {
       const colorGetter = this.colorGetter;
       const mouseOver = this.mouseOver.bind(this);
       const click = this.click.bind(this);
-      const { arcSunburst } = this;
-
-      const { zoomed } = this.graphNodes;
-      const zoomedDepth = zoomed === null ? 0 : zoomed.depth;
+      const { arcSunburst, zoomedDepth } = this;
 
       const newGroups = groups
         .enter()
@@ -445,6 +442,8 @@ export default {
      * @param {Object} node the D3 node to zoom to.
      */
     zoomToNode(node) {
+      this.graphNodes.zoomed = node;
+
       const descendants = node.descendants();
       this.vis
         .selectAll("text")
@@ -455,6 +454,11 @@ export default {
           "opacity",
           d => (d === node || descendants.indexOf(d) === -1 ? 0 : 1)
         );
+
+      const { zoomedDepth } = this;
+      this.vis
+        .selectAll("g")
+        .attr("class", d => `slice-${d.depth - zoomedDepth}`);
 
       const transitionSelection = this.vis
         .transition("zoom")
@@ -481,8 +485,6 @@ export default {
       transitionSelection
         .selectAll("path")
         .attrTween("d", nd => () => this.arcSunburst(nd));
-
-      this.graphNodes.zoomed = node;
     },
 
     /**
@@ -520,6 +522,14 @@ export default {
       const colorScale =
         this.colorScale || colorSchemes[this.colorScheme].scale;
       return d => colorScale(this.getCategoryForColor(d));
+    },
+
+    /**
+     * @private
+     */
+    zoomedDepth() {
+      const { zoomed } = this.graphNodes;
+      return zoomed === null ? 0 : zoomed.depth;
     }
   },
 
