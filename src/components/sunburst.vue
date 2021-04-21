@@ -304,10 +304,17 @@ export default {
       const click = this.click.bind(this);
       const { arcSunburst } = this;
 
+      const { zoomed } = this.graphNodes;
+      const zoomedDepth = zoomed === null ? 0 : zoomed.depth;
+
       const newGroups = groups
         .enter()
         .append("g")
         .style("opacity", 1);
+
+      newGroups
+        .merge(groups)
+        .attr("class", d => `slice-${d.depth - zoomedDepth}`);
 
       newGroups
         .append("path")
@@ -553,6 +560,17 @@ export default {
 svg {
   text.node-info {
     pointer-events: none;
+    font-size: 8px;
   }
+
+  .addTextSize (@index) when (@index > 0) {
+    .slice-@{index} {
+      text.node-info {
+        font-size: unit(12-@index, px);
+      }
+    }
+    .addTextSize(@index - 1);
+  }
+  .addTextSize(4);
 }
 </style>
