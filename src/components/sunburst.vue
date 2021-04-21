@@ -147,6 +147,14 @@ export default {
       type: Number,
       required: false,
       default: 1000
+    },
+    /**
+     *  If true display name attributes as slice labels
+     */
+    showLabels: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
 
@@ -210,7 +218,7 @@ export default {
       this.graphNodes.mouseOver = null;
     });
 
-    this.resize();
+    this.resize(true);
   },
 
   methods: {
@@ -244,6 +252,26 @@ export default {
     /**
      * @private
      */
+    addTextAttribute(selection) {
+      const { zoomed } = this.graphNodes;
+      const descendants = zoomed === null ? null : zoomed.descendants();
+      selection
+        .attr("transform", d => this.getTextTransform(d))
+        .attr("text-anchor", d => this.getTextAnchor(d))
+        .attr("display", d => (d.depth ? null : "none")) // hide inner
+        .text(d => d.data.name)
+        .attr(
+          "opacity",
+          d =>
+            zoomed != null && (d === zoomed || descendants.indexOf(d) === -1)
+              ? 0
+              : 1
+        );
+    },
+
+    /**
+     * @private
+     */
     getTextAnchor(d) {
       return this.getTextAngle(d) < 180 ? "start" : "end";
     },
@@ -251,16 +279,18 @@ export default {
     /**
      * @private
      */
-    onData(data) {
+    onData(data, onlyRedraw = false) {
       if (!data) {
         this.vis.selectAll("g").remove();
         Object.keys(this.graphNodes).forEach(k => (this.graphNodes[k] = null));
         return;
       }
 
-      this.root = hierarchy(data)
-        .sum(d => d.size)
-        .sort((a, b) => b.value - a.value);
+      if (!onlyRedraw) {
+        this.root = hierarchy(data)
+          .sum(d => d.size)
+          .sort((a, b) => b.value - a.value);
+      }
 
       this.nodes = partition()(this.root)
         .descendants()
@@ -294,18 +324,14 @@ export default {
           return arc2Tween.call(this, arcSunburst, d, index);
         });
 
-      const newTextes = newGroups
-        .append("text")
-        .attr("class", "node-info")
-        .attr("dy", ".35em")
-        .attr("opacity", 1);
+      if (this.showLabels) {
+        const newTextes = newGroups
+          .append("text")
+          .attr("class", "node-info")
+          .attr("dy", ".35em");
 
-      newTextes
-        .merge(groups.select("text"))
-        .attr("transform", d => this.getTextTransform(d))
-        .attr("text-anchor", d => this.getTextAnchor(d))
-        .attr("display", d => (d.depth ? null : "none")) // hide inner
-        .text(d => d.data.name);
+        this.addTextAttribute(newTextes.merge(groups.select("text")));
+      }
 
       groups.exit().remove();
 
@@ -322,7 +348,7 @@ export default {
     /**
      * @private
      */
-    resize() {
+    resize(onMount) {
       const { width, height } = this.getSize();
       this.vis
         .attr("width", width)
@@ -333,7 +359,7 @@ export default {
       const [scaleYMin] = this.scaleY.range();
       this.scaleY.range([scaleYMin, this.radius]);
 
-      this.onData(this.data);
+      this.onData(this.data, !onMount);
       this.width = width;
       this.height = height;
     },
@@ -342,7 +368,7 @@ export default {
      * @private
      */
     reDraw() {
-      this.onData(this.data);
+      this.onData(this.data, true);
     },
 
     /**
@@ -397,6 +423,7 @@ export default {
      * @param {Object} node the D3 node to zoom to.
      */
     zoomToNode(node) {
+      const descendants = node.descendants();
       this.vis
         .selectAll("text")
         .transition()
@@ -404,7 +431,7 @@ export default {
         .duration(550)
         .attr(
           "opacity",
-          d => (d === node || node.descendants().indexOf(d) === -1 ? 0 : 1)
+          d => (d === node || descendants.indexOf(d) === -1 ? 0 : 1)
         );
 
       const transitionSelection = this.vis
@@ -486,6 +513,19 @@ export default {
       this.getGroups()
         .select("path")
         .style("fill", d => value(d.data));
+    },
+
+    showLabels(value) {
+      if (!value) {
+        this.vis.selectAll("text").remove();
+        return;
+      }
+      const labels = this.vis
+        .selectAll("g")
+        .append("text")
+        .attr("class", "node-info")
+        .attr("dy", ".35em");
+      this.addTextAttribute(labels);
     },
 
     minAngleDisplayed() {
