@@ -67,6 +67,19 @@ function arc2Tween(arcSunburst, d, indx) {
   };
 }
 
+function getTextWrapper({ padding, width }) {
+  return function() {
+    const self = select(this);
+    let textLength = self.node().getComputedTextLength();
+    let text = self.text();
+    while (textLength > width - 2 * padding && text.length > 0) {
+      text = text.slice(0, -1);
+      self.text(text + "\u2026");
+      textLength = self.node().getComputedTextLength();
+    }
+  };
+}
+
 const useNameForColor = d => d.name;
 
 export default {
@@ -253,6 +266,7 @@ export default {
      * @private
      */
     addTextAttribute(selection) {
+      const wrap = getTextWrapper({ width: 45, padding: 0 });
       const { zoomed } = this.graphNodes;
       const descendants = zoomed === null ? null : zoomed.descendants();
       selection
@@ -266,7 +280,8 @@ export default {
             zoomed != null && (d === zoomed || descendants.indexOf(d) === -1)
               ? 0
               : 1
-        );
+        )
+        .each(wrap);
     },
 
     /**
