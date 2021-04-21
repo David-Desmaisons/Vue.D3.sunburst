@@ -257,9 +257,17 @@ export default {
      */
     getTextTransform(d) {
       const { scaleY } = this;
-      const x = this.getTextAngle(d);
       const y = scaleY(d.y0);
-      return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
+      return `rotate(${d.textAngle - 90}) translate(${y},0) rotate(${
+        d.textAngle < 180 ? 0 : 180
+      })`;
+    },
+
+    /**
+     * @private
+     */
+    getTextAnchor(d) {
+      return d.textAngle < 180 ? "start" : "end";
     },
 
     /**
@@ -267,12 +275,19 @@ export default {
      */
     addTextAttribute(selection) {
       const wrap = getTextWrapper({ width: 45, padding: 0 });
-      const { zoomed } = this.graphNodes;
+      const {
+        graphNodes: { zoomed },
+        getTextAngle,
+        getTextTransform,
+        getTextAnchor
+      } = this;
       const descendants = zoomed === null ? null : zoomed.descendants();
       selection
-        .attr("transform", d => this.getTextTransform(d))
-        .attr("text-anchor", d => this.getTextAnchor(d))
-        .attr("display", d => (d.depth ? null : "none")) // hide inner
+        .each(d => (d.textAngle = getTextAngle(d)))
+        .attr("transform", d => getTextTransform(d))
+        .attr("text-anchor", d => getTextAnchor(d))
+        .attr("dx", d => d.textAngle> 180? -3 : 3)
+        .attr("display", d => (d.depth ? null : "none"))
         .text(d => d.data.name)
         .attr(
           "opacity",
@@ -282,13 +297,6 @@ export default {
               : 1
         )
         .each(wrap);
-    },
-
-    /**
-     * @private
-     */
-    getTextAnchor(d) {
-      return this.getTextAngle(d) < 180 ? "start" : "end";
     },
 
     /**
@@ -455,7 +463,7 @@ export default {
           d => (d === node || descendants.indexOf(d) === -1 ? 0 : 1)
         );
 
-      const { zoomedDepth } = this;
+      const { zoomedDepth, getTextAngle, getTextTransform, getTextAnchor } = this;
       this.vis
         .selectAll("g")
         .attr("class", d => `slice-${d.depth - zoomedDepth}`);
@@ -479,8 +487,12 @@ export default {
 
       transitionSelection
         .selectAll("text")
-        .attrTween("transform", d => () => this.getTextTransform(d))
-        .attrTween("text-anchor", d => () => this.getTextAnchor(d));
+        .tween("text.angle", d => {
+          return () => (d.textAngle = getTextAngle(d));
+        })
+        .attrTween("transform", d => () => getTextTransform(d))
+        .attrTween("text-anchor", d => () => getTextAnchor(d))
+        .attrTween("dx", d => () => d.textAngle> 180? -3 : 3);
 
       transitionSelection
         .selectAll("path")
