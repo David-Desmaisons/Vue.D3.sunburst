@@ -117,8 +117,8 @@ export default {
       custoColorScale: scaleOrdinal(["#e39b89", "#31ea74", "#3c7227", "#9dad1f"])
     };
   },
-  computed:{
-    colorScale(){
+  computed: {
+    colorScale() {
       return this.overrideColorScale ? this.custoColorScale : null;
     }
   },

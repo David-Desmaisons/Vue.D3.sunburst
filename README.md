@@ -172,6 +172,10 @@ Failing to do so may result in a component whose size that will keep increasing.
 
    Duration for out animation in milliseconds 
 
+- `show-labels` ***Boolean*** (*optional*) `default: false` 
+
+   Show labels for arcs
+
 #### events 
 
 - `mouseOverNode` 
