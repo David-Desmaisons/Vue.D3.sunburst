@@ -309,7 +309,7 @@ export default {
         );
       const { maxLabelText: width } = this;
       if (width) {
-        const wrap = getTextWrapper({ width: 45, padding: 0 });
+        const wrap = getTextWrapper({ width, padding: 0 });
         textSelection.each(wrap);
       }
     },
