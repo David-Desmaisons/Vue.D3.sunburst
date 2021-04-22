@@ -173,6 +173,24 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
 
 /***/ }),
 
+/***/ "0597":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "0a03":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_1_lang_less___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("0597");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_1_lang_less___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_1_lang_less___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_1_lang_less___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "0a49":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -232,6 +250,17 @@ module.exports = function (TYPE, $create) {
 /* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_nodeInfoDisplayer_vue_vue_type_style_index_0_id_ff4afe60_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_nodeInfoDisplayer_vue_vue_type_style_index_0_id_ff4afe60_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
  /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_nodeInfoDisplayer_vue_vue_type_style_index_0_id_ff4afe60_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "0ab7":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_9fb4dc1e_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("fefe");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_9fb4dc1e_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_9fb4dc1e_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_9fb4dc1e_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -889,13 +918,6 @@ module.exports = function (bitmap, value) {
 
 /***/ }),
 
-/***/ "4bef":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "4bf8":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1272,17 +1294,6 @@ exports.f = __webpack_require__("9e1e") ? Object.defineProperty : function defin
   return O;
 };
 
-
-/***/ }),
-
-/***/ "889e":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_6ea5fa76_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("4bef");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_6ea5fa76_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_6ea5fa76_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_6ea5fa76_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -2252,12 +2263,12 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 var setPublicPath = __webpack_require__("1eb2");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules//.cache//vue-loader","cacheIdentifier":"60c9a5d3-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/sunburst.vue?vue&type=template&id=6ea5fa76&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules//.cache//vue-loader","cacheIdentifier":"60c9a5d3-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/sunburst.vue?vue&type=template&id=9fb4dc1e&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"graph"},[_vm._t("legend",null,{width:_vm.width,colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_c('div',{directives:[{name:"resize",rawName:"v-resize.throttle.250",value:(_vm.resize),expression:"resize",modifiers:{"250":true,"throttle":true}}],staticClass:"viewport"},[_vm._t("top",null,{colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_vm._t("default",null,{on:_vm.on,actions:_vm.actions})],2)],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=template&id=6ea5fa76&scoped=true&
+// CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=template&id=9fb4dc1e&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.sort.js
 var es6_array_sort = __webpack_require__("55dd");
@@ -8115,7 +8126,7 @@ function leastCommonAncestor(a, b) {
 });
 
 // CONCATENATED MODULE: ./node_modules/d3-hierarchy/src/hierarchy/descendants.js
-/* harmony default export */ var descendants = (function() {
+/* harmony default export */ var hierarchy_descendants = (function() {
   var nodes = [];
   this.each(function(node) {
     nodes.push(node);
@@ -8220,7 +8231,7 @@ Node.prototype = hierarchy.prototype = {
   sort: hierarchy_sort,
   path: path,
   ancestors: ancestors,
-  descendants: descendants,
+  descendants: hierarchy_descendants,
   leaves: leaves,
   links: links,
   copy: node_copy
@@ -13562,6 +13573,22 @@ function arc2Tween(arcSunburst, d, indx) {
   };
 }
 
+function getTextWrapper(_ref) {
+  var padding = _ref.padding,
+      width = _ref.width;
+  return function () {
+    var self = src_select(this);
+    var textLength = self.node().getComputedTextLength();
+    var text = self.text();
+
+    while (textLength > width - 2 * padding && text.length > 0) {
+      text = text.slice(0, -1);
+      self.text(text + "\u2026");
+      textLength = self.node().getComputedTextLength();
+    }
+  };
+}
+
 var useNameForColor = function useNameForColor(d) {
   return d.name;
 };
@@ -13651,6 +13678,24 @@ var useNameForColor = function useNameForColor(d) {
       type: Number,
       required: false,
       default: 1000
+    },
+
+    /**
+     *  If true display name attributes as slice labels
+     */
+    showLabels: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+
+    /**
+     *  Max size for label, if null text will not be truncated
+     */
+    maxLabelText: {
+      type: Number,
+      required: false,
+      default: 45
     }
   },
   directives: {
@@ -13707,7 +13752,7 @@ var useNameForColor = function useNameForColor(d) {
 
       _this2.graphNodes.mouseOver = null;
     });
-    this.resize();
+    this.resize(true);
   },
   methods: {
     /**
@@ -13725,52 +13770,127 @@ var useNameForColor = function useNameForColor(d) {
     /**
      * @private
      */
+    getTextAngle: function getTextAngle(d) {
+      var scaleX = this.scaleX;
+      return scaleX((d.x0 + d.x1) / 2) * 180 / Math.PI;
+    },
+
+    /**
+     * @private
+     */
+    getTextTransform: function getTextTransform(d) {
+      var scaleY = this.scaleY;
+      var y = scaleY(d.y0);
+      return "rotate(".concat(d.textAngle - 90, ") translate(").concat(y, ",0) rotate(").concat(d.textAngle < 180 ? 0 : 180, ")");
+    },
+
+    /**
+     * @private
+     */
+    getTextAnchor: function getTextAnchor(d) {
+      return d.textAngle < 180 ? "start" : "end";
+    },
+
+    /**
+     * @private
+     */
+    addTextAttribute: function addTextAttribute(selection) {
+      var zoomed = this.graphNodes.zoomed,
+          getTextAngle = this.getTextAngle,
+          getTextTransform = this.getTextTransform,
+          getTextAnchor = this.getTextAnchor;
+      var descendants = zoomed === null ? null : zoomed.descendants();
+      var textSelection = selection.each(function (d) {
+        return d.textAngle = getTextAngle(d);
+      }).attr("transform", function (d) {
+        return getTextTransform(d);
+      }).attr("text-anchor", function (d) {
+        return getTextAnchor(d);
+      }).attr("dx", function (d) {
+        return d.textAngle > 180 ? -3 : 3;
+      }).attr("display", function (d) {
+        return d.depth ? null : "none";
+      }).text(function (d) {
+        return d.data.name;
+      }).attr("opacity", function (d) {
+        return zoomed != null && (d === zoomed || descendants.indexOf(d) === -1) ? 0 : 1;
+      });
+      var width = this.maxLabelText;
+
+      if (width) {
+        var wrap = getTextWrapper({
+          width: 45,
+          padding: 0
+        });
+        textSelection.each(wrap);
+      }
+    },
+
+    /**
+     * @private
+     */
     onData: function onData(data) {
       var _this3 = this;
 
+      var onlyRedraw = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
       if (!data) {
-        this.vis.selectAll("path").remove();
+        this.vis.selectAll("g").remove();
         Object.keys(this.graphNodes).forEach(function (k) {
           return _this3.graphNodes[k] = null;
         });
         return;
       }
 
-      this.root = hierarchy(data).sum(function (d) {
-        return d.size;
-      }).sort(function (a, b) {
-        return b.value - a.value;
-      });
+      if (!onlyRedraw) {
+        this.root = hierarchy(data).sum(function (d) {
+          return d.size;
+        }).sort(function (a, b) {
+          return b.value - a.value;
+        });
+      }
+
       this.nodes = src_partition()(this.root).descendants().filter(function (d) {
         return Math.abs(_this3.scaleX(d.x1 - d.x0)) > _this3.minAngleDisplayed;
       });
-      var pathes = this.getPathes();
+      var groups = this.getGroups();
       var colorGetter = this.colorGetter;
       var mouseOver = this.mouseOver.bind(this);
       var click = this.click.bind(this);
-      var arcSunburst = this.arcSunburst;
-      pathes.enter().append("path").style("opacity", 1).on("mouseover", mouseOver).on("click", click).each(function (d) {
+      var arcSunburst = this.arcSunburst,
+          zoomedDepth = this.zoomedDepth;
+      var newGroups = groups.enter().append("g").style("opacity", 1);
+      newGroups.merge(groups).attr("class", function (d) {
+        return "slice-".concat(d.depth - zoomedDepth);
+      });
+      newGroups.append("path").on("mouseover", mouseOver).on("click", click).each(function (d) {
         copyCurrentValues(this, d);
-      }).merge(pathes).style("fill", function (d) {
+      }).merge(groups.select("path")).style("fill", function (d) {
         return colorGetter(d.data);
       }).transition("enter").duration(this.inAnimationDuration).attrTween("d", function (d, index) {
         return arc2Tween.call(this, arcSunburst, d, index);
       });
-      pathes.exit().remove();
+
+      if (this.showLabels) {
+        var newTextes = newGroups.append("text").attr("class", "node-info").attr("dy", ".35em");
+        this.addTextAttribute(newTextes.merge(groups.select("text")));
+      }
+
+      groups.exit().remove();
       this.graphNodes.root = this.nodes[0];
     },
 
     /**
      * @private
      */
-    getPathes: function getPathes() {
-      return this.vis.selectAll("path").data(this.nodes, this.arcIdentification);
+    getGroups: function getGroups() {
+      return this.vis.selectAll("g").data(this.nodes, this.arcIdentification);
     },
 
     /**
      * @private
      */
-    resize: function resize() {
+    resize: function resize(onMount) {
       var _this$getSize = this.getSize(),
           width = _this$getSize.width,
           height = _this$getSize.height;
@@ -13783,7 +13903,7 @@ var useNameForColor = function useNameForColor(d) {
           scaleYMin = _this$scaleY$range2[0];
 
       this.scaleY.range([scaleYMin, this.radius]);
-      this.onData(this.data);
+      this.onData(this.data, !onMount);
       this.width = width;
       this.height = height;
     },
@@ -13792,7 +13912,7 @@ var useNameForColor = function useNameForColor(d) {
      * @private
      */
     reDraw: function reDraw() {
-      this.onData(this.data);
+      this.onData(this.data, true);
     },
 
     /**
@@ -13835,10 +13955,10 @@ var useNameForColor = function useNameForColor(d) {
     highlightPath: function highlightPath(node) {
       var opacity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.3;
       var sequenceArray = node.ancestors();
-      this.vis.selectAll("path").filter(function (d) {
+      this.vis.selectAll("g").filter(function (d) {
         return sequenceArray.indexOf(d) === -1;
       }).transition().duration(this.inAnimationDuration).style("opacity", opacity);
-      this.vis.selectAll("path").filter(function (d) {
+      this.vis.selectAll("g").filter(function (d) {
         return sequenceArray.indexOf(d) >= 0;
       }).style("opacity", 1);
       this.graphNodes.highlighted = node;
@@ -13851,7 +13971,19 @@ var useNameForColor = function useNameForColor(d) {
     zoomToNode: function zoomToNode(node) {
       var _this4 = this;
 
-      this.vis.transition("zoom").duration(750).tween("scale", function () {
+      this.graphNodes.zoomed = node;
+      var descendants = node.descendants();
+      this.vis.selectAll("text").transition().delay(200).duration(550).attr("opacity", function (d) {
+        return d === node || descendants.indexOf(d) === -1 ? 0 : 1;
+      });
+      var zoomedDepth = this.zoomedDepth,
+          getTextAngle = this.getTextAngle,
+          getTextTransform = this.getTextTransform,
+          getTextAnchor = this.getTextAnchor;
+      this.vis.selectAll("g").attr("class", function (d) {
+        return "slice-".concat(d.depth - zoomedDepth);
+      });
+      var transitionSelection = this.vis.transition("zoom").duration(750).tween("scale", function () {
         var xd = src_value(_this4.scaleX.domain(), [node.x0, node.x1]);
         var yd = src_value(_this4.scaleY.domain(), [node.y0, 1]);
         var yr = src_value(_this4.scaleY.range(), [node.y0 ? 20 : 0, _this4.radius]);
@@ -13860,19 +13992,36 @@ var useNameForColor = function useNameForColor(d) {
 
           _this4.scaleY.domain(yd(t)).range(yr(t));
         };
-      }).selectAll("path").attrTween("d", function (nd) {
+      });
+      transitionSelection.selectAll("text").tween("text.angle", function (d) {
+        return function () {
+          return d.textAngle = getTextAngle(d);
+        };
+      }).attrTween("transform", function (d) {
+        return function () {
+          return getTextTransform(d);
+        };
+      }).attrTween("text-anchor", function (d) {
+        return function () {
+          return getTextAnchor(d);
+        };
+      }).attrTween("dx", function (d) {
+        return function () {
+          return d.textAngle > 180 ? -3 : 3;
+        };
+      });
+      transitionSelection.selectAll("path").attrTween("d", function (nd) {
         return function () {
           return _this4.arcSunburst(nd);
         };
       });
-      this.graphNodes.zoomed = node;
     },
 
     /**
      * Reset the highlighted path
      */
     resetHighlight: function resetHighlight() {
-      this.vis.selectAll("path").transition().duration(this.outAnimationDuration).style("opacity", 1);
+      this.vis.selectAll("g").transition().duration(this.outAnimationDuration).style("opacity", 1);
     }
   },
   computed: {
@@ -13907,6 +14056,14 @@ var useNameForColor = function useNameForColor(d) {
       return function (d) {
         return colorScale(_this5.getCategoryForColor(d));
       };
+    },
+
+    /**
+     * @private
+     */
+    zoomedDepth: function zoomedDepth() {
+      var zoomed = this.graphNodes.zoomed;
+      return zoomed === null ? 0 : zoomed.depth;
     }
   },
   watch: {
@@ -13917,9 +14074,18 @@ var useNameForColor = function useNameForColor(d) {
       deep: true
     },
     colorGetter: function colorGetter(value) {
-      this.getPathes().style("fill", function (d) {
+      this.getGroups().select("path").style("fill", function (d) {
         return value(d.data);
       });
+    },
+    showLabels: function showLabels(value) {
+      if (!value) {
+        this.vis.selectAll("text").remove();
+        return;
+      }
+
+      var labels = this.vis.selectAll("g").append("text").attr("class", "node-info").attr("dy", ".35em");
+      this.addTextAttribute(labels);
     },
     minAngleDisplayed: function minAngleDisplayed() {
       this.reDraw();
@@ -13928,8 +14094,11 @@ var useNameForColor = function useNameForColor(d) {
 });
 // CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_sunburstvue_type_script_lang_js_ = (sunburstvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=0&id=6ea5fa76&lang=less&scoped=true&
-var sunburstvue_type_style_index_0_id_6ea5fa76_lang_less_scoped_true_ = __webpack_require__("889e");
+// EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=0&id=9fb4dc1e&lang=less&scoped=true&
+var sunburstvue_type_style_index_0_id_9fb4dc1e_lang_less_scoped_true_ = __webpack_require__("0ab7");
+
+// EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=1&lang=less&
+var sunburstvue_type_style_index_1_lang_less_ = __webpack_require__("0a03");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -14033,6 +14202,7 @@ function normalizeComponent (
 
 
 
+
 /* normalize component */
 
 var component = normalizeComponent(
@@ -14041,7 +14211,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "6ea5fa76",
+  "9fb4dc1e",
   null
   
 )
@@ -14665,6 +14835,13 @@ breadcrumbTrail_component.options.__file = "breadcrumbTrail.vue"
 module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
   '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
 
+
+/***/ }),
+
+/***/ "fefe":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ })
 
