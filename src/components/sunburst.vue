@@ -67,6 +67,20 @@ function arc2Tween(arcSunburst, d, indx) {
   };
 }
 
+function getTextWrapper({ padding, width }) {
+  // Adapted from: https://stackoverflow.com/a/27723752/965332
+  return function() {
+    const self = select(this);
+    let textLength = self.node().getComputedTextLength();
+    let text = self.text();
+    while (textLength > width - 2 * padding && text.length > 0) {
+      text = text.slice(0, -1);
+      self.text(text + "\u2026");
+      textLength = self.node().getComputedTextLength();
+    }
+  };
+}
+
 const useNameForColor = d => d.name;
 
 export default {
@@ -147,6 +161,22 @@ export default {
       type: Number,
       required: false,
       default: 1000
+    },
+    /**
+     *  If true display name attributes as arc labels
+     */
+    showLabels: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    /**
+     *  Max size for label, if null text will not be truncated
+     */
+    maxLabelText: {
+      type: Number,
+      required: false,
+      default: 45
     }
   },
 
@@ -206,11 +236,14 @@ export default {
       .append("g");
 
     select(viewport).on("mouseleave", () => {
+      /**
+       * Fired when mouse leaves the sunburst node.
+       */
       this.$emit("mouseLeave");
       this.graphNodes.mouseOver = null;
     });
 
-    this.resize();
+    this.resize(true);
   },
 
   methods: {
@@ -226,16 +259,76 @@ export default {
     /**
      * @private
      */
-    onData(data) {
+    getTextAngle(d) {
+      const { scaleX } = this;
+      return (scaleX((d.x0 + d.x1) / 2) * 180) / Math.PI;
+    },
+
+    /**
+     * @private
+     */
+    getTextTransform(d) {
+      const { scaleY } = this;
+      const y = scaleY(d.y0);
+      return `rotate(${d.textAngle - 90}) translate(${y},0) rotate(${
+        d.textAngle < 180 ? 0 : 180
+      })`;
+    },
+
+    /**
+     * @private
+     */
+    getTextAnchor(d) {
+      return d.textAngle < 180 ? "start" : "end";
+    },
+
+    /**
+     * @private
+     */
+    addTextAttribute(selection) {
+      const {
+        graphNodes: { zoomed },
+        getTextAngle,
+        getTextTransform,
+        getTextAnchor
+      } = this;
+      const descendants = zoomed === null ? null : zoomed.descendants();
+      const textSelection = selection
+        .each(d => (d.textAngle = getTextAngle(d)))
+        .attr("transform", d => getTextTransform(d))
+        .attr("text-anchor", d => getTextAnchor(d))
+        .attr("dx", d => (d.textAngle > 180 ? -3 : 3))
+        .attr("display", d => (d.depth ? null : "none"))
+        .text(d => d.data.name)
+        .attr(
+          "opacity",
+          d =>
+            zoomed != null && (d === zoomed || descendants.indexOf(d) === -1)
+              ? 0
+              : 1
+        );
+      const { maxLabelText: width } = this;
+      if (width) {
+        const wrap = getTextWrapper({ width, padding: 0 });
+        textSelection.each(wrap);
+      }
+    },
+
+    /**
+     * @private
+     */
+    onData(data, onlyRedraw = false) {
       if (!data) {
-        this.vis.selectAll("path").remove();
+        this.vis.selectAll("g").remove();
         Object.keys(this.graphNodes).forEach(k => (this.graphNodes[k] = null));
         return;
       }
 
-      this.root = hierarchy(data)
-        .sum(d => d.size)
-        .sort((a, b) => b.value - a.value);
+      if (!onlyRedraw) {
+        this.root = hierarchy(data)
+          .sum(d => d.size)
+          .sort((a, b) => b.value - a.value);
+      }
 
       this.nodes = partition()(this.root)
         .descendants()
@@ -243,22 +336,29 @@ export default {
           d => Math.abs(this.scaleX(d.x1 - d.x0)) > this.minAngleDisplayed
         );
 
-      const pathes = this.getPathes();
+      const groups = this.getGroups();
       const colorGetter = this.colorGetter;
       const mouseOver = this.mouseOver.bind(this);
       const click = this.click.bind(this);
-      const { arcSunburst } = this;
+      const { arcSunburst, zoomedDepth } = this;
 
-      pathes
+      const newGroups = groups
         .enter()
+        .append("g")
+        .style("opacity", 1);
+
+      newGroups
+        .merge(groups)
+        .attr("class", d => `slice-${d.depth - zoomedDepth}`);
+
+      newGroups
         .append("path")
-        .style("opacity", 1)
         .on("mouseover", mouseOver)
         .on("click", click)
         .each(function(d) {
           copyCurrentValues(this, d);
         })
-        .merge(pathes)
+        .merge(groups.select("path"))
         .style("fill", d => colorGetter(d.data))
         .transition("enter")
         .duration(this.inAnimationDuration)
@@ -266,7 +366,16 @@ export default {
           return arc2Tween.call(this, arcSunburst, d, index);
         });
 
-      pathes.exit().remove();
+      if (this.showLabels) {
+        const newTextes = newGroups
+          .append("text")
+          .attr("class", "node-info")
+          .attr("dy", ".35em");
+
+        this.addTextAttribute(newTextes.merge(groups.select("text")));
+      }
+
+      groups.exit().remove();
 
       this.graphNodes.root = this.nodes[0];
     },
@@ -274,16 +383,14 @@ export default {
     /**
      * @private
      */
-    getPathes() {
-      return this.vis
-        .selectAll("path")
-        .data(this.nodes, this.arcIdentification);
+    getGroups() {
+      return this.vis.selectAll("g").data(this.nodes, this.arcIdentification);
     },
 
     /**
      * @private
      */
-    resize() {
+    resize(onMount) {
       const { width, height } = this.getSize();
       this.vis
         .attr("width", width)
@@ -294,7 +401,7 @@ export default {
       const [scaleYMin] = this.scaleY.range();
       this.scaleY.range([scaleYMin, this.radius]);
 
-      this.onData(this.data);
+      this.onData(this.data, !onMount);
       this.width = width;
       this.height = height;
     },
@@ -303,7 +410,7 @@ export default {
      * @private
      */
     reDraw() {
-      this.onData(this.data);
+      this.onData(this.data, true);
     },
 
     /**
@@ -339,14 +446,14 @@ export default {
       const sequenceArray = node.ancestors();
 
       this.vis
-        .selectAll("path")
+        .selectAll("g")
         .filter(d => sequenceArray.indexOf(d) === -1)
         .transition()
         .duration(this.inAnimationDuration)
         .style("opacity", opacity);
 
       this.vis
-        .selectAll("path")
+        .selectAll("g")
         .filter(d => sequenceArray.indexOf(d) >= 0)
         .style("opacity", 1);
 
@@ -358,7 +465,30 @@ export default {
      * @param {Object} node the D3 node to zoom to.
      */
     zoomToNode(node) {
+      this.graphNodes.zoomed = node;
+
+      const descendants = node.descendants();
       this.vis
+        .selectAll("text")
+        .transition()
+        .delay(200)
+        .duration(550)
+        .attr(
+          "opacity",
+          d => (d === node || descendants.indexOf(d) === -1 ? 0 : 1)
+        );
+
+      const {
+        zoomedDepth,
+        getTextAngle,
+        getTextTransform,
+        getTextAnchor
+      } = this;
+      this.vis
+        .selectAll("g")
+        .attr("class", d => `slice-${d.depth - zoomedDepth}`);
+
+      const transitionSelection = this.vis
         .transition("zoom")
         .duration(750)
         .tween("scale", () => {
@@ -373,11 +503,20 @@ export default {
             this.scaleX.domain(xd(t));
             this.scaleY.domain(yd(t)).range(yr(t));
           };
+        });
+
+      transitionSelection
+        .selectAll("text")
+        .tween("text.angle", d => {
+          return () => (d.textAngle = getTextAngle(d));
         })
+        .attrTween("transform", d => () => getTextTransform(d))
+        .attrTween("text-anchor", d => () => getTextAnchor(d))
+        .attrTween("dx", d => () => (d.textAngle > 180 ? -3 : 3));
+
+      transitionSelection
         .selectAll("path")
         .attrTween("d", nd => () => this.arcSunburst(nd));
-
-      this.graphNodes.zoomed = node;
     },
 
     /**
@@ -385,7 +524,7 @@ export default {
      */
     resetHighlight() {
       this.vis
-        .selectAll("path")
+        .selectAll("g")
         .transition()
         .duration(this.outAnimationDuration)
         .style("opacity", 1);
@@ -415,6 +554,14 @@ export default {
       const colorScale =
         this.colorScale || colorSchemes[this.colorScheme].scale;
       return d => colorScale(this.getCategoryForColor(d));
+    },
+
+    /**
+     * @private
+     */
+    zoomedDepth() {
+      const { zoomed } = this.graphNodes;
+      return zoomed === null ? 0 : zoomed.depth;
     }
   },
 
@@ -427,7 +574,22 @@ export default {
     },
 
     colorGetter(value) {
-      this.getPathes().style("fill", d => value(d.data));
+      this.getGroups()
+        .select("path")
+        .style("fill", d => value(d.data));
+    },
+
+    showLabels(value) {
+      if (!value) {
+        this.vis.selectAll("text").remove();
+        return;
+      }
+      const labels = this.vis
+        .selectAll("g")
+        .append("text")
+        .attr("class", "node-info")
+        .attr("dy", ".35em");
+      this.addTextAttribute(labels);
     },
 
     minAngleDisplayed() {
@@ -448,5 +610,24 @@ export default {
 .viewport {
   width: 100%;
   flex: 1 1 auto;
+}
+</style>
+
+<style lang="less">
+svg {
+  text.node-info {
+    pointer-events: none;
+    font-size: 8px;
+  }
+
+  .addTextSize (@index) when (@index > 0) {
+    .slice-@{index} {
+      text.node-info {
+        font-size: unit(12-@index, px);
+      }
+    }
+    .addTextSize(@index - 1);
+  }
+  .addTextSize(4);
 }
 </style>

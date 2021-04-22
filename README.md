@@ -172,7 +172,19 @@ Failing to do so may result in a component whose size that will keep increasing.
 
    Duration for out animation in milliseconds 
 
+- `show-labels` ***Boolean*** (*optional*) `default: false` 
+
+   If true display name attributes as arc labels 
+
+- `max-label-text` ***Number*** (*optional*) `default: 45` 
+
+   Max size for label, if null text will not be truncated 
+
 #### events 
+
+- `mouseLeave` 
+
+   Fired when mouse leaves the sunburst node. 
 
 - `mouseOverNode` 
 
