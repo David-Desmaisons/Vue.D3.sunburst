@@ -68,6 +68,7 @@ function arc2Tween(arcSunburst, d, indx) {
 }
 
 function getTextWrapper({ padding, width }) {
+  // Adapted from: https://stackoverflow.com/a/27723752/965332
   return function() {
     const self = select(this);
     let textLength = self.node().getComputedTextLength();
