@@ -163,7 +163,7 @@ export default {
       default: 1000
     },
     /**
-     *  If true display name attributes as slice labels
+     *  If true display name attributes as arc labels
      */
     showLabels: {
       type: Boolean,
@@ -236,6 +236,9 @@ export default {
       .append("g");
 
     select(viewport).on("mouseleave", () => {
+      /**
+       * Fired when mouse leaves the sunburst node.
+       */
       this.$emit("mouseLeave");
       this.graphNodes.mouseOver = null;
     });

@@ -174,9 +174,17 @@ Failing to do so may result in a component whose size that will keep increasing.
 
 - `show-labels` ***Boolean*** (*optional*) `default: false` 
 
-   Show labels for arcs
+   If true display name attributes as arc labels 
+
+- `max-label-text` ***Number*** (*optional*) `default: 45` 
+
+   Max size for label, if null text will not be truncated 
 
 #### events 
+
+- `mouseLeave` 
+
+   Fired when mouse leaves the sunburst node. 
 
 - `mouseOverNode` 
 
