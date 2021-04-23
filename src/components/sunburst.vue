@@ -82,6 +82,7 @@ function getTextWrapper({ padding, width }) {
 }
 
 const useNameForColor = d => d.name;
+const miminalRadius = 20;
 
 export default {
   name: "sunburst",
@@ -536,7 +537,7 @@ export default {
           const xd = interpolate(scaleX.domain(), [node.x0, node.x1]);
           const yd = interpolate(scaleY.domain(), [node.y0, 1]);
           const miminalY = (radius * centralCircleRelativeSize) / 100;
-          const firstY = miminalY === 0 && node.y0 > 0 ? 20 : miminalY;
+          const firstY = miminalY === 0 && node.y0 > 0 ? miminalRadius : miminalY;
           const yr = interpolate(scaleY.range(), [firstY, radius]);
 
           return t => {
@@ -641,6 +642,15 @@ export default {
     },
 
     minAngleDisplayed() {
+      this.reDraw();
+    },
+
+    centralCircleRelativeSize(value) {
+      const { radius, scaleY, zoomedDepth } = this;
+      const scaleYMin =
+        value === 0 && zoomedDepth > 0 ? miminalRadius : (radius * value) / 100;
+      scaleY.range([scaleYMin, radius]).clamp(value > 0);
+
       this.reDraw();
     }
   }
