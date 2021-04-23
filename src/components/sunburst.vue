@@ -479,11 +479,9 @@ export default {
      */
     highlightPath(node, opacity = 0.3) {
       const sequenceArray = node.ancestors();
-      const { zoomedDepth } = this;
 
       const visiblePath = this.vis
-        .selectAll("g")
-        .filter(d => d.depth - zoomedDepth >= -1);
+        .selectAll("g");
 
       visiblePath
         .filter(d => sequenceArray.indexOf(d) === -1)
@@ -554,12 +552,6 @@ export default {
         .attrTween("text-anchor", d => () => getTextAnchor(d))
         .attrTween("dx", d => () => (d.textAngle > 180 ? -3 : 3));
 
-      transitionSelection.selectAll("g").styleTween("opacity", function(d) {
-        const current = Number(select(this).style("opacity"));
-        const target = d.depth - node.depth < -1 ? 0 : current || 1;
-        return interpolate(current, target);
-      });
-
       transitionSelection
         .selectAll("path")
         .attrTween("d", nd => () => arcSunburst(nd));
@@ -569,10 +561,8 @@ export default {
      * Reset the highlighted path
      */
     resetHighlight() {
-      const { zoomedDepth } = this;
       this.vis
         .selectAll("g")
-        .filter(d => d.depth - zoomedDepth >= -1)
         .transition()
         .duration(this.outAnimationDuration)
         .style("opacity", 1);
