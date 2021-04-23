@@ -82,6 +82,7 @@ function getTextWrapper({ padding, width }) {
 }
 
 const useNameForColor = d => d.name;
+const miminalRadius = 20;
 
 export default {
   name: "sunburst",
@@ -177,6 +178,15 @@ export default {
       type: Number,
       required: false,
       default: 45
+    },
+    /**
+     *  Size in percentage of the total graph, of a central circle
+     */
+    centralCircleRelativeSize: {
+      type: Number,
+      required: false,
+      default: 0,
+      validator: v => v >= 0 && v < 100
     }
   },
 
@@ -185,20 +195,20 @@ export default {
   },
 
   data() {
+    const { centralCircleRelativeSize } = this;
     const scaleX = scaleLinear()
       .range([0, 2 * Math.PI])
       .clamp(true);
+    const scaleY = scaleSqrt().clamp(centralCircleRelativeSize > 0);
 
-    const scaleY = scaleSqrt().range([0, 1]);
+    this.scaleX = scaleX;
+    this.scaleY = scaleY;
 
     this.arcSunburst = arc()
       .startAngle(d => scaleX(d.x0))
       .endAngle(d => scaleX(d.x1))
       .innerRadius(d => Math.max(0, scaleY(d.y0)))
       .outerRadius(d => Math.max(0, scaleY(d.y1)));
-
-    this.scaleX = scaleX;
-    this.scaleY = scaleY;
 
     return {
       /**
@@ -300,7 +310,7 @@ export default {
         .attr("dx", d => (d.textAngle > 180 ? -3 : 3))
         .attr("display", d => (d.depth ? null : "none"))
         .text(d => d.data.name)
-        .attr(
+        .style(
           "opacity",
           d =>
             zoomed != null && (d === zoomed || descendants.indexOf(d) === -1)
@@ -398,8 +408,37 @@ export default {
         .attr("transform", `translate(${width / 2}, ${height / 2} )`);
 
       this.radius = Math.min(width, height) / 2;
-      const [scaleYMin] = this.scaleY.range();
-      this.scaleY.range([scaleYMin, this.radius]);
+      this.updateScaleY();
+
+      const { centralCircleRelativeSize } = this;
+      if (centralCircleRelativeSize !== 0) {
+        const circle = onMount
+          ? this.vis
+              .append("circle")
+              .attr("cx", 0)
+              .attr("cy", 0)
+              .attr("fill", "none")
+              .attr("pointer-events", "bounding-box")
+              .attr("class", "central-circle")
+              .on("mouseover", () => {
+                const {
+        graphNodes: { zoomed }
+      } = this;
+                if (zoomed === null) {
+                  return;
+                }
+                this.mouseOver(zoomed);
+              })
+              .on("click", () => {
+                const parentZoomed = this.getZoomParent();
+                if (parentZoomed === null) {
+                  return;
+                }
+                this.click(parentZoomed);
+              })
+          : this.vis.select("circle");
+        circle.attr("r", this.scaleY.range()[0]);
+      }
 
       this.onData(this.data, !onMount);
       this.width = width;
@@ -437,6 +476,16 @@ export default {
       this.$emit("clickNode", { node: value, sunburst: this });
     },
 
+    getZoomParent() {
+      const {
+        graphNodes: { zoomed }
+      } = this;
+      if (zoomed === null) {
+        return null;
+      }
+      return zoomed.parent;
+    },
+
     /**
      * Highlight the arc path leading to a given node.
      * @param {Object} node the D3 node to highlight
@@ -445,15 +494,15 @@ export default {
     highlightPath(node, opacity = 0.3) {
       const sequenceArray = node.ancestors();
 
-      this.vis
-        .selectAll("g")
+      const visiblePath = this.vis.selectAll("g");
+
+      visiblePath
         .filter(d => sequenceArray.indexOf(d) === -1)
         .transition()
         .duration(this.inAnimationDuration)
         .style("opacity", opacity);
 
-      this.vis
-        .selectAll("g")
+      visiblePath
         .filter(d => sequenceArray.indexOf(d) >= 0)
         .style("opacity", 1);
 
@@ -473,7 +522,7 @@ export default {
         .transition()
         .delay(200)
         .duration(550)
-        .attr(
+        .style(
           "opacity",
           d => (d === node || descendants.indexOf(d) === -1 ? 0 : 1)
         );
@@ -482,6 +531,7 @@ export default {
         zoomedDepth,
         getTextAngle,
         getTextTransform,
+        arcSunburst,
         getTextAnchor
       } = this;
       this.vis
@@ -492,16 +542,17 @@ export default {
         .transition("zoom")
         .duration(750)
         .tween("scale", () => {
-          const xd = interpolate(this.scaleX.domain(), [node.x0, node.x1]);
-          const yd = interpolate(this.scaleY.domain(), [node.y0, 1]);
-          const yr = interpolate(this.scaleY.range(), [
-            node.y0 ? 20 : 0,
-            this.radius
-          ]);
+          const { scaleX, scaleY, radius, centralCircleRelativeSize } = this;
+          const xd = interpolate(scaleX.domain(), [node.x0, node.x1]);
+          const yd = interpolate(scaleY.domain(), [node.y0, 1]);
+          const miminalY = (radius * centralCircleRelativeSize) / 100;
+          const firstY =
+            miminalY === 0 && node.y0 > 0 ? miminalRadius : miminalY;
+          const yr = interpolate(scaleY.range(), [firstY, radius]);
 
           return t => {
-            this.scaleX.domain(xd(t));
-            this.scaleY.domain(yd(t)).range(yr(t));
+            scaleX.domain(xd(t));
+            scaleY.domain(yd(t)).range(yr(t));
           };
         });
 
@@ -516,7 +567,7 @@ export default {
 
       transitionSelection
         .selectAll("path")
-        .attrTween("d", nd => () => this.arcSunburst(nd));
+        .attrTween("d", nd => () => arcSunburst(nd));
     },
 
     /**
@@ -528,6 +579,18 @@ export default {
         .transition()
         .duration(this.outAnimationDuration)
         .style("opacity", 1);
+    },
+
+    /**
+     * @private
+     */
+    updateScaleY() {
+      const { radius, scaleY, zoomedDepth, centralCircleRelativeSize } = this;
+      const scaleYMin =
+        centralCircleRelativeSize === 0 && zoomedDepth > 0
+          ? miminalRadius
+          : (radius * centralCircleRelativeSize) / 100;
+      return scaleY.range([scaleYMin, radius]);
     }
   },
 
@@ -593,6 +656,11 @@ export default {
     },
 
     minAngleDisplayed() {
+      this.reDraw();
+    },
+
+    centralCircleRelativeSize(value) {
+      this.updateScaleY().clamp(value > 0);
       this.reDraw();
     }
   }

@@ -40,6 +40,16 @@
               </div>
 
               <div class="form-group">
+                <label for="centralCircleRelativeSize">Central circle relative size</label>
+                <div>
+                  <input id="centralCircleRelativeSize" class="form-control" type="range" min="0" step="1" max="50" v-model.number="centralCircleRelativeSize">
+                </div>
+                <div>
+                  <p>{{centralCircleRelativeSize}} %</p>
+                </div>
+              </div>
+
+              <div class="form-group">
                 <label for="inAnimationDuration">Duration animation in</label>
                 <div>
                   <input id="inAnimationDuration" class="form-control" type="range" min="0" max="250" v-model.number="inAnimationDuration">
@@ -67,7 +77,7 @@
         <div class="card control-left">
           <div class="card-header">Sunburst</div>
           <div class="card-body father">
-            <sunburst class="sunburst" :data="data" :showLabels="showLabels" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
+            <sunburst class="sunburst" :data="data" :centralCircleRelativeSize="centralCircleRelativeSize" :showLabels="showLabels" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
 
               <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.zoomed" :width="width" />
 
@@ -113,6 +123,7 @@ export default {
       inAnimationDuration: 100,
       outAnimationDuration: 1000,
       overrideColorScale: false,
+      centralCircleRelativeSize: 50,
       showLabels: false,
       custoColorScale: scaleOrdinal(["#e39b89", "#31ea74", "#3c7227", "#9dad1f"])
     };
