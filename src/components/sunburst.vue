@@ -177,6 +177,15 @@ export default {
       type: Number,
       required: false,
       default: 45
+    },
+    /**
+     *  Size in percentage of the total graph, of a central circle
+     */
+    centralCircleRelativeSize: {
+      type: Number,
+      required: false,
+      default: 0,
+      validator: v => v >= 0 && v < 100
     }
   },
 
@@ -185,20 +194,23 @@ export default {
   },
 
   data() {
+    const { centralCircleRelativeSize } = this;
     const scaleX = scaleLinear()
       .range([0, 2 * Math.PI])
       .clamp(true);
+    const scaleY = scaleSqrt()
+      .range([centralCircleRelativeSize, 100])
+      .clamp(centralCircleRelativeSize > 0);
 
-    const scaleY = scaleSqrt().range([0, 1]);
+    this.scaleX = scaleX;
+    this.scaleY = scaleY;
+    this.radius = 100;
 
     this.arcSunburst = arc()
       .startAngle(d => scaleX(d.x0))
       .endAngle(d => scaleX(d.x1))
       .innerRadius(d => Math.max(0, scaleY(d.y0)))
       .outerRadius(d => Math.max(0, scaleY(d.y1)));
-
-    this.scaleX = scaleX;
-    this.scaleY = scaleY;
 
     return {
       /**
@@ -300,7 +312,7 @@ export default {
         .attr("dx", d => (d.textAngle > 180 ? -3 : 3))
         .attr("display", d => (d.depth ? null : "none"))
         .text(d => d.data.name)
-        .attr(
+        .style(
           "opacity",
           d =>
             zoomed != null && (d === zoomed || descendants.indexOf(d) === -1)
@@ -397,9 +409,33 @@ export default {
         .attr("height", height)
         .attr("transform", `translate(${width / 2}, ${height / 2} )`);
 
-      this.radius = Math.min(width, height) / 2;
-      const [scaleYMin] = this.scaleY.range();
-      this.scaleY.range([scaleYMin, this.radius]);
+      const { radius: oldRadius, centralCircleRelativeSize } = this;
+      const newRadius = Math.min(width, height) / 2;
+      this.radius = newRadius;
+      const scaleYMin = (this.scaleY.range()[0] * newRadius) / oldRadius;
+      this.scaleY.range([scaleYMin, newRadius]);
+
+      if (centralCircleRelativeSize !== 0) {
+        const circle = onMount
+          ? this.vis
+              .append("circle")
+              .attr("cx", 0)
+              .attr("cy", 0)
+              .attr("fill", "none")
+              .attr("pointer-events", "bounding-box")
+              .attr("class", "central-circle")
+              .on("click", () => {
+                const {
+                  graphNodes: { zoomed }
+                } = this;
+                if (zoomed === null || zoomed.parent === null) {
+                  return;
+                }
+                this.click(zoomed.parent);
+              })
+          : this.vis.select("circle");
+        circle.attr("r", (newRadius * centralCircleRelativeSize) / 100);
+      }
 
       this.onData(this.data, !onMount);
       this.width = width;
@@ -444,16 +480,19 @@ export default {
      */
     highlightPath(node, opacity = 0.3) {
       const sequenceArray = node.ancestors();
+      const { zoomedDepth } = this;
 
-      this.vis
+      const visiblePath = this.vis
         .selectAll("g")
+        .filter(d => d.depth - zoomedDepth >= -1);
+
+      visiblePath
         .filter(d => sequenceArray.indexOf(d) === -1)
         .transition()
         .duration(this.inAnimationDuration)
         .style("opacity", opacity);
 
-      this.vis
-        .selectAll("g")
+      visiblePath
         .filter(d => sequenceArray.indexOf(d) >= 0)
         .style("opacity", 1);
 
@@ -473,7 +512,7 @@ export default {
         .transition()
         .delay(200)
         .duration(550)
-        .attr(
+        .style(
           "opacity",
           d => (d === node || descendants.indexOf(d) === -1 ? 0 : 1)
         );
@@ -482,6 +521,7 @@ export default {
         zoomedDepth,
         getTextAngle,
         getTextTransform,
+        arcSunburst,
         getTextAnchor
       } = this;
       this.vis
@@ -492,16 +532,16 @@ export default {
         .transition("zoom")
         .duration(750)
         .tween("scale", () => {
-          const xd = interpolate(this.scaleX.domain(), [node.x0, node.x1]);
-          const yd = interpolate(this.scaleY.domain(), [node.y0, 1]);
-          const yr = interpolate(this.scaleY.range(), [
-            node.y0 ? 20 : 0,
-            this.radius
-          ]);
+          const { scaleX, scaleY, radius, centralCircleRelativeSize } = this;
+          const xd = interpolate(scaleX.domain(), [node.x0, node.x1]);
+          const yd = interpolate(scaleY.domain(), [node.y0, 1]);
+          const miminalY = (radius * centralCircleRelativeSize) / 100;
+          const firstY = miminalY === 0 && node.y0 > 0 ? 20 : miminalY;
+          const yr = interpolate(scaleY.range(), [firstY, radius]);
 
           return t => {
-            this.scaleX.domain(xd(t));
-            this.scaleY.domain(yd(t)).range(yr(t));
+            scaleX.domain(xd(t));
+            scaleY.domain(yd(t)).range(yr(t));
           };
         });
 
@@ -514,17 +554,25 @@ export default {
         .attrTween("text-anchor", d => () => getTextAnchor(d))
         .attrTween("dx", d => () => (d.textAngle > 180 ? -3 : 3));
 
+      transitionSelection.selectAll("g").styleTween("opacity", function(d) {
+        const current = Number(select(this).style("opacity"));
+        const target = d.depth - node.depth < -1 ? 0 : current || 1;
+        return interpolate(current, target);
+      });
+
       transitionSelection
         .selectAll("path")
-        .attrTween("d", nd => () => this.arcSunburst(nd));
+        .attrTween("d", nd => () => arcSunburst(nd));
     },
 
     /**
      * Reset the highlighted path
      */
     resetHighlight() {
+      const { zoomedDepth } = this;
       this.vis
         .selectAll("g")
+        .filter(d => d.depth - zoomedDepth >= -1)
         .transition()
         .duration(this.outAnimationDuration)
         .style("opacity", 1);
