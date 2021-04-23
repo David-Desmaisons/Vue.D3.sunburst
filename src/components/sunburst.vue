@@ -199,9 +199,7 @@ export default {
     const scaleX = scaleLinear()
       .range([0, 2 * Math.PI])
       .clamp(true);
-    const scaleY = scaleSqrt()
-      .range([centralCircleRelativeSize, 100])
-      .clamp(centralCircleRelativeSize > 0);
+    const scaleY = scaleSqrt().clamp(centralCircleRelativeSize > 0);
 
     this.scaleX = scaleX;
     this.scaleY = scaleY;
