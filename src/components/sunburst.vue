@@ -410,12 +410,10 @@ export default {
         .attr("height", height)
         .attr("transform", `translate(${width / 2}, ${height / 2} )`);
 
-      const { radius: oldRadius, centralCircleRelativeSize } = this;
-      const newRadius = Math.min(width, height) / 2;
-      this.radius = newRadius;
-      const scaleYMin = (this.scaleY.range()[0] * newRadius) / oldRadius;
-      this.scaleY.range([scaleYMin, newRadius]);
+      this.radius = Math.min(width, height) / 2;
+      this.updateScaleY();
 
+      const { centralCircleRelativeSize } = this;
       if (centralCircleRelativeSize !== 0) {
         const circle = onMount
           ? this.vis
@@ -435,7 +433,7 @@ export default {
                 this.click(zoomed.parent);
               })
           : this.vis.select("circle");
-        circle.attr("r", (newRadius * centralCircleRelativeSize) / 100);
+        circle.attr("r", this.scaleY.range()[0]);
       }
 
       this.onData(this.data, !onMount);
@@ -537,7 +535,8 @@ export default {
           const xd = interpolate(scaleX.domain(), [node.x0, node.x1]);
           const yd = interpolate(scaleY.domain(), [node.y0, 1]);
           const miminalY = (radius * centralCircleRelativeSize) / 100;
-          const firstY = miminalY === 0 && node.y0 > 0 ? miminalRadius : miminalY;
+          const firstY =
+            miminalY === 0 && node.y0 > 0 ? miminalRadius : miminalY;
           const yr = interpolate(scaleY.range(), [firstY, radius]);
 
           return t => {
@@ -577,6 +576,18 @@ export default {
         .transition()
         .duration(this.outAnimationDuration)
         .style("opacity", 1);
+    },
+
+    /**
+     * @private
+     */
+    updateScaleY() {
+      const { radius, scaleY, zoomedDepth, centralCircleRelativeSize } = this;
+      const scaleYMin =
+        centralCircleRelativeSize === 0 && zoomedDepth > 0
+          ? miminalRadius
+          : (radius * centralCircleRelativeSize) / 100;
+      return scaleY.range([scaleYMin, radius]);
     }
   },
 
@@ -646,11 +657,7 @@ export default {
     },
 
     centralCircleRelativeSize(value) {
-      const { radius, scaleY, zoomedDepth } = this;
-      const scaleYMin =
-        value === 0 && zoomedDepth > 0 ? miminalRadius : (radius * value) / 100;
-      scaleY.range([scaleYMin, radius]).clamp(value > 0);
-
+      this.updateScaleY().clamp(value > 0);
       this.reDraw();
     }
   }
