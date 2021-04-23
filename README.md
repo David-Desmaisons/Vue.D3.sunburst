@@ -180,6 +180,10 @@ Failing to do so may result in a component whose size that will keep increasing.
 
    Max size for label, if null text will not be truncated 
 
+- `central-circle-relative-size` ***Number*** (*optional*)  `default: 0`
+
+   Size in percentage of the total graph, of a central circle 
+
 #### events 
 
 - `mouseLeave` 
