@@ -203,7 +203,6 @@ export default {
 
     this.scaleX = scaleX;
     this.scaleY = scaleY;
-    this.radius = 100;
 
     this.arcSunburst = arc()
       .startAngle(d => scaleX(d.x0))
@@ -423,8 +422,8 @@ export default {
               .attr("class", "central-circle")
               .on("mouseover", () => {
                 const {
-                  graphNodes: { zoomed }
-                } = this;
+        graphNodes: { zoomed }
+      } = this;
                 if (zoomed === null) {
                   return;
                 }
