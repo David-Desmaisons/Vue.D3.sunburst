@@ -421,14 +421,21 @@ export default {
               .attr("fill", "none")
               .attr("pointer-events", "bounding-box")
               .attr("class", "central-circle")
-              .on("click", () => {
+              .on("mouseover", () => {
                 const {
                   graphNodes: { zoomed }
                 } = this;
-                if (zoomed === null || zoomed.parent === null) {
+                if (zoomed === null) {
                   return;
                 }
-                this.click(zoomed.parent);
+                this.mouseOver(zoomed);
+              })
+              .on("click", () => {
+                const parentZoomed = this.getZoomParent();
+                if (parentZoomed === null) {
+                  return;
+                }
+                this.click(parentZoomed);
               })
           : this.vis.select("circle");
         circle.attr("r", this.scaleY.range()[0]);
@@ -470,6 +477,16 @@ export default {
       this.$emit("clickNode", { node: value, sunburst: this });
     },
 
+    getZoomParent() {
+      const {
+        graphNodes: { zoomed }
+      } = this;
+      if (zoomed === null) {
+        return null;
+      }
+      return zoomed.parent;
+    },
+
     /**
      * Highlight the arc path leading to a given node.
      * @param {Object} node the D3 node to highlight
@@ -478,8 +495,7 @@ export default {
     highlightPath(node, opacity = 0.3) {
       const sequenceArray = node.ancestors();
 
-      const visiblePath = this.vis
-        .selectAll("g");
+      const visiblePath = this.vis.selectAll("g");
 
       visiblePath
         .filter(d => sequenceArray.indexOf(d) === -1)
