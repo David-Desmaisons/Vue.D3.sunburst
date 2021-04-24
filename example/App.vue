@@ -159,7 +159,7 @@ export default {
   }
 
   .control-left {
-    height: 100%;
+    height: 600px;
   }
 
   .resizable {
@@ -175,8 +175,8 @@ export default {
   }
 
   .sunburst {
-    width: 500px;
-    height: 500px;
+    width: 100%;
+    height: 100%;
     position: relative;
   }
 
