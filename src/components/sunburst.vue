@@ -400,7 +400,8 @@ export default {
     /**
      * @private
      */
-    resize(onMount) {
+    resize(context) {
+      const onMount = context === true;
       const { width, height } = this.getSize();
       this.vis
         .attr("width", width)
@@ -422,8 +423,8 @@ export default {
               .attr("class", "central-circle")
               .on("mouseover", () => {
                 const {
-        graphNodes: { zoomed }
-      } = this;
+                  graphNodes: { zoomed }
+                } = this;
                 if (zoomed === null) {
                   return;
                 }
