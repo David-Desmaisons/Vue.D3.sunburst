@@ -159,7 +159,7 @@ export default {
   }
 
   .control-left {
-    height: 100%;
+    height: 600px;
   }
 
   .resizable {
