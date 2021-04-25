@@ -602,7 +602,7 @@ export default {
        * Fired when mouse is over a sunburst node.
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
        */
-      this.$emit("highligthedChanged", { node, sunburst: this });
+      this.$emit("highlightedChanged", { node, sunburst: this });
     },
 
     /**

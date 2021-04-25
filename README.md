@@ -214,7 +214,7 @@ Failing to do so may result in a component whose size that will keep increasing.
 
      - `value` **Object** - {node, sunburst} The corresponding zoomed node and sunburst component 
 
-- `highligthedChanged` 
+- `highlightedChanged` 
 
    Fired when mouse is over a sunburst node. 
 
