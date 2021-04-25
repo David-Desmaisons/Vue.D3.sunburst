@@ -1,6 +1,6 @@
 {
   "name": "vue-d3-sunburst",
-  "version": "1.3.1",
+  "version": "1.4.1",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve ./example/main.js --open",
