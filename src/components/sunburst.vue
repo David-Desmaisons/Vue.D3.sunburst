@@ -387,7 +387,13 @@ export default {
 
       groups.exit().remove();
 
-      this.graphNodes.root = this.nodes[0];
+      const rootNode = this.nodes[0];
+      this.graphNodes.root = rootNode;
+      /**
+       * Fired when root changed.
+       * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
+       */
+      this.$emit("rootChanged", { node: rootNode, sunburst: this });
     },
 
     /**
@@ -524,7 +530,7 @@ export default {
        * Fired when the zoomed node changed.
        * @param {Object} value - {node, sunburst} The corresponding zoomed node and sunburst component
        */
-      this.$emit("zoomedChanged", {node, sunburst: this});
+      this.$emit("zoomedChanged", { node, sunburst: this });
 
       const descendants = node.descendants();
       this.vis
@@ -596,9 +602,9 @@ export default {
     /**
      * @private
      */
-    setHighligth(node){
+    setHighligth(node) {
       this.graphNodes.highlighted = node;
-       /**
+      /**
        * Fired when mouse is over a sunburst node.
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
        */

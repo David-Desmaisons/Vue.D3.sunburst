@@ -190,6 +190,14 @@ Failing to do so may result in a component whose size that will keep increasing.
 
    Fired when mouse leaves the sunburst node. 
 
+- `rootChanged` 
+
+   Fired when root changed. 
+
+   **arguments:** 
+
+     - `value` **Object** - {node, sunburst} The corresponding node and sunburst component 
+
 - `mouseOverNode` 
 
    Fired when mouse is over a sunburst node. 
