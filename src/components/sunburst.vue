@@ -477,6 +477,9 @@ export default {
       this.$emit("clickNode", { node: value, sunburst: this });
     },
 
+    /**
+     * @private
+     */
     getZoomParent() {
       const {
         graphNodes: { zoomed }
@@ -507,7 +510,7 @@ export default {
         .filter(d => sequenceArray.indexOf(d) >= 0)
         .style("opacity", 1);
 
-      this.graphNodes.highlighted = node;
+      this.setHighligth(node);
     },
 
     /**
@@ -516,6 +519,12 @@ export default {
      */
     zoomToNode(node) {
       this.graphNodes.zoomed = node;
+
+      /**
+       * Fired when the zoomed node changed.
+       * @param {Object} value - {node, sunburst} The corresponding zoomed node and sunburst component
+       */
+      this.$emit("zoomedChanged", {node, sunburst: this});
 
       const descendants = node.descendants();
       this.vis
@@ -580,6 +589,20 @@ export default {
         .transition()
         .duration(this.outAnimationDuration)
         .style("opacity", 1);
+
+      this.setHighligth(null);
+    },
+
+    /**
+     * @private
+     */
+    setHighligth(node){
+      this.graphNodes.highlighted = node;
+       /**
+       * Fired when mouse is over a sunburst node.
+       * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
+       */
+      this.$emit("highligthedChanged", { node, sunburst: this });
     },
 
     /**
