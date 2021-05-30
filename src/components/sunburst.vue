@@ -347,7 +347,8 @@ export default {
         );
 
       const rootNode = this.nodes[0];
-      this.scaleY.domain([this.hasCentralCircle ? rootNode.y1 : 0, 1]);
+      const { zoomedNode, hasCentralCircle } = this;
+      this.scaleY.domain([hasCentralCircle ? zoomedNode.y1 : zoomedNode.y0, 1]);     
 
       const groups = this.getGroups();
       const colorGetter = this.colorGetter;
@@ -666,6 +667,14 @@ export default {
     zoomedDepth() {
       const { zoomed } = this.graphNodes;
       return zoomed === null ? 0 : zoomed.depth;
+    },
+
+    /**
+     * @private
+     */
+    zoomedNode() {
+      const { zoomed } = this.graphNodes;
+      return zoomed || this.root;
     },
 
     /**
