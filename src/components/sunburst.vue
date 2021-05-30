@@ -373,7 +373,7 @@ export default {
           copyCurrentValues(this, d);
         })
         .merge(groups.select("path"))
-        .style("fill", d => colorGetter(d.data))
+        .style("fill", d => colorGetter(d.data, d))
         .transition("enter")
         .duration(this.inAnimationDuration)
         .attrTween("d", function(d, index) {
