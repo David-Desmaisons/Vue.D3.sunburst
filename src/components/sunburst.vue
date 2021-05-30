@@ -355,11 +355,10 @@ export default {
           .sort((a, b) => b.value - a.value);
       }
 
+      const { minAngleDisplayed } = this;
       this.nodes = partition()(this.root)
         .descendants()
-        .filter(
-          d => Math.abs(this.scaleX(d.x1 - d.x0)) > this.minAngleDisplayed
-        );
+        .filter(d => Math.abs(this.scaleX(d.x1 - d.x0)) > minAngleDisplayed);
 
       const rootNode = this.nodes[0];
       const { zoomedNode, hasCentralCircle } = this;
