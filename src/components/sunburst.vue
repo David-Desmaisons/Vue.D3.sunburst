@@ -346,6 +346,9 @@ export default {
           d => Math.abs(this.scaleX(d.x1 - d.x0)) > this.minAngleDisplayed
         );
 
+      const rootNode = this.nodes[0];
+      this.scaleY.domain([this.hasCentralCircle ? rootNode.y1 : 0, 1]);
+
       const groups = this.getGroups();
       const colorGetter = this.colorGetter;
       const mouseOver = this.mouseOver.bind(this);
@@ -387,7 +390,6 @@ export default {
 
       groups.exit().remove();
 
-      const rootNode = this.nodes[0];
       this.graphNodes.root = rootNode;
       /**
        * Fired when root changed.
@@ -417,8 +419,8 @@ export default {
       this.radius = Math.min(width, height) / 2;
       this.updateScaleY();
 
-      const { centralCircleRelativeSize } = this;
-      if (centralCircleRelativeSize !== 0) {
+      const { hasCentralCircle } = this;
+      if (hasCentralCircle) {
         const circle = onMount
           ? this.vis
               .append("circle")
@@ -524,6 +526,12 @@ export default {
      * @param {Object} node the D3 node to zoom to.
      */
     zoomToNode(node) {
+      if (
+        this.hasCentralCircle &&
+        (!node.children || node.children.length === 0)
+      ) {
+        node = node.parent;
+      }
       this.graphNodes.zoomed = node;
 
       /**
@@ -548,7 +556,8 @@ export default {
         getTextAngle,
         getTextTransform,
         arcSunburst,
-        getTextAnchor
+        getTextAnchor,
+        hasCentralCircle
       } = this;
       this.vis
         .selectAll("g")
@@ -560,12 +569,14 @@ export default {
         .tween("scale", () => {
           const { scaleX, scaleY, radius, centralCircleRelativeSize } = this;
           const xd = interpolate(scaleX.domain(), [node.x0, node.x1]);
-          const yd = interpolate(scaleY.domain(), [node.y0, 1]);
+          const yd = interpolate(scaleY.domain(), [
+            hasCentralCircle ? node.y1 : node.y0,
+            1
+          ]);
           const miminalY = (radius * centralCircleRelativeSize) / 100;
           const firstY =
             miminalY === 0 && node.y0 > 0 ? miminalRadius : miminalY;
           const yr = interpolate(scaleY.range(), [firstY, radius]);
-
           return t => {
             scaleX.domain(xd(t));
             scaleY.domain(yd(t)).range(yr(t));
@@ -655,6 +666,14 @@ export default {
     zoomedDepth() {
       const { zoomed } = this.graphNodes;
       return zoomed === null ? 0 : zoomed.depth;
+    },
+
+    /**
+     * @private
+     */
+    hasCentralCircle() {
+      const { centralCircleRelativeSize } = this;
+      return centralCircleRelativeSize > 0;
     }
   },
 
@@ -689,8 +708,9 @@ export default {
       this.reDraw();
     },
 
-    centralCircleRelativeSize(value) {
-      this.updateScaleY().clamp(value > 0);
+    centralCircleRelativeSize() {
+      const { hasCentralCircle } = this;
+      this.updateScaleY().clamp(hasCentralCircle);
       this.reDraw();
     }
   }
