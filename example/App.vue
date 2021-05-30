@@ -7,11 +7,14 @@
           <div class="card-body">
             <div class="form-horizontal">
 
-               <div class="form-group custo-checkbox">
+              <div class="form-group">
                 <label for="showLabels" class="control-label">Show Labels</label>
-                <div >
-                  <input id="showLabels"  type="checkbox" v-model="showLabels">
-                </div>
+
+                <select id="showLabels" class="form-control" v-model="showLabels">
+                  <option :value="false">No</option>
+                  <option :value="true">Yes</option>
+                  <option :value="showLabelsFunction">Custom</option>
+                </select>
               </div>
 
                <div class="form-group custo-checkbox">
@@ -131,6 +134,11 @@ export default {
   computed: {
     colorScale() {
       return this.overrideColorScale ? this.custoColorScale : null;
+    }
+  },
+  methods:{
+    showLabelsFunction(d) {
+      return "AAAA" + d.data.name; 
     }
   },
   components: {

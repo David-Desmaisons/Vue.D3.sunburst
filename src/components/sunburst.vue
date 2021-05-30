@@ -167,7 +167,7 @@ export default {
      *  If true display name attributes as arc labels
      */
     showLabels: {
-      type: Boolean,
+      type: [Boolean, Function],
       required: false,
       default: false
     },
@@ -315,8 +315,10 @@ export default {
         graphNodes: { zoomed },
         getTextAngle,
         getTextTransform,
-        getTextAnchor
+        getTextAnchor,
+        showLabels
       } = this;
+      const textExtractor = showLabels === true ? d => d.data.name : showLabels;
       const descendants = zoomed === null ? null : zoomed.descendants();
       const textSelection = selection
         .each(d => (d.textAngle = getTextAngle(d)))
@@ -324,7 +326,7 @@ export default {
         .attr("text-anchor", d => getTextAnchor(d))
         .attr("dx", d => (d.textAngle > 180 ? -3 : 3))
         .attr("display", d => (d.depth ? null : "none"))
-        .text(d => d.data.name)
+        .text(textExtractor)
         .style(
           "opacity",
           d =>
@@ -715,8 +717,8 @@ export default {
     },
 
     showLabels(value) {
+      this.vis.selectAll("text").remove();
       if (!value) {
-        this.vis.selectAll("text").remove();
         return;
       }
       const labels = this.vis
