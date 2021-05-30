@@ -32,7 +32,7 @@
               <div class="form-group">
                 <label for="minAngleDisplayed">Minimal arc angle to be displayed</label>
                 <div>
-                  <input id="minAngleDisplayed" class="form-control" type="range" min="0" step="0.005" max="0.5" v-model.number="minAngleDisplayed">
+                  <input id="minAngleDisplayed" class="form-control" type="range" min="0" step="0.005" max="3.5" v-model.number="minAngleDisplayed">
                 </div>
                 <div>
                   <p>{{minAngleDisplayed}} radian</p>
