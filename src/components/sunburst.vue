@@ -295,6 +295,21 @@ export default {
     /**
      * @private
      */
+    arcClass({ depth, height }) {
+      return `slice-${depth -
+        this.zoomedDepth} depth-${depth} height-${height}`;
+    },
+
+    /**
+     * @private
+     */
+    getCircleClass() {
+      return `central-circle depth-${this.zoomedDepth}`;
+    },
+
+    /**
+     * @private
+     */
     addTextAttribute(selection) {
       const {
         graphNodes: { zoomed },
@@ -348,22 +363,20 @@ export default {
 
       const rootNode = this.nodes[0];
       const { zoomedNode, hasCentralCircle } = this;
-      this.scaleY.domain([hasCentralCircle ? zoomedNode.y1 : zoomedNode.y0, 1]);     
+      this.scaleY.domain([hasCentralCircle ? zoomedNode.y1 : zoomedNode.y0, 1]);
 
       const groups = this.getGroups();
       const colorGetter = this.colorGetter;
       const mouseOver = this.mouseOver.bind(this);
       const click = this.click.bind(this);
-      const { arcSunburst, zoomedDepth } = this;
+      const { arcSunburst, arcClass } = this;
 
       const newGroups = groups
         .enter()
         .append("g")
         .style("opacity", 1);
 
-      newGroups
-        .merge(groups)
-        .attr("class", d => `slice-${d.depth - zoomedDepth}`);
+      newGroups.merge(groups).attr("class", arcClass);
 
       newGroups
         .append("path")
@@ -447,7 +460,9 @@ export default {
                 this.click(parentZoomed);
               })
           : this.vis.select("circle");
-        circle.attr("r", this.scaleY.range()[0]);
+        circle
+          .attr("r", this.scaleY.range()[0])
+          .attr("class", this.getCircleClass());
       }
 
       this.onData(this.data, !onMount);
@@ -553,16 +568,16 @@ export default {
         );
 
       const {
-        zoomedDepth,
         getTextAngle,
         getTextTransform,
         arcSunburst,
         getTextAnchor,
-        hasCentralCircle
+        hasCentralCircle,
+        arcClass
       } = this;
-      this.vis
-        .selectAll("g")
-        .attr("class", d => `slice-${d.depth - zoomedDepth}`);
+      this.vis.selectAll("g").attr("class", arcClass);
+
+      this.vis.select("circle").attr("class", this.getCircleClass());
 
       const transitionSelection = this.vis
         .transition("zoom")
