@@ -7,11 +7,14 @@
           <div class="card-body">
             <div class="form-horizontal">
 
-               <div class="form-group custo-checkbox">
+              <div class="form-group">
                 <label for="showLabels" class="control-label">Show Labels</label>
-                <div >
-                  <input id="showLabels"  type="checkbox" v-model="showLabels">
-                </div>
+
+                <select id="showLabels" class="form-control" v-model="showLabels">
+                  <option :value="false">No</option>
+                  <option :value="true">Yes</option>
+                  <option :value="showLabelsFunction">Custom</option>
+                </select>
               </div>
 
                <div class="form-group custo-checkbox">
@@ -32,7 +35,7 @@
               <div class="form-group">
                 <label for="minAngleDisplayed">Minimal arc angle to be displayed</label>
                 <div>
-                  <input id="minAngleDisplayed" class="form-control" type="range" min="0" step="0.005" max="0.5" v-model.number="minAngleDisplayed">
+                  <input id="minAngleDisplayed" class="form-control" type="range" min="0" step="0.005" max="3.5" v-model.number="minAngleDisplayed">
                 </div>
                 <div>
                   <p>{{minAngleDisplayed}} radian</p>
@@ -131,6 +134,15 @@ export default {
   computed: {
     colorScale() {
       return this.overrideColorScale ? this.custoColorScale : null;
+    }
+  },
+  methods:{
+    showLabelsFunction(d) {
+      const {data, context: {angle, relativeDepth}} = d;
+      if (relativeDepth> 2 || angle< 5) {
+        return null;
+      }
+      return data.name; 
     }
   },
   components: {

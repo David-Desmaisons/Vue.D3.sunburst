@@ -167,7 +167,7 @@ export default {
      *  If true display name attributes as arc labels
      */
     showLabels: {
-      type: Boolean,
+      type: [Boolean, Function],
       required: false,
       default: false
     },
@@ -295,6 +295,37 @@ export default {
     /**
      * @private
      */
+    arcClass({ depth, height }) {
+      return `slice-${depth -
+        this.zoomedDepth} depth-${depth} height-${height}`;
+    },
+
+    /**
+     * @private
+     */
+    getNodeContext(d) {
+      const { zoomedDepth, scaleX } = this;
+      const angle = ((scaleX(d.x1) - scaleX(d.x0)) * 180) / Math.PI;
+      const relativeDepth = d.depth - zoomedDepth;
+      return {
+        ...d,
+        context: {
+          angle,
+          relativeDepth
+        }
+      };
+    },
+
+    /**
+     * @private
+     */
+    getCircleClass() {
+      return `central-circle depth-${this.zoomedDepth}`;
+    },
+
+    /**
+     * @private
+     */
     addTextAttribute(selection) {
       const {
         graphNodes: { zoomed },
@@ -302,14 +333,17 @@ export default {
         getTextTransform,
         getTextAnchor
       } = this;
+      const textExtractor = this.getTextExtractor();
       const descendants = zoomed === null ? null : zoomed.descendants();
       const textSelection = selection
+        .each(d => (d.textValue = textExtractor(d)))
+        .text(d => d.textValue)
+        .filter(d => d.textValue !== null)
         .each(d => (d.textAngle = getTextAngle(d)))
         .attr("transform", d => getTextTransform(d))
         .attr("text-anchor", d => getTextAnchor(d))
         .attr("dx", d => (d.textAngle > 180 ? -3 : 3))
         .attr("display", d => (d.depth ? null : "none"))
-        .text(d => d.data.name)
         .style(
           "opacity",
           d =>
@@ -340,30 +374,27 @@ export default {
           .sort((a, b) => b.value - a.value);
       }
 
+      const { minAngleDisplayed } = this;
       this.nodes = partition()(this.root)
         .descendants()
-        .filter(
-          d => Math.abs(this.scaleX(d.x1 - d.x0)) > this.minAngleDisplayed
-        );
+        .filter(d => Math.abs(this.scaleX(d.x1 - d.x0)) > minAngleDisplayed);
 
       const rootNode = this.nodes[0];
       const { zoomedNode, hasCentralCircle } = this;
-      this.scaleY.domain([hasCentralCircle ? zoomedNode.y1 : zoomedNode.y0, 1]);     
+      this.scaleY.domain([hasCentralCircle ? zoomedNode.y1 : zoomedNode.y0, 1]);
 
       const groups = this.getGroups();
       const colorGetter = this.colorGetter;
       const mouseOver = this.mouseOver.bind(this);
       const click = this.click.bind(this);
-      const { arcSunburst, zoomedDepth } = this;
+      const { arcSunburst, arcClass } = this;
 
       const newGroups = groups
         .enter()
         .append("g")
         .style("opacity", 1);
 
-      newGroups
-        .merge(groups)
-        .attr("class", d => `slice-${d.depth - zoomedDepth}`);
+      newGroups.merge(groups).attr("class", arcClass);
 
       newGroups
         .append("path")
@@ -397,6 +428,17 @@ export default {
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
        */
       this.$emit("rootChanged", { node: rootNode, sunburst: this });
+    },
+
+    /**
+     * @private
+     */
+    getTextExtractor() {
+      if (!this.showLabelsIsFunction) {
+        return d => d.data.name;
+      }
+      const { showLabels, getNodeContext } = this;
+      return d => showLabels(getNodeContext(d));
     },
 
     /**
@@ -447,7 +489,9 @@ export default {
                 this.click(parentZoomed);
               })
           : this.vis.select("circle");
-        circle.attr("r", this.scaleY.range()[0]);
+        circle
+          .attr("r", this.scaleY.range()[0])
+          .attr("class", this.getCircleClass());
       }
 
       this.onData(this.data, !onMount);
@@ -527,10 +571,7 @@ export default {
      * @param {Object} node the D3 node to zoom to.
      */
     zoomToNode(node) {
-      if (
-        this.hasCentralCircle &&
-        (!node.children || node.children.length === 0)
-      ) {
+      if (this.hasCentralCircle && node.height === 0) {
         node = node.parent;
       }
       this.graphNodes.zoomed = node;
@@ -542,8 +583,18 @@ export default {
       this.$emit("zoomedChanged", { node, sunburst: this });
 
       const descendants = node.descendants();
-      this.vis
-        .selectAll("text")
+      const textNodes = this.vis.selectAll("text");
+
+      const updateText = this.showLabelsIsFunction
+        ? () => {
+            const futureVisibleArcs = textNodes.filter(d =>
+              descendants.includes(d)
+            );
+            this.addTextAttribute(futureVisibleArcs);
+          }
+        : () => {};
+
+      textNodes
         .transition()
         .delay(200)
         .duration(550)
@@ -553,16 +604,16 @@ export default {
         );
 
       const {
-        zoomedDepth,
         getTextAngle,
         getTextTransform,
         arcSunburst,
         getTextAnchor,
-        hasCentralCircle
+        hasCentralCircle,
+        arcClass
       } = this;
-      this.vis
-        .selectAll("g")
-        .attr("class", d => `slice-${d.depth - zoomedDepth}`);
+      this.vis.selectAll("g").attr("class", arcClass);
+
+      this.vis.select("circle").attr("class", this.getCircleClass());
 
       const transitionSelection = this.vis
         .transition("zoom")
@@ -584,8 +635,11 @@ export default {
           };
         });
 
+      transitionSelection.on("end", updateText);
+
       transitionSelection
         .selectAll("text")
+        .filter(d => d.textValue !== null)
         .tween("text.angle", d => {
           return () => (d.textAngle = getTextAngle(d));
         })
@@ -683,6 +737,13 @@ export default {
     hasCentralCircle() {
       const { centralCircleRelativeSize } = this;
       return centralCircleRelativeSize > 0;
+    },
+
+    /**
+     * @private
+     */
+    showLabelsIsFunction() {
+      return typeof this.showLabels === "function";
     }
   },
 
@@ -701,8 +762,8 @@ export default {
     },
 
     showLabels(value) {
+      this.vis.selectAll("text").remove();
       if (!value) {
-        this.vis.selectAll("text").remove();
         return;
       }
       const labels = this.vis
