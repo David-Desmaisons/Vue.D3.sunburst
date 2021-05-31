@@ -138,7 +138,11 @@ export default {
   },
   methods:{
     showLabelsFunction(d) {
-      return "AAAA" + d.data.name; 
+      const {data, context: {angle, relativeDepth}} = d;
+      if (relativeDepth> 2 || angle< 5) {
+        return null;
+      }
+      return data.name; 
     }
   },
   components: {

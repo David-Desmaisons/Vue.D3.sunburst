@@ -303,6 +303,22 @@ export default {
     /**
      * @private
      */
+    getNodeContext(d) {
+      const { zoomedDepth, scaleX } = this;
+      const angle = ((scaleX(d.x1) - scaleX(d.x0)) * 180) / Math.PI;
+      const relativeDepth = d.depth - zoomedDepth;
+      return {
+        ...d,
+        context: {
+          angle,
+          relativeDepth
+        }
+      };
+    },
+
+    /**
+     * @private
+     */
     getCircleClass() {
       return `central-circle depth-${this.zoomedDepth}`;
     },
@@ -315,18 +331,19 @@ export default {
         graphNodes: { zoomed },
         getTextAngle,
         getTextTransform,
-        getTextAnchor,
-        showLabels
+        getTextAnchor
       } = this;
-      const textExtractor = showLabels === true ? d => d.data.name : showLabels;
+      const textExtractor = this.getTextExtractor();
       const descendants = zoomed === null ? null : zoomed.descendants();
       const textSelection = selection
+        .each(d => (d.textValue = textExtractor(d)))
+        .text(d => d.textValue)
+        .filter(d => d.textValue !== null)
         .each(d => (d.textAngle = getTextAngle(d)))
         .attr("transform", d => getTextTransform(d))
         .attr("text-anchor", d => getTextAnchor(d))
         .attr("dx", d => (d.textAngle > 180 ? -3 : 3))
         .attr("display", d => (d.depth ? null : "none"))
-        .text(textExtractor)
         .style(
           "opacity",
           d =>
@@ -411,6 +428,17 @@ export default {
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
        */
       this.$emit("rootChanged", { node: rootNode, sunburst: this });
+    },
+
+    /**
+     * @private
+     */
+    getTextExtractor() {
+      if (!this.showLabelsIsFunction) {
+        return d => d.data.name;
+      }
+      const { showLabels, getNodeContext } = this;
+      return d => showLabels(getNodeContext(d));
     },
 
     /**
@@ -543,10 +571,7 @@ export default {
      * @param {Object} node the D3 node to zoom to.
      */
     zoomToNode(node) {
-      if (
-        this.hasCentralCircle &&
-        (!node.children || node.children.length === 0)
-      ) {
+      if (this.hasCentralCircle && node.height === 0) {
         node = node.parent;
       }
       this.graphNodes.zoomed = node;
@@ -558,8 +583,18 @@ export default {
       this.$emit("zoomedChanged", { node, sunburst: this });
 
       const descendants = node.descendants();
-      this.vis
-        .selectAll("text")
+      const textNodes = this.vis.selectAll("text");
+
+      const updateText = this.showLabelsIsFunction
+        ? () => {
+            const futureVisibleArcs = textNodes.filter(d =>
+              descendants.includes(d)
+            );
+            this.addTextAttribute(futureVisibleArcs);
+          }
+        : () => {};
+
+      textNodes
         .transition()
         .delay(200)
         .duration(550)
@@ -600,8 +635,11 @@ export default {
           };
         });
 
+      transitionSelection.on("end", updateText);
+
       transitionSelection
         .selectAll("text")
+        .filter(d => d.textValue !== null)
         .tween("text.angle", d => {
           return () => (d.textAngle = getTextAngle(d));
         })
@@ -699,6 +737,13 @@ export default {
     hasCentralCircle() {
       const { centralCircleRelativeSize } = this;
       return centralCircleRelativeSize > 0;
+    },
+
+    /**
+     * @private
+     */
+    showLabelsIsFunction() {
+      return typeof this.showLabels === "function";
     }
   },
 
