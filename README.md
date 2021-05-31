@@ -172,9 +172,10 @@ Failing to do so may result in a component whose size that will keep increasing.
 
    Duration for out animation in milliseconds 
 
-- `show-labels` ***Boolean*** (*optional*) `default: false` 
+- `show-labels` ***Boolean*** or ***Function*** (*optional*) `default: false` 
 
-   If true display name attributes as arc labels 
+   - If true displays the name attributes as arc labels
+   - If the value is a function, it must return the text that will be display for each arc. The function is called with an object similar to the D3.js node with the addition of a context property: `{ context: {angle: 45, relativeDepth: 1} }` where angle is the arc angle in degree and relativeDepth is the arc depth in the current display (taking into account zoom). To display nothing returns null. 
 
 - `max-label-text` ***Number*** (*optional*) `default: 45` 
 
