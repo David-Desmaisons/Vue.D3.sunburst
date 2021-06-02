@@ -230,7 +230,12 @@ export default {
       /**
        * @private
        */
-      height: null
+      height: null,
+
+      /**
+       * @private
+       */
+      radius: null
     };
   },
 
@@ -459,6 +464,8 @@ export default {
         .attr("height", height)
         .attr("transform", `translate(${width / 2}, ${height / 2} )`);
 
+      this.width = width;
+      this.height = height;
       this.radius = Math.min(width, height) / 2;
       this.updateScaleY();
 
@@ -495,8 +502,6 @@ export default {
       }
 
       this.onData(this.data, !onMount);
-      this.width = width;
-      this.height = height;
     },
 
     /**
@@ -782,6 +787,15 @@ export default {
       const { hasCentralCircle } = this;
       this.updateScaleY().clamp(hasCentralCircle);
       this.reDraw();
+    },
+
+    radius(radius) {
+      const { height, width } = this;
+      /**
+       * Fired when component is resizing.
+       * @param {Object} value - {radius, height, width} Size information in pixel
+       */
+      this.$emit("resize", { radius, height, width });
     }
   }
 };
