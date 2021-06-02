@@ -80,7 +80,7 @@
         <div class="card control-middle">
           <div class="card-header">Sunburst</div>
           <div class="card-body father">
-            <sunburst class="sunburst" :data="data" :centralCircleRelativeSize="centralCircleRelativeSize" :showLabels="showLabels" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
+            <sunburst id="resizable" class="sunburst" :data="data" :centralCircleRelativeSize="centralCircleRelativeSize" :showLabels="showLabels" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
 
               <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.zoomed" :width="width" />
 
@@ -99,6 +99,9 @@
 </template>
 
 <script>
+import $ from "jquery";
+import "jquery-ui/ui/widgets/resizable.js";
+
 import sunburst from "@/components/sunburst";
 import nodeInfoDisplayer from "@/components/nodeInfoDisplayer";
 import breadcrumbTrail from "@/components/breadcrumbTrail";
@@ -144,6 +147,11 @@ export default {
       }
       return data.name; 
     }
+  },
+  mounted(){
+    $("#resizable").resizable({
+      containment: "parent"
+    });
   },
   components: {
     sunburst,
