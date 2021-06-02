@@ -77,7 +77,7 @@
         </div>
       </div>
       <div class="col-9">
-        <div class="card control-left">
+        <div class="card control-middle">
           <div class="card-header">Sunburst</div>
           <div class="card-body father">
             <sunburst class="sunburst" :data="data" :centralCircleRelativeSize="centralCircleRelativeSize" :showLabels="showLabels" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
@@ -170,7 +170,7 @@ export default {
     height: 800px;
   }
 
-  .control-left {
+  .control-middle {
     height: 600px;
   }
 
