@@ -231,6 +231,14 @@ Failing to do so may result in a component whose size that will keep increasing.
 
      - `value` **Object** - {node, sunburst} The corresponding node and sunburst component 
 
+- `resize` 
+
+   Fired when component is resizing.
+
+   **arguments:** 
+
+     - `value` **Object** - {radius, height, width} Size information in pixel
+
 #### methods 
 
 - `highlightPath(node, opacity)` 
