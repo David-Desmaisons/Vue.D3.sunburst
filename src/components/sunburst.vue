@@ -554,6 +554,10 @@ export default {
      * @param {Number} opacity opacity of the none highlighted nodes, default to 0.3
      */
     highlightPath(node, opacity = 0.3) {
+      if (node === this.graphNodes.zoomed && this.hasCentralCircle){
+        this.resetHighlight();
+        return;
+      }
       const sequenceArray = node.ancestors();
 
       const visiblePath = this.vis.selectAll("g");
