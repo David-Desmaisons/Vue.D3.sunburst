@@ -156,6 +156,10 @@ Failing to do so may result in a component whose size that will keep increasing.
 
    Function used to map an item and its color. (nodeD3: Object) => category: Number | String By default use the node name 
 
+- `highlightOpacity` ***Number*** (*optional*) `default: '0.3'` 
+
+   Opacity to be applied to none highlighted nodes 
+
 - `min-angle-displayed` ***Number*** (*optional*) `default: 0.005` 
 
    Minimal arc angle to be displayed (in radian). 
@@ -248,7 +252,7 @@ Failing to do so may result in a component whose size that will keep increasing.
    **parameters:** 
 
      - `node` **Object** - the D3 node to highlight 
-     - `opacity` **Number** - opacity of the none highlighted nodes, default to 0.3 
+     - `opacity` **Number** - opacity of the none highlighted nodes, default to highlightOpacity 
 
 - `zoomToNode(node)` 
 

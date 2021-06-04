@@ -187,6 +187,15 @@ export default {
       required: false,
       default: 0,
       validator: v => v >= 0 && v < 100
+    },
+    /**
+     *  Opacity to be applied to none highlighted nodes
+     */
+    highlightOpacity: {
+      type: Number,
+      required: false,
+      default: 0.3,
+      validator: v => v >= 0 && v < 1
     }
   },
 
@@ -551,10 +560,12 @@ export default {
     /**
      * Highlight the arc path leading to a given node.
      * @param {Object} node the D3 node to highlight
-     * @param {Number} opacity opacity of the none highlighted nodes, default to 0.3
+     * @param {Number} opacity opacity of the none highlighted nodes, default to props highlightOpacity
      */
-    highlightPath(node, opacity = 0.3) {
-      if (node === this.graphNodes.zoomed && this.hasCentralCircle){
+    highlightPath(node, targetOpacity = null) {
+      const opacity =
+        targetOpacity === null ? this.highlightOpacity : targetOpacity;
+      if (node === this.graphNodes.zoomed && this.hasCentralCircle) {
         this.resetHighlight();
         return;
       }
