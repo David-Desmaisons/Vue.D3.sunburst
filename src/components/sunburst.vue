@@ -375,7 +375,7 @@ export default {
     /**
      * @private
      */
-    onData(data, onlyRedraw = false) {
+    onData(data, { onlyRedraw = false, updateAngle = false } = {}) {
       if (!data) {
         this.vis.selectAll("g").remove();
         Object.keys(this.graphNodes).forEach(k => (this.graphNodes[k] = null));
@@ -388,12 +388,15 @@ export default {
           .sort((a, b) => b.value - a.value);
       }
 
-      const { minAngleDisplayed } = this;
-      this.nodes = partition()(this.root)
-        .descendants()
-        .filter(d => Math.abs(this.scaleX(d.x1 - d.x0)) > minAngleDisplayed);
+      const needComputedNode = !onlyRedraw || updateAngle;
 
-      const rootNode = this.nodes[0];
+      if (needComputedNode) {
+        const { minAngleDisplayed } = this;
+        this.nodes = partition()(this.root)
+          .descendants()
+          .filter(d => Math.abs(this.scaleX(d.x1 - d.x0)) > minAngleDisplayed);
+      }
+
       const { zoomedNode, hasCentralCircle } = this;
       this.scaleY.domain([hasCentralCircle ? zoomedNode.y1 : zoomedNode.y0, 1]);
 
@@ -436,6 +439,10 @@ export default {
 
       groups.exit().remove();
 
+      if (!needComputedNode) {
+        return;
+      }
+      const rootNode = this.nodes[0];
       this.graphNodes.root = rootNode;
       /**
        * Fired when root changed.
@@ -510,14 +517,14 @@ export default {
           .attr("class", this.getCircleClass());
       }
 
-      this.onData(this.data, !onMount);
+      this.onData(this.data, { onlyRedraw: !onMount });
     },
 
     /**
      * @private
      */
-    reDraw() {
-      this.onData(this.data, true);
+    reDraw(options = {}) {
+      this.onData(this.data, { onlyRedraw: true, ...options });
     },
 
     /**
@@ -795,7 +802,7 @@ export default {
     },
 
     minAngleDisplayed() {
-      this.reDraw();
+      this.reDraw({ updateAngle: true });
     },
 
     centralCircleRelativeSize() {
