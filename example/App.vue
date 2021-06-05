@@ -80,7 +80,7 @@
         <div class="card control-middle">
           <div class="card-header">Sunburst</div>
           <div class="card-body father">
-            <sunburst id="resizable" class="sunburst" :data="data" :centralCircleRelativeSize="centralCircleRelativeSize" :showLabels="showLabels" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
+            <sunburst id="resizable" class="sunburst" :data="data" :max-label-text="20" :centralCircleRelativeSize="centralCircleRelativeSize" :showLabels="showLabels" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
 
               <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.zoomed" :width="width" />
 
@@ -123,7 +123,7 @@ export default {
   data() {
     return {
       data,
-      minAngleDisplayed: 0.05,
+      minAngleDisplayed: 0,
       colorScheme: colorSchemesNames[0].value,
       colorSchemes: colorSchemesNames,
       inAnimationDuration: 100,
