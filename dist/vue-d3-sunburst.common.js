@@ -313,6 +313,24 @@ module.exports = __webpack_require__("9e1e") ? Object.defineProperties : functio
 
 /***/ }),
 
+/***/ "175f":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_554167a9_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("1c63");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_554167a9_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_554167a9_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_554167a9_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "1c63":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "1eb2":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1196,13 +1214,6 @@ module.exports = function (it, S) {
 
 /***/ }),
 
-/***/ "6ba5":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "7514":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1913,17 +1924,6 @@ module.exports = (
 
 /***/ }),
 
-/***/ "e5a8":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_2a912196_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("6ba5");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_2a912196_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_2a912196_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_2a912196_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
 /***/ "e853":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2350,12 +2350,12 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 var setPublicPath = __webpack_require__("1eb2");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules//.cache//vue-loader","cacheIdentifier":"60c9a5d3-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/sunburst.vue?vue&type=template&id=2a912196&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules//.cache//vue-loader","cacheIdentifier":"60c9a5d3-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/sunburst.vue?vue&type=template&id=554167a9&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"graph"},[_vm._t("legend",null,{width:_vm.width,colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_c('div',{directives:[{name:"resize",rawName:"v-resize.throttle.250",value:(_vm.resize),expression:"resize",modifiers:{"250":true,"throttle":true}}],staticClass:"viewport"},[_vm._t("top",null,{colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_vm._t("default",null,{on:_vm.on,actions:_vm.actions})],2)],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=template&id=2a912196&scoped=true&
+// CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=template&id=554167a9&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es7.array.includes.js
 var es7_array_includes = __webpack_require__("6762");
@@ -2363,6 +2363,31 @@ var es7_array_includes = __webpack_require__("6762");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.string.includes.js
 var es6_string_includes = __webpack_require__("2fdb");
 
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/arrayWithoutHoles.js
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  }
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/iterableToArray.js
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/toConsumableArray.js
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+}
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.sort.js
 var es6_array_sort = __webpack_require__("55dd");
 
@@ -13628,6 +13653,7 @@ Object.keys(rawColorSchemes).forEach(function (key) {
 
 
 
+
 //
 //
 //
@@ -13704,21 +13730,21 @@ function arc2Tween(arcSunburst, d, indx) {
   };
 }
 
-function getTextWrapper(_ref) {
-  var padding = _ref.padding,
-      width = _ref.width;
-  // Adapted from: https://stackoverflow.com/a/27723752/965332
-  return function () {
-    var self = src_select(this);
-    var textLength = self.node().getComputedTextLength();
-    var text = self.text();
+function getDx(d) {
+  var textAngle = d.textAngle,
+      currentDx = d.currentDx;
 
-    while (textLength > width - 2 * padding && text.length > 0) {
-      text = text.slice(0, -1);
-      self.text(text + "\u2026");
-      textLength = self.node().getComputedTextLength();
-    }
-  };
+  if (textAngle <= 180) {
+    return 5;
+  }
+
+  return !!currentDx && currentDx < -5 ? currentDx : -5;
+}
+
+function computeStoreDx(d) {
+  var dx = getDx(d);
+  d.currentDx = dx;
+  return dx;
 }
 
 var useNameForColor = function useNameForColor(d) {
@@ -13841,6 +13867,18 @@ var miminalRadius = 20;
       validator: function validator(v) {
         return v >= 0 && v < 100;
       }
+    },
+
+    /**
+     *  Opacity to be applied to none highlighted nodes
+     */
+    highlightOpacity: {
+      type: Number,
+      required: false,
+      default: 0.3,
+      validator: function validator(v) {
+        return v >= 0 && v < 1;
+      }
     }
   },
   directives: {
@@ -13898,6 +13936,7 @@ var miminalRadius = 20;
 
     this.viewport = viewport;
     this.vis = src_select(viewport).append("svg").style("overflow", "visible").attr("class", "root").attr("width", "100%").attr("height", "100%").append("g");
+    this.vis.append("defs");
     src_select(viewport).on("mouseleave", function () {
       /**
        * Fired when mouse leaves the sunburst node.
@@ -13948,9 +13987,9 @@ var miminalRadius = 20;
     /**
      * @private
      */
-    arcClass: function arcClass(_ref2) {
-      var depth = _ref2.depth,
-          height = _ref2.height;
+    arcClass: function arcClass(_ref) {
+      var depth = _ref.depth,
+          height = _ref.height;
       return "slice-".concat(depth - this.zoomedDepth, " depth-").concat(depth, " height-").concat(height);
     },
 
@@ -14000,21 +14039,13 @@ var miminalRadius = 20;
       }).attr("text-anchor", function (d) {
         return getTextAnchor(d);
       }).attr("dx", function (d) {
-        return d.textAngle > 180 ? -3 : 3;
+        return computeStoreDx(d);
       }).attr("display", function (d) {
         return d.depth ? null : "none";
       }).style("opacity", function (d) {
         return zoomed != null && (d === zoomed || descendants.indexOf(d) === -1) ? 0 : 1;
       });
-      var width = this.maxLabelText;
-
-      if (width) {
-        var wrap = getTextWrapper({
-          width: width,
-          padding: 0
-        });
-        textSelection.each(wrap);
-      }
+      this.adjustText(textSelection);
     },
 
     /**
@@ -14023,7 +14054,11 @@ var miminalRadius = 20;
     onData: function onData(data) {
       var _this3 = this;
 
-      var onlyRedraw = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+          _ref2$onlyRedraw = _ref2.onlyRedraw,
+          onlyRedraw = _ref2$onlyRedraw === void 0 ? false : _ref2$onlyRedraw,
+          _ref2$updateAngle = _ref2.updateAngle,
+          updateAngle = _ref2$updateAngle === void 0 ? false : _ref2$updateAngle;
 
       if (!data) {
         this.vis.selectAll("g").remove();
@@ -14041,23 +14076,55 @@ var miminalRadius = 20;
         });
       }
 
-      var minAngleDisplayed = this.minAngleDisplayed;
-      this.nodes = src_partition()(this.root).descendants().filter(function (d) {
-        return Math.abs(_this3.scaleX(d.x1 - d.x0)) > minAngleDisplayed;
-      });
-      var rootNode = this.nodes[0];
+      var needComputedNode = !onlyRedraw || updateAngle;
+
+      if (needComputedNode) {
+        var minAngleDisplayed = this.minAngleDisplayed;
+        this.nodes = src_partition()(this.root).descendants().filter(function (d) {
+          return Math.abs(_this3.scaleX(d.x1 - d.x0)) > minAngleDisplayed;
+        });
+      }
+
       var zoomedNode = this.zoomedNode,
-          hasCentralCircle = this.hasCentralCircle;
+          hasCentralCircle = this.hasCentralCircle,
+          getCircle = this.getCircle;
       this.scaleY.domain([hasCentralCircle ? zoomedNode.y1 : zoomedNode.y0, 1]);
+      var rootNode = this.nodes[0];
+      var ringNumber = rootNode.height + 1;
+      var definitions = this.vis.select("defs").selectAll("clipPath").data(_toConsumableArray(Array(ringNumber).keys()));
+      definitions.enter().append("clipPath").attr("id", function (id) {
+        return "clip-".concat(id);
+      }).append("path").attr("clip-rule", "evenodd").merge(definitions.select("path")).attr("d", function (d) {
+        return getCircle(d, ringNumber);
+      });
+      definitions.exit().remove();
       var groups = this.getGroups();
       var colorGetter = this.colorGetter;
       var mouseOver = this.mouseOver.bind(this);
       var click = this.click.bind(this);
       var arcSunburst = this.arcSunburst,
           arcClass = this.arcClass;
+      var self = this;
       var newGroups = groups.enter().append("g").style("opacity", 1);
-      newGroups.merge(groups).attr("class", arcClass);
-      newGroups.append("path").on("mouseover", mouseOver).on("click", click).each(function (d) {
+      var mergedGroups = newGroups.merge(groups).attr("class", arcClass);
+
+      if (this.showLabels && this.maxLabelText !== null) {
+        mergedGroups.attr("clip-path", function (d) {
+          return "url(#clip-".concat(d.depth, ")");
+        });
+      }
+
+      mergedGroups.on("mouseover", function (d) {
+        mouseOver(d);
+        src_select(this).attr("clip-path", null);
+      }).on("mouseleave", function (d) {
+        if (!self.showLabels || self.maxLabelText === null) {
+          return;
+        }
+
+        src_select(this).attr("clip-path", "url(#clip-".concat(d.depth, ")"));
+      }).on("click", click);
+      newGroups.append("path").each(function (d) {
         copyCurrentValues(this, d);
       }).merge(groups.select("path")).style("fill", function (d) {
         return colorGetter(d.data, d);
@@ -14071,6 +14138,11 @@ var miminalRadius = 20;
       }
 
       groups.exit().remove();
+
+      if (!needComputedNode) {
+        return;
+      }
+
       this.graphNodes.root = rootNode;
       /**
        * Fired when root changed.
@@ -14127,7 +14199,7 @@ var miminalRadius = 20;
       var hasCentralCircle = this.hasCentralCircle;
 
       if (hasCentralCircle) {
-        var circle = onMount ? this.vis.append("circle").attr("cx", 0).attr("cy", 0).attr("fill", "none").attr("pointer-events", "bounding-box").attr("class", "central-circle").on("mouseover", function () {
+        var circle = onMount ? this.vis.append("circle").attr("cx", 0).attr("cy", 0).attr("fill", "none").attr("pointer-events", "bounding-box").on("mouseover", function () {
           var zoomed = _this4.graphNodes.zoomed;
 
           if (zoomed === null) {
@@ -14143,18 +14215,54 @@ var miminalRadius = 20;
           }
 
           _this4.click(parentZoomed);
-        }) : this.vis.select("circle");
+        }) : this.vis.select("circle.central-circle");
         circle.attr("r", this.scaleY.range()[0]).attr("class", this.getCircleClass());
       }
 
-      this.onData(this.data, !onMount);
+      this.onData(this.data, {
+        onlyRedraw: !onMount
+      });
+    },
+
+    /**
+     * @private
+     */
+    adjustText: function adjustText(textSelection) {
+      var scaleY = this.scaleY,
+          maxLabelText = this.maxLabelText;
+
+      if (maxLabelText === null) {
+        return;
+      }
+
+      textSelection.filter(function (d) {
+        if (d.textAngle <= 180) {
+          return false;
+        }
+
+        var textLength = src_select(this).node().getComputedTextLength();
+        var maxLength = scaleY(d.y1) - scaleY(d.y0) + maxLabelText;
+
+        if (textLength + 5 <= maxLength) {
+          return false;
+        }
+
+        d.currentDx = textLength - maxLength;
+        return true;
+      }).attr("dx", function (_ref3) {
+        var currentDx = _ref3.currentDx;
+        return currentDx;
+      });
     },
 
     /**
      * @private
      */
     reDraw: function reDraw() {
-      this.onData(this.data, true);
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      this.onData(this.data, _objectSpread({
+        onlyRedraw: true
+      }, options));
     },
 
     /**
@@ -14205,10 +14313,17 @@ var miminalRadius = 20;
     /**
      * Highlight the arc path leading to a given node.
      * @param {Object} node the D3 node to highlight
-     * @param {Number} opacity opacity of the none highlighted nodes, default to 0.3
+     * @param {Number} opacity opacity of the none highlighted nodes, default to props highlightOpacity
      */
     highlightPath: function highlightPath(node) {
-      var opacity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.3;
+      var targetOpacity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var opacity = targetOpacity === null ? this.highlightOpacity : targetOpacity;
+
+      if (node === this.graphNodes.zoomed && this.hasCentralCircle) {
+        this.resetHighlight();
+        return;
+      }
+
       var sequenceArray = node.ancestors();
       var visiblePath = this.vis.selectAll("g");
       visiblePath.filter(function (d) {
@@ -14243,13 +14358,21 @@ var miminalRadius = 20;
       });
       var descendants = node.descendants();
       var textNodes = this.vis.selectAll("text");
-      var updateText = this.showLabelsIsFunction ? function () {
+
+      var updateText = function updateText() {
+        _this5.adjustText(textNodes);
+
+        if (!_this5.showLabelsIsFunction) {
+          return;
+        }
+
         var futureVisibleArcs = textNodes.filter(function (d) {
           return descendants.includes(d);
         });
 
         _this5.addTextAttribute(futureVisibleArcs);
-      } : function () {};
+      };
+
       textNodes.transition().delay(200).duration(550).style("opacity", function (d) {
         return d === node || descendants.indexOf(d) === -1 ? 0 : 1;
       });
@@ -14260,7 +14383,7 @@ var miminalRadius = 20;
           hasCentralCircle = this.hasCentralCircle,
           arcClass = this.arcClass;
       this.vis.selectAll("g").attr("class", arcClass);
-      this.vis.select("circle").attr("class", this.getCircleClass());
+      this.vis.select("circle.central-circle").attr("class", this.getCircleClass());
       var transitionSelection = this.vis.transition("zoom").duration(750).tween("scale", function () {
         var scaleX = _this5.scaleX,
             scaleY = _this5.scaleY,
@@ -14276,9 +14399,11 @@ var miminalRadius = 20;
           scaleY.domain(yd(t)).range(yr(t));
         };
       });
-      transitionSelection.on("end", updateText);
+      var countDown = 0;
       transitionSelection.selectAll("text").filter(function (d) {
         return d.textValue !== null;
+      }).each(function () {
+        return countDown++;
       }).tween("text.angle", function (d) {
         return function () {
           return d.textAngle = getTextAngle(d);
@@ -14293,14 +14418,37 @@ var miminalRadius = 20;
         };
       }).attrTween("dx", function (d) {
         return function () {
-          return d.textAngle > 180 ? -3 : 3;
+          return computeStoreDx(d);
         };
+      }).on("end", function () {
+        if (--countDown === 0) {
+          updateText();
+        }
       });
       transitionSelection.selectAll("path").attrTween("d", function (nd) {
         return function () {
           return arcSunburst(nd);
         };
       });
+      var getCircle = this.getCircle;
+      this.vis.select("defs").selectAll("path").transition("zoom").duration(750).attrTween("d", function (d) {
+        return function () {
+          return getCircle(d);
+        };
+      });
+    },
+
+    /**
+     * @private
+     */
+    getCircle: function getCircle(d) {
+      var ringNumberValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var ringNumber = ringNumberValue != null ? ringNumberValue : this.graphNodes.root.height + 1;
+      var maxLabelText = this.maxLabelText,
+          scaleY = this.scaleY;
+      var offSet = maxLabelText || 0;
+      var fromCircle = scaleY((d + 1) / ringNumber);
+      return src_arc().innerRadius(scaleY(d / ringNumber)).outerRadius(fromCircle + offSet).startAngle(0).endAngle(360)();
     },
 
     /**
@@ -14423,11 +14571,19 @@ var miminalRadius = 20;
         return;
       }
 
+      if (this.maxLabelText !== null) {
+        this.getGroups().attr("clip-path", function (d) {
+          return "url(#clip-".concat(d.depth, ")");
+        });
+      }
+
       var labels = this.vis.selectAll("g").append("text").attr("class", "node-info").attr("dy", ".35em");
       this.addTextAttribute(labels);
     },
     minAngleDisplayed: function minAngleDisplayed() {
-      this.reDraw();
+      this.reDraw({
+        updateAngle: true
+      });
     },
     centralCircleRelativeSize: function centralCircleRelativeSize() {
       var hasCentralCircle = this.hasCentralCircle;
@@ -14452,8 +14608,8 @@ var miminalRadius = 20;
 });
 // CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_sunburstvue_type_script_lang_js_ = (sunburstvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=0&id=2a912196&lang=less&scoped=true&
-var sunburstvue_type_style_index_0_id_2a912196_lang_less_scoped_true_ = __webpack_require__("e5a8");
+// EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=0&id=554167a9&lang=less&scoped=true&
+var sunburstvue_type_style_index_0_id_554167a9_lang_less_scoped_true_ = __webpack_require__("175f");
 
 // EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=1&lang=less&
 var sunburstvue_type_style_index_1_lang_less_ = __webpack_require__("0a03");
@@ -14569,7 +14725,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "2a912196",
+  "554167a9",
   null
   
 )
