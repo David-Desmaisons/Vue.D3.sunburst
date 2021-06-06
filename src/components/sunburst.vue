@@ -421,6 +421,7 @@ export default {
       const mouseOver = this.mouseOver.bind(this);
       const click = this.click.bind(this);
       const { arcSunburst, arcClass } = this;
+      const self = this;
 
       const newGroups = groups
         .enter()
@@ -432,29 +433,22 @@ export default {
       if (this.showLabels && this.maxLabelText !== null) {
         mergedGroups.attr("clip-path", d => `url(#clip-${d.depth})`);
       }
-      const self = this;
 
-      newGroups
-        .append("path")
+      mergedGroups
         .on("mouseover", function(d) {
           mouseOver(d);
-          select(this)
-            .select(function() {
-              return this.parentNode;
-            })
-            .attr("clip-path", null);
+          select(this).attr("clip-path", null);
         })
         .on("mouseleave", function(d) {
           if (!self.showLabels || self.maxLabelText === null) {
             return;
           }
-          select(this)
-            .select(function() {
-              return this.parentNode;
-            })
-            .attr("clip-path", `url(#clip-${d.depth})`);
+          select(this).attr("clip-path", `url(#clip-${d.depth})`);
         })
-        .on("click", click)
+        .on("click", click);
+
+      newGroups
+        .append("path")
         .each(function(d) {
           copyCurrentValues(this, d);
         })
