@@ -555,7 +555,7 @@ export default {
           const self = select(this);
           const textLength = self.node().getComputedTextLength();
           const maxLength = scaleY(d.y1) - scaleY(d.y0) + maxLabelText;
-          if (textLength <= maxLength) {
+          if (textLength + 5 <= maxLength) {
             return false;
           }
           d.currentDx = textLength - maxLength;
