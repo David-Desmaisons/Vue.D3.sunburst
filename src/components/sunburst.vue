@@ -564,8 +564,7 @@ export default {
           if (d.textAngle <= 180) {
             return false;
           }
-          const self = select(this);
-          const textLength = self.node().getComputedTextLength();
+          const textLength = select(this).node().getComputedTextLength();
           const maxLength = scaleY(d.y1) - scaleY(d.y0) + maxLabelText;
           if (textLength + 5 <= maxLength) {
             return false;
