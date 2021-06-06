@@ -429,10 +429,10 @@ export default {
 
       const mergedGroups = newGroups.merge(groups).attr("class", arcClass);
 
-      const needTruncateLabel = this.showLabels && this.maxLabelText !== null;
-      if (needTruncateLabel) {
+      if (this.showLabels && this.maxLabelText !== null) {
         mergedGroups.attr("clip-path", d => `url(#clip-${d.depth})`);
       }
+      const self = this;
 
       newGroups
         .append("path")
@@ -445,7 +445,7 @@ export default {
             .attr("clip-path", null);
         })
         .on("mouseleave", function(d) {
-          if (!needTruncateLabel) {
+          if (!self.showLabels || self.maxLabelText === null) {
             return;
           }
           select(this)
