@@ -183,7 +183,7 @@ Failing to do so may result in a component whose size that will keep increasing.
 
 - `max-label-text` ***Number*** (*optional*) `default: 45` 
 
-   If `show-labels` is true the maximum size of the label is the size of the corresponding arc + the value of `max-label-text` in pixel. If `max-label-text` is null, the label will not be truncated.
+   Useful to truncate the labels: the maximum size of the label is the corresponding arc size + the value of `max-label-text` in pixel. If `max-label-text` is null, the label will not be truncated.
 
 - `central-circle-relative-size` ***Number*** (*optional*)  `default: 0`
 
