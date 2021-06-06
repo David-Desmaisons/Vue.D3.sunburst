@@ -429,13 +429,31 @@ export default {
 
       const mergedGroups = newGroups.merge(groups).attr("class", arcClass);
 
-      if (this.showLabels && this.maxLabelText !== null) {
+      const needTruncateLabel = this.showLabels && this.maxLabelText !== null;
+      if (needTruncateLabel) {
         mergedGroups.attr("clip-path", d => `url(#clip-${d.depth})`);
       }
 
       newGroups
         .append("path")
-        .on("mouseover", mouseOver)
+        .on("mouseover", function(d) {
+          mouseOver(d);
+          select(this)
+            .select(function() {
+              return this.parentNode;
+            })
+            .attr("clip-path", null);
+        })
+        .on("mouseleave", function(d) {
+          if (!needTruncateLabel) {
+            return;
+          }
+          select(this)
+            .select(function() {
+              return this.parentNode;
+            })
+            .attr("clip-path", `url(#clip-${d.depth})`);
+        })
         .on("click", click)
         .each(function(d) {
           copyCurrentValues(this, d);
