@@ -156,6 +156,10 @@ Failing to do so may result in a component whose size that will keep increasing.
 
    Function used to map an item and its color. (nodeD3: Object) => category: Number | String By default use the node name 
 
+- `highlightOpacity` ***Number*** (*optional*) `default: '0.3'` 
+
+   Opacity to be applied to none highlighted nodes 
+
 - `min-angle-displayed` ***Number*** (*optional*) `default: 0.005` 
 
    Minimal arc angle to be displayed (in radian). 
@@ -179,7 +183,7 @@ Failing to do so may result in a component whose size that will keep increasing.
 
 - `max-label-text` ***Number*** (*optional*) `default: 45` 
 
-   Max size for label, if null text will not be truncated 
+   Useful to truncate labels: the maximum size of a label is the corresponding arc size + the value of `max-label-text` in pixel. If `max-label-text` is null, the labels will not be truncated.
 
 - `central-circle-relative-size` ***Number*** (*optional*)  `default: 0`
 
@@ -248,7 +252,7 @@ Failing to do so may result in a component whose size that will keep increasing.
    **parameters:** 
 
      - `node` **Object** - the D3 node to highlight 
-     - `opacity` **Number** - opacity of the none highlighted nodes, default to 0.3 
+     - `opacity` **Number** - opacity of the none highlighted nodes, default to highlightOpacity 
 
 - `zoomToNode(node)` 
 

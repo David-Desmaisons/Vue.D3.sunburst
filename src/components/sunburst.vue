@@ -67,18 +67,18 @@ function arc2Tween(arcSunburst, d, indx) {
   };
 }
 
-function getTextWrapper({ padding, width }) {
-  // Adapted from: https://stackoverflow.com/a/27723752/965332
-  return function() {
-    const self = select(this);
-    let textLength = self.node().getComputedTextLength();
-    let text = self.text();
-    while (textLength > width - 2 * padding && text.length > 0) {
-      text = text.slice(0, -1);
-      self.text(text + "\u2026");
-      textLength = self.node().getComputedTextLength();
-    }
-  };
+function getDx(d) {
+  const { textAngle, currentDx } = d;
+  if (textAngle <= 180) {
+    return 5;
+  }
+  return !!currentDx && currentDx < -5 ? currentDx : -5;
+}
+
+function computeStoreDx(d) {
+  const dx = getDx(d);
+  d.currentDx = dx;
+  return dx;
 }
 
 const useNameForColor = d => d.name;
@@ -187,6 +187,15 @@ export default {
       required: false,
       default: 0,
       validator: v => v >= 0 && v < 100
+    },
+    /**
+     *  Opacity to be applied to none highlighted nodes
+     */
+    highlightOpacity: {
+      type: Number,
+      required: false,
+      default: 0.3,
+      validator: v => v >= 0 && v < 1
     }
   },
 
@@ -249,6 +258,8 @@ export default {
       .attr("width", "100%")
       .attr("height", "100%")
       .append("g");
+
+    this.vis.append("defs");
 
     select(viewport).on("mouseleave", () => {
       /**
@@ -347,7 +358,7 @@ export default {
         .each(d => (d.textAngle = getTextAngle(d)))
         .attr("transform", d => getTextTransform(d))
         .attr("text-anchor", d => getTextAnchor(d))
-        .attr("dx", d => (d.textAngle > 180 ? -3 : 3))
+        .attr("dx", d => computeStoreDx(d))
         .attr("display", d => (d.depth ? null : "none"))
         .style(
           "opacity",
@@ -356,17 +367,13 @@ export default {
               ? 0
               : 1
         );
-      const { maxLabelText: width } = this;
-      if (width) {
-        const wrap = getTextWrapper({ width, padding: 0 });
-        textSelection.each(wrap);
-      }
+      this.adjustText(textSelection);
     },
 
     /**
      * @private
      */
-    onData(data, onlyRedraw = false) {
+    onData(data, { onlyRedraw = false, updateAngle = false } = {}) {
       if (!data) {
         this.vis.selectAll("g").remove();
         Object.keys(this.graphNodes).forEach(k => (this.graphNodes[k] = null));
@@ -379,32 +386,69 @@ export default {
           .sort((a, b) => b.value - a.value);
       }
 
-      const { minAngleDisplayed } = this;
-      this.nodes = partition()(this.root)
-        .descendants()
-        .filter(d => Math.abs(this.scaleX(d.x1 - d.x0)) > minAngleDisplayed);
+      const needComputedNode = !onlyRedraw || updateAngle;
+
+      if (needComputedNode) {
+        const { minAngleDisplayed } = this;
+        this.nodes = partition()(this.root)
+          .descendants()
+          .filter(d => Math.abs(this.scaleX(d.x1 - d.x0)) > minAngleDisplayed);
+      }
+
+      const { zoomedNode, hasCentralCircle, getCircle } = this;
+      this.scaleY.domain([hasCentralCircle ? zoomedNode.y1 : zoomedNode.y0, 1]);
 
       const rootNode = this.nodes[0];
-      const { zoomedNode, hasCentralCircle } = this;
-      this.scaleY.domain([hasCentralCircle ? zoomedNode.y1 : zoomedNode.y0, 1]);
+      const ringNumber = rootNode.height + 1;
+      const definitions = this.vis
+        .select("defs")
+        .selectAll("clipPath")
+        .data([...Array(ringNumber).keys()]);
+
+      definitions
+        .enter()
+        .append("clipPath")
+        .attr("id", id => `clip-${id}`)
+        .append("path")
+        .attr("clip-rule", "evenodd")
+        .merge(definitions.select("path"))
+        .attr("d", d => getCircle(d, ringNumber));
+
+      definitions.exit().remove();
 
       const groups = this.getGroups();
       const colorGetter = this.colorGetter;
       const mouseOver = this.mouseOver.bind(this);
       const click = this.click.bind(this);
       const { arcSunburst, arcClass } = this;
+      const self = this;
 
       const newGroups = groups
         .enter()
         .append("g")
         .style("opacity", 1);
 
-      newGroups.merge(groups).attr("class", arcClass);
+      const mergedGroups = newGroups.merge(groups).attr("class", arcClass);
+
+      if (this.showLabels && this.maxLabelText !== null) {
+        mergedGroups.attr("clip-path", d => `url(#clip-${d.depth})`);
+      }
+
+      mergedGroups
+        .on("mouseover", function(d) {
+          mouseOver(d);
+          select(this).attr("clip-path", null);
+        })
+        .on("mouseleave", function(d) {
+          if (!self.showLabels || self.maxLabelText === null) {
+            return;
+          }
+          select(this).attr("clip-path", `url(#clip-${d.depth})`);
+        })
+        .on("click", click);
 
       newGroups
         .append("path")
-        .on("mouseover", mouseOver)
-        .on("click", click)
         .each(function(d) {
           copyCurrentValues(this, d);
         })
@@ -426,6 +470,10 @@ export default {
       }
 
       groups.exit().remove();
+
+      if (!needComputedNode) {
+        return;
+      }
 
       this.graphNodes.root = rootNode;
       /**
@@ -478,7 +526,6 @@ export default {
               .attr("cy", 0)
               .attr("fill", "none")
               .attr("pointer-events", "bounding-box")
-              .attr("class", "central-circle")
               .on("mouseover", () => {
                 const {
                   graphNodes: { zoomed }
@@ -495,20 +542,44 @@ export default {
                 }
                 this.click(parentZoomed);
               })
-          : this.vis.select("circle");
+          : this.vis.select("circle.central-circle");
         circle
           .attr("r", this.scaleY.range()[0])
           .attr("class", this.getCircleClass());
       }
 
-      this.onData(this.data, !onMount);
+      this.onData(this.data, { onlyRedraw: !onMount });
     },
 
     /**
      * @private
      */
-    reDraw() {
-      this.onData(this.data, true);
+    adjustText(textSelection) {
+      const { scaleY, maxLabelText } = this;
+      if (maxLabelText === null) {
+        return;
+      }
+      textSelection
+        .filter(function(d) {
+          if (d.textAngle <= 180) {
+            return false;
+          }
+          const textLength = select(this).node().getComputedTextLength();
+          const maxLength = scaleY(d.y1) - scaleY(d.y0) + maxLabelText;
+          if (textLength + 5 <= maxLength) {
+            return false;
+          }
+          d.currentDx = textLength - maxLength;
+          return true;
+        })
+        .attr("dx", ({ currentDx }) => currentDx);
+    },
+
+    /**
+     * @private
+     */
+    reDraw(options = {}) {
+      this.onData(this.data, { onlyRedraw: true, ...options });
     },
 
     /**
@@ -551,9 +622,15 @@ export default {
     /**
      * Highlight the arc path leading to a given node.
      * @param {Object} node the D3 node to highlight
-     * @param {Number} opacity opacity of the none highlighted nodes, default to 0.3
+     * @param {Number} opacity opacity of the none highlighted nodes, default to props highlightOpacity
      */
-    highlightPath(node, opacity = 0.3) {
+    highlightPath(node, targetOpacity = null) {
+      const opacity =
+        targetOpacity === null ? this.highlightOpacity : targetOpacity;
+      if (node === this.graphNodes.zoomed && this.hasCentralCircle) {
+        this.resetHighlight();
+        return;
+      }
       const sequenceArray = node.ancestors();
 
       const visiblePath = this.vis.selectAll("g");
@@ -590,14 +667,16 @@ export default {
       const descendants = node.descendants();
       const textNodes = this.vis.selectAll("text");
 
-      const updateText = this.showLabelsIsFunction
-        ? () => {
-            const futureVisibleArcs = textNodes.filter(d =>
-              descendants.includes(d)
-            );
-            this.addTextAttribute(futureVisibleArcs);
-          }
-        : () => {};
+      const updateText = () => {
+        this.adjustText(textNodes);
+        if (!this.showLabelsIsFunction) {
+          return;
+        }
+        const futureVisibleArcs = textNodes.filter(d =>
+          descendants.includes(d)
+        );
+        this.addTextAttribute(futureVisibleArcs);
+      };
 
       textNodes
         .transition()
@@ -618,7 +697,9 @@ export default {
       } = this;
       this.vis.selectAll("g").attr("class", arcClass);
 
-      this.vis.select("circle").attr("class", this.getCircleClass());
+      this.vis
+        .select("circle.central-circle")
+        .attr("class", this.getCircleClass());
 
       const transitionSelection = this.vis
         .transition("zoom")
@@ -640,21 +721,50 @@ export default {
           };
         });
 
-      transitionSelection.on("end", updateText);
-
+      let countDown = 0;
       transitionSelection
         .selectAll("text")
         .filter(d => d.textValue !== null)
-        .tween("text.angle", d => {
-          return () => (d.textAngle = getTextAngle(d));
-        })
+        .each(() => countDown++)
+        .tween("text.angle", d => () => (d.textAngle = getTextAngle(d)))
         .attrTween("transform", d => () => getTextTransform(d))
         .attrTween("text-anchor", d => () => getTextAnchor(d))
-        .attrTween("dx", d => () => (d.textAngle > 180 ? -3 : 3));
+        .attrTween("dx", d => () => computeStoreDx(d))
+        .on("end", () => {
+          if (--countDown === 0) {
+            updateText();
+          }
+        });
 
       transitionSelection
         .selectAll("path")
         .attrTween("d", nd => () => arcSunburst(nd));
+
+      const { getCircle } = this;
+      this.vis
+        .select("defs")
+        .selectAll("path")
+        .transition("zoom")
+        .duration(750)
+        .attrTween("d", d => () => getCircle(d));
+    },
+
+    /**
+     * @private
+     */
+    getCircle(d, ringNumberValue = null) {
+      const ringNumber =
+        ringNumberValue != null
+          ? ringNumberValue
+          : this.graphNodes.root.height + 1;
+      const { maxLabelText, scaleY } = this;
+      const offSet = maxLabelText || 0;
+      const fromCircle = scaleY((d + 1) / ringNumber);
+      return arc()
+        .innerRadius(scaleY(d / ringNumber))
+        .outerRadius(fromCircle + offSet)
+        .startAngle(0)
+        .endAngle(360)();
     },
 
     /**
@@ -771,6 +881,9 @@ export default {
       if (!value) {
         return;
       }
+      if (this.maxLabelText !== null) {
+        this.getGroups().attr("clip-path", d => `url(#clip-${d.depth})`);
+      }
       const labels = this.vis
         .selectAll("g")
         .append("text")
@@ -780,7 +893,7 @@ export default {
     },
 
     minAngleDisplayed() {
-      this.reDraw();
+      this.reDraw({ updateAngle: true });
     },
 
     centralCircleRelativeSize() {
@@ -820,6 +933,7 @@ svg {
   text.node-info {
     pointer-events: none;
     font-size: 8px;
+    overflow: hidden;
   }
 
   .addTextSize (@index) when (@index > 0) {
