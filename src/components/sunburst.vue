@@ -640,8 +640,6 @@ export default {
 
       visiblePath
         .filter(d => sequenceArray.indexOf(d) === -1)
-        .transition()
-        .duration(this.inAnimationDuration)
         .style("opacity", opacity);
 
       visiblePath
@@ -774,11 +772,7 @@ export default {
      * Reset the highlighted path
      */
     resetHighlight() {
-      this.vis
-        .selectAll("g")
-        .transition()
-        .duration(this.outAnimationDuration)
-        .style("opacity", 1);
+      this.vis.selectAll("g").style("opacity", 1);
 
       this.setHighligth(null);
     },
