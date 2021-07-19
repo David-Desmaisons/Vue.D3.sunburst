@@ -359,14 +359,15 @@ export default {
         .attr("transform", d => getTextTransform(d))
         .attr("text-anchor", d => getTextAnchor(d))
         .attr("dx", d => computeStoreDx(d))
-        .attr("display", d => (d.depth ? null : "none"))
-        .style(
-          "opacity",
+        .attr(
+          "display",
           d =>
-            zoomed != null && (d === zoomed || descendants.indexOf(d) === -1)
-              ? 0
-              : 1
+            d.depth ||
+            (zoomed != null && (d === zoomed || descendants.indexOf(d) === -1))
+              ? null
+              : "none"
         );
+
       this.adjustText(textSelection);
     },
 
