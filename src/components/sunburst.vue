@@ -673,20 +673,16 @@ export default {
         if (!this.showLabelsIsFunction) {
           return;
         }
-        const futureVisibleArcs = textNodes.filter(d =>
-          descendants.includes(d)
+        const futureVisibleArcs = textNodes.filter(
+          d => d !== node && descendants.includes(d)
         );
         this.addTextAttribute(futureVisibleArcs);
       };
 
-      textNodes
-        .transition()
-        .delay(200)
-        .duration(550)
-        .style(
-          "opacity",
-          d => (d === node || descendants.indexOf(d) === -1 ? 0 : 1)
-        );
+      textNodes.style(
+        "display",
+        d => (d === node || descendants.indexOf(d) === -1 ? "none" : null)
+      );
 
       const {
         getTextAngle,
