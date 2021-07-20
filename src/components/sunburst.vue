@@ -353,8 +353,9 @@ export default {
       const descendants = zoomed === null ? null : zoomed.descendants();
       const textSelection = selection
         .each(d => (d.textValue = textExtractor(d)))
-        .text(d => d.textValue)
+        .attr("display", d => (d.textValue === null ? "none" : null))
         .filter(d => d.textValue !== null)
+        .text(d => d.textValue)
         .each(d => (d.textAngle = getTextAngle(d)))
         .attr("transform", d => getTextTransform(d))
         .attr("text-anchor", d => getTextAnchor(d))
@@ -679,7 +680,7 @@ export default {
         this.addTextAttribute(futureVisibleArcs);
       };
 
-      textNodes.style(
+      textNodes.attr(
         "display",
         d => (d === node || descendants.indexOf(d) === -1 ? "none" : null)
       );
