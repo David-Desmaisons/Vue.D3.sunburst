@@ -343,31 +343,18 @@ export default {
      * @private
      */
     addTextAttribute(selection) {
-      const {
-        graphNodes: { zoomed },
-        getTextAngle,
-        getTextTransform,
-        getTextAnchor
-      } = this;
+      const { getTextAngle, getTextTransform, getTextAnchor } = this;
       const textExtractor = this.getTextExtractor();
-      const descendants = zoomed === null ? null : zoomed.descendants();
+
       const textSelection = selection
         .each(d => (d.textValue = textExtractor(d)))
         .attr("display", d => (d.textValue === null ? "none" : null))
         .filter(d => d.textValue !== null)
-        .text(d => d.textValue)
         .each(d => (d.textAngle = getTextAngle(d)))
         .attr("transform", d => getTextTransform(d))
         .attr("text-anchor", d => getTextAnchor(d))
         .attr("dx", d => computeStoreDx(d))
-        .attr(
-          "display",
-          d =>
-            d.depth ||
-            (zoomed != null && (d === zoomed || descendants.indexOf(d) === -1))
-              ? null
-              : "none"
-        );
+        .text(d => d.textValue);
 
       this.adjustText(textSelection);
     },
