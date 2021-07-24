@@ -550,7 +550,7 @@ export default {
       }
       textSelection
         .filter(function(d) {
-          if (d.textAngle <= 180) {
+          if (d.textValue === null || d.textAngle <= 180) {
             return false;
           }
           const textLength = select(this)
@@ -657,20 +657,20 @@ export default {
       const textNodes = this.vis.selectAll("text");
 
       const updateText = () => {
-        this.adjustText(textNodes);
+        const futureVisibleArcs = textNodes
+          .filter(d => descendants.includes(d))
+          .attr("display", null);
+
         if (!this.showLabelsIsFunction) {
+          this.adjustText(textNodes);
           return;
         }
-        const futureVisibleArcs = textNodes.filter(
-          d => d !== node && descendants.includes(d)
-        );
         this.addTextAttribute(futureVisibleArcs);
       };
 
-      textNodes.attr(
-        "display",
-        d => (d === node || descendants.indexOf(d) === -1 ? "none" : null)
-      );
+      textNodes
+        .filter(d => d === node || descendants.indexOf(d) === -1)
+        .attr("display", "none");
 
       const {
         getTextAngle,
