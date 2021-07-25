@@ -658,7 +658,7 @@ export default {
 
       const updateText = () => {
         const futureVisibleArcs = textNodes
-          .filter(d => descendants.includes(d))
+          .filter(d => d !== node && descendants.includes(d))
           .attr("display", null);
 
         if (!this.showLabelsIsFunction) {
