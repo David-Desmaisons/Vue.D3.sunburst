@@ -348,7 +348,10 @@ export default {
 
       const textSelection = selection
         .each(d => (d.textValue = textExtractor(d)))
-        .attr("display", d => (d.textValue === null ? "none" : null))
+        .attr(
+          "display",
+          d => (d.textValue === null || d.depth === 0 ? "none" : null)
+        )
         .filter(d => d.textValue !== null)
         .each(d => (d.textAngle = getTextAngle(d)))
         .attr("transform", d => getTextTransform(d))
