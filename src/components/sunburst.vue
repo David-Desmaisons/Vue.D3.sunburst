@@ -362,7 +362,7 @@ export default {
     /**
      * @private
      */
-    onData(data, { onlyRedraw = false, updateAngle = false } = {}) {
+    onData(data, { onlyRedraw = false } = {}) {
       if (!data) {
         this.vis.selectAll("g").remove();
         Object.keys(this.graphNodes).forEach(k => (this.graphNodes[k] = null));
@@ -373,18 +373,17 @@ export default {
         this.root = hierarchy(data)
           .sum(d => d.size)
           .sort((a, b) => b.value - a.value);
+
+        this.nodes = partition()(this.root).descendants();
       }
 
-      const needComputedNode = !onlyRedraw || updateAngle;
-
-      if (needComputedNode) {
-        const { minAngleDisplayed } = this;
-        this.nodes = partition()(this.root)
-          .descendants()
-          .filter(d => Math.abs(this.scaleX(d.x1 - d.x0)) > minAngleDisplayed);
-      }
-
-      const { zoomedNode, hasCentralCircle, getCircle } = this;
+      const {
+        zoomedNode,
+        hasCentralCircle,
+        getCircle,
+        minAngleDisplayed,
+        scaleX
+      } = this;
       this.scaleY.domain([hasCentralCircle ? zoomedNode.y1 : zoomedNode.y0, 1]);
 
       const rootNode = this.nodes[0];
@@ -417,7 +416,13 @@ export default {
         .append("g")
         .style("opacity", 1);
 
-      const mergedGroups = newGroups.merge(groups).attr("class", arcClass);
+      const mergedGroups = newGroups
+        .merge(groups)
+        .attr("class", arcClass)
+        .attr(
+          "display",
+          d => (scaleX(d.x1) - scaleX(d.x0) > minAngleDisplayed ? null : "none")
+        );
 
       if (this.showLabels && this.maxLabelText !== null) {
         mergedGroups.attr("clip-path", d => `url(#clip-${d.depth})`);
@@ -460,7 +465,7 @@ export default {
 
       groups.exit().remove();
 
-      if (!needComputedNode) {
+      if (onlyRedraw) {
         return;
       }
 
@@ -678,6 +683,7 @@ export default {
         arcSunburst,
         getTextAnchor,
         hasCentralCircle,
+        minAngleDisplayed,
         arcClass
       } = this;
       this.vis.selectAll("g").attr("class", arcClass);
@@ -724,6 +730,18 @@ export default {
       transitionSelection
         .selectAll("path")
         .attrTween("d", nd => () => arcSunburst(nd));
+
+      if (minAngleDisplayed > 0) {
+        transitionSelection
+          .selectAll("g")
+          .filter(d => descendants.includes(d))
+          .attrTween("display", d => () => {
+            const { scaleX } = this;
+            return scaleX(d.x1) - scaleX(d.x0) > minAngleDisplayed
+              ? null
+              : "none";
+          });
+      }
 
       const { getCircle } = this;
       this.vis
@@ -874,7 +892,7 @@ export default {
     },
 
     minAngleDisplayed() {
-      this.reDraw({ updateAngle: true });
+      this.reDraw();
     },
 
     centralCircleRelativeSize() {
