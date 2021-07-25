@@ -313,24 +313,6 @@ module.exports = __webpack_require__("9e1e") ? Object.defineProperties : functio
 
 /***/ }),
 
-/***/ "175f":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_554167a9_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("1c63");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_554167a9_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_554167a9_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_554167a9_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "1c63":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "1eb2":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1484,6 +1466,17 @@ __webpack_require__("214f")('replace', 2, function (defined, REPLACE, $replace) 
 
 /***/ }),
 
+/***/ "a5ca":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_a012c830_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ff52");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_a012c830_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_a012c830_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_a012c830_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "aa77":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2350,12 +2343,12 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 var setPublicPath = __webpack_require__("1eb2");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules//.cache//vue-loader","cacheIdentifier":"60c9a5d3-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/sunburst.vue?vue&type=template&id=554167a9&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules//.cache//vue-loader","cacheIdentifier":"60c9a5d3-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/sunburst.vue?vue&type=template&id=a012c830&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"graph"},[_vm._t("legend",null,{width:_vm.width,colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_c('div',{directives:[{name:"resize",rawName:"v-resize.throttle.250",value:(_vm.resize),expression:"resize",modifiers:{"250":true,"throttle":true}}],staticClass:"viewport"},[_vm._t("top",null,{colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_vm._t("default",null,{on:_vm.on,actions:_vm.actions})],2)],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=template&id=554167a9&scoped=true&
+// CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=template&id=a012c830&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es7.array.includes.js
 var es7_array_includes = __webpack_require__("6762");
@@ -14020,16 +14013,14 @@ var miminalRadius = 20;
      * @private
      */
     addTextAttribute: function addTextAttribute(selection) {
-      var zoomed = this.graphNodes.zoomed,
-          getTextAngle = this.getTextAngle,
+      var getTextAngle = this.getTextAngle,
           getTextTransform = this.getTextTransform,
           getTextAnchor = this.getTextAnchor;
       var textExtractor = this.getTextExtractor();
-      var descendants = zoomed === null ? null : zoomed.descendants();
       var textSelection = selection.each(function (d) {
         return d.textValue = textExtractor(d);
-      }).text(function (d) {
-        return d.textValue;
+      }).attr("display", function (d) {
+        return d.textValue === null || d.depth === 0 ? "none" : null;
       }).filter(function (d) {
         return d.textValue !== null;
       }).each(function (d) {
@@ -14040,10 +14031,8 @@ var miminalRadius = 20;
         return getTextAnchor(d);
       }).attr("dx", function (d) {
         return computeStoreDx(d);
-      }).attr("display", function (d) {
-        return d.depth ? null : "none";
-      }).style("opacity", function (d) {
-        return zoomed != null && (d === zoomed || descendants.indexOf(d) === -1) ? 0 : 1;
+      }).text(function (d) {
+        return d.textValue;
       });
       this.adjustText(textSelection);
     },
@@ -14056,9 +14045,7 @@ var miminalRadius = 20;
 
       var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
           _ref2$onlyRedraw = _ref2.onlyRedraw,
-          onlyRedraw = _ref2$onlyRedraw === void 0 ? false : _ref2$onlyRedraw,
-          _ref2$updateAngle = _ref2.updateAngle,
-          updateAngle = _ref2$updateAngle === void 0 ? false : _ref2$updateAngle;
+          onlyRedraw = _ref2$onlyRedraw === void 0 ? false : _ref2$onlyRedraw;
 
       if (!data) {
         this.vis.selectAll("g").remove();
@@ -14074,20 +14061,14 @@ var miminalRadius = 20;
         }).sort(function (a, b) {
           return b.value - a.value;
         });
-      }
-
-      var needComputedNode = !onlyRedraw || updateAngle;
-
-      if (needComputedNode) {
-        var minAngleDisplayed = this.minAngleDisplayed;
-        this.nodes = src_partition()(this.root).descendants().filter(function (d) {
-          return Math.abs(_this3.scaleX(d.x1 - d.x0)) > minAngleDisplayed;
-        });
+        this.nodes = src_partition()(this.root).descendants();
       }
 
       var zoomedNode = this.zoomedNode,
           hasCentralCircle = this.hasCentralCircle,
-          getCircle = this.getCircle;
+          getCircle = this.getCircle,
+          minAngleDisplayed = this.minAngleDisplayed,
+          scaleX = this.scaleX;
       this.scaleY.domain([hasCentralCircle ? zoomedNode.y1 : zoomedNode.y0, 1]);
       var rootNode = this.nodes[0];
       var ringNumber = rootNode.height + 1;
@@ -14106,7 +14087,9 @@ var miminalRadius = 20;
           arcClass = this.arcClass;
       var self = this;
       var newGroups = groups.enter().append("g").style("opacity", 1);
-      var mergedGroups = newGroups.merge(groups).attr("class", arcClass);
+      var mergedGroups = newGroups.merge(groups).attr("class", arcClass).attr("display", function (d) {
+        return scaleX(d.x1) - scaleX(d.x0) > minAngleDisplayed ? null : "none";
+      });
 
       if (this.showLabels && this.maxLabelText !== null) {
         mergedGroups.attr("clip-path", function (d) {
@@ -14139,7 +14122,7 @@ var miminalRadius = 20;
 
       groups.exit().remove();
 
-      if (!needComputedNode) {
+      if (onlyRedraw) {
         return;
       }
 
@@ -14236,7 +14219,7 @@ var miminalRadius = 20;
       }
 
       textSelection.filter(function (d) {
-        if (d.textAngle <= 180) {
+        if (d.textValue === null || d.textAngle <= 180) {
           return false;
         }
 
@@ -14328,7 +14311,7 @@ var miminalRadius = 20;
       var visiblePath = this.vis.selectAll("g");
       visiblePath.filter(function (d) {
         return sequenceArray.indexOf(d) === -1;
-      }).transition().duration(this.inAnimationDuration).style("opacity", opacity);
+      }).style("opacity", opacity);
       visiblePath.filter(function (d) {
         return sequenceArray.indexOf(d) >= 0;
       }).style("opacity", 1);
@@ -14360,27 +14343,28 @@ var miminalRadius = 20;
       var textNodes = this.vis.selectAll("text");
 
       var updateText = function updateText() {
-        _this5.adjustText(textNodes);
+        var futureVisibleArcs = textNodes.filter(function (d) {
+          return d !== node && descendants.includes(d);
+        }).attr("display", null);
 
         if (!_this5.showLabelsIsFunction) {
+          _this5.adjustText(textNodes);
+
           return;
         }
-
-        var futureVisibleArcs = textNodes.filter(function (d) {
-          return descendants.includes(d);
-        });
 
         _this5.addTextAttribute(futureVisibleArcs);
       };
 
-      textNodes.transition().delay(200).duration(550).style("opacity", function (d) {
-        return d === node || descendants.indexOf(d) === -1 ? 0 : 1;
-      });
+      textNodes.filter(function (d) {
+        return d === node || descendants.indexOf(d) === -1;
+      }).attr("display", "none");
       var getTextAngle = this.getTextAngle,
           getTextTransform = this.getTextTransform,
           arcSunburst = this.arcSunburst,
           getTextAnchor = this.getTextAnchor,
           hasCentralCircle = this.hasCentralCircle,
+          minAngleDisplayed = this.minAngleDisplayed,
           arcClass = this.arcClass;
       this.vis.selectAll("g").attr("class", arcClass);
       this.vis.select("circle.central-circle").attr("class", this.getCircleClass());
@@ -14430,6 +14414,18 @@ var miminalRadius = 20;
           return arcSunburst(nd);
         };
       });
+
+      if (minAngleDisplayed > 0) {
+        transitionSelection.selectAll("g").filter(function (d) {
+          return descendants.includes(d);
+        }).attrTween("display", function (d) {
+          return function () {
+            var scaleX = _this5.scaleX;
+            return scaleX(d.x1) - scaleX(d.x0) > minAngleDisplayed ? null : "none";
+          };
+        });
+      }
+
       var getCircle = this.getCircle;
       this.vis.select("defs").selectAll("path").transition("zoom").duration(750).attrTween("d", function (d) {
         return function () {
@@ -14455,7 +14451,7 @@ var miminalRadius = 20;
      * Reset the highlighted path
      */
     resetHighlight: function resetHighlight() {
-      this.vis.selectAll("g").transition().duration(this.outAnimationDuration).style("opacity", 1);
+      this.vis.selectAll("g").style("opacity", 1);
       this.setHighligth(null);
     },
 
@@ -14581,9 +14577,7 @@ var miminalRadius = 20;
       this.addTextAttribute(labels);
     },
     minAngleDisplayed: function minAngleDisplayed() {
-      this.reDraw({
-        updateAngle: true
-      });
+      this.reDraw();
     },
     centralCircleRelativeSize: function centralCircleRelativeSize() {
       var hasCentralCircle = this.hasCentralCircle;
@@ -14608,8 +14602,8 @@ var miminalRadius = 20;
 });
 // CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_sunburstvue_type_script_lang_js_ = (sunburstvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=0&id=554167a9&lang=less&scoped=true&
-var sunburstvue_type_style_index_0_id_554167a9_lang_less_scoped_true_ = __webpack_require__("175f");
+// EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=0&id=a012c830&lang=less&scoped=true&
+var sunburstvue_type_style_index_0_id_a012c830_lang_less_scoped_true_ = __webpack_require__("a5ca");
 
 // EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=1&lang=less&
 var sunburstvue_type_style_index_1_lang_less_ = __webpack_require__("0a03");
@@ -14725,7 +14719,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "554167a9",
+  "a012c830",
   null
   
 )
@@ -15349,6 +15343,13 @@ breadcrumbTrail_component.options.__file = "breadcrumbTrail.vue"
 module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
   '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
 
+
+/***/ }),
+
+/***/ "ff52":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ })
 
