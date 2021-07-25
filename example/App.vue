@@ -35,7 +35,7 @@
               <div class="form-group">
                 <label for="minAngleDisplayed">Minimal arc angle to be displayed</label>
                 <div>
-                  <input id="minAngleDisplayed" class="form-control" type="range" min="0" step="0.005" max="3.5" v-model.number="minAngleDisplayed">
+                  <input id="minAngleDisplayed" class="form-control" type="range" min="0" step="0.005" max="0.5" v-model.number="minAngleDisplayed">
                 </div>
                 <div>
                   <p>{{minAngleDisplayed}} radian</p>
@@ -123,14 +123,14 @@ export default {
   data() {
     return {
       data,
-      minAngleDisplayed: 0,
+      minAngleDisplayed: 0.01,
       colorScheme: colorSchemesNames[0].value,
       colorSchemes: colorSchemesNames,
       inAnimationDuration: 100,
       outAnimationDuration: 1000,
       overrideColorScale: false,
-      centralCircleRelativeSize: 50,
-      showLabels: false,
+      centralCircleRelativeSize: 25,
+      showLabels: this.showLabelsFunction,
       custoColorScale: scaleOrdinal(["#e39b89", "#31ea74", "#3c7227", "#9dad1f"])
     };
   },
