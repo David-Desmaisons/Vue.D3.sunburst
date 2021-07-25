@@ -343,37 +343,29 @@ export default {
      * @private
      */
     addTextAttribute(selection) {
-      const {
-        graphNodes: { zoomed },
-        getTextAngle,
-        getTextTransform,
-        getTextAnchor
-      } = this;
+      const { getTextAngle, getTextTransform, getTextAnchor } = this;
       const textExtractor = this.getTextExtractor();
-      const descendants = zoomed === null ? null : zoomed.descendants();
+
       const textSelection = selection
         .each(d => (d.textValue = textExtractor(d)))
-        .text(d => d.textValue)
+        .attr(
+          "display",
+          d => (d.textValue === null || d.depth === 0 ? "none" : null)
+        )
         .filter(d => d.textValue !== null)
         .each(d => (d.textAngle = getTextAngle(d)))
         .attr("transform", d => getTextTransform(d))
         .attr("text-anchor", d => getTextAnchor(d))
         .attr("dx", d => computeStoreDx(d))
-        .attr("display", d => (d.depth ? null : "none"))
-        .style(
-          "opacity",
-          d =>
-            zoomed != null && (d === zoomed || descendants.indexOf(d) === -1)
-              ? 0
-              : 1
-        );
+        .text(d => d.textValue);
+
       this.adjustText(textSelection);
     },
 
     /**
      * @private
      */
-    onData(data, { onlyRedraw = false, updateAngle = false } = {}) {
+    onData(data, { onlyRedraw = false } = {}) {
       if (!data) {
         this.vis.selectAll("g").remove();
         Object.keys(this.graphNodes).forEach(k => (this.graphNodes[k] = null));
@@ -384,18 +376,17 @@ export default {
         this.root = hierarchy(data)
           .sum(d => d.size)
           .sort((a, b) => b.value - a.value);
+
+        this.nodes = partition()(this.root).descendants();
       }
 
-      const needComputedNode = !onlyRedraw || updateAngle;
-
-      if (needComputedNode) {
-        const { minAngleDisplayed } = this;
-        this.nodes = partition()(this.root)
-          .descendants()
-          .filter(d => Math.abs(this.scaleX(d.x1 - d.x0)) > minAngleDisplayed);
-      }
-
-      const { zoomedNode, hasCentralCircle, getCircle } = this;
+      const {
+        zoomedNode,
+        hasCentralCircle,
+        getCircle,
+        minAngleDisplayed,
+        scaleX
+      } = this;
       this.scaleY.domain([hasCentralCircle ? zoomedNode.y1 : zoomedNode.y0, 1]);
 
       const rootNode = this.nodes[0];
@@ -428,7 +419,13 @@ export default {
         .append("g")
         .style("opacity", 1);
 
-      const mergedGroups = newGroups.merge(groups).attr("class", arcClass);
+      const mergedGroups = newGroups
+        .merge(groups)
+        .attr("class", arcClass)
+        .attr(
+          "display",
+          d => (scaleX(d.x1) - scaleX(d.x0) > minAngleDisplayed ? null : "none")
+        );
 
       if (this.showLabels && this.maxLabelText !== null) {
         mergedGroups.attr("clip-path", d => `url(#clip-${d.depth})`);
@@ -471,7 +468,7 @@ export default {
 
       groups.exit().remove();
 
-      if (!needComputedNode) {
+      if (onlyRedraw) {
         return;
       }
 
@@ -561,7 +558,7 @@ export default {
       }
       textSelection
         .filter(function(d) {
-          if (d.textAngle <= 180) {
+          if (d.textValue === null || d.textAngle <= 180) {
             return false;
           }
           const textLength = select(this)
@@ -639,8 +636,6 @@ export default {
 
       visiblePath
         .filter(d => sequenceArray.indexOf(d) === -1)
-        .transition()
-        .duration(this.inAnimationDuration)
         .style("opacity", opacity);
 
       visiblePath
@@ -670,24 +665,20 @@ export default {
       const textNodes = this.vis.selectAll("text");
 
       const updateText = () => {
-        this.adjustText(textNodes);
+        const futureVisibleArcs = textNodes
+          .filter(d => d !== node && descendants.includes(d))
+          .attr("display", null);
+
         if (!this.showLabelsIsFunction) {
+          this.adjustText(textNodes);
           return;
         }
-        const futureVisibleArcs = textNodes.filter(d =>
-          descendants.includes(d)
-        );
         this.addTextAttribute(futureVisibleArcs);
       };
 
       textNodes
-        .transition()
-        .delay(200)
-        .duration(550)
-        .style(
-          "opacity",
-          d => (d === node || descendants.indexOf(d) === -1 ? 0 : 1)
-        );
+        .filter(d => d === node || descendants.indexOf(d) === -1)
+        .attr("display", "none");
 
       const {
         getTextAngle,
@@ -695,6 +686,7 @@ export default {
         arcSunburst,
         getTextAnchor,
         hasCentralCircle,
+        minAngleDisplayed,
         arcClass
       } = this;
       this.vis.selectAll("g").attr("class", arcClass);
@@ -742,6 +734,18 @@ export default {
         .selectAll("path")
         .attrTween("d", nd => () => arcSunburst(nd));
 
+      if (minAngleDisplayed > 0) {
+        transitionSelection
+          .selectAll("g")
+          .filter(d => descendants.includes(d))
+          .attrTween("display", d => () => {
+            const { scaleX } = this;
+            return scaleX(d.x1) - scaleX(d.x0) > minAngleDisplayed
+              ? null
+              : "none";
+          });
+      }
+
       const { getCircle } = this;
       this.vis
         .select("defs")
@@ -773,11 +777,7 @@ export default {
      * Reset the highlighted path
      */
     resetHighlight() {
-      this.vis
-        .selectAll("g")
-        .transition()
-        .duration(this.outAnimationDuration)
-        .style("opacity", 1);
+      this.vis.selectAll("g").style("opacity", 1);
 
       this.setHighligth(null);
     },
@@ -895,7 +895,7 @@ export default {
     },
 
     minAngleDisplayed() {
-      this.reDraw({ updateAngle: true });
+      this.reDraw();
     },
 
     centralCircleRelativeSize() {
