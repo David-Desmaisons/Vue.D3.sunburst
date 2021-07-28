@@ -1,5 +1,15 @@
 <template>
   <div class="graph">
+    <div class="pop-up-tree"  :style="contextMenu.style">
+      <slot v-if="contextMenuNode"
+        name="context-menu"
+        :node="contextMenuNode"
+        :data="contextMenuNode.data"
+        :close="closeContextMenu"
+      >
+      </slot>
+    </div>
+
     <!-- Use this slot to add information on top or bottom of the graph-->
     <slot
       name="legend"
@@ -26,16 +36,16 @@
   </div>
 </template>
 <script>
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "transition" }]*/
-
 import resize from "vue-resize-directive";
 import { select } from "d3-selection";
 import { scaleLinear, scaleSqrt } from "d3-scale";
 import { hierarchy, partition } from "d3-hierarchy";
 import { interpolate } from "d3-interpolate";
 import { arc } from "d3-shape";
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "transition" }]*/
 import { transition } from "d3-transition";
 import { colorSchemes } from "../infra/colorSchemes";
+import { createPopper } from "../infra/popup";
 
 function recursiveName(node) {
   const res = node
@@ -196,6 +206,14 @@ export default {
       required: false,
       default: 0.3,
       validator: v => v >= 0 && v < 1
+    },
+
+    /**
+     *      Pop-up position as defined by popper.js
+     */
+    popUpPlacement: {
+      type: String,
+      default: "bottom-start"
     }
   },
 
@@ -244,12 +262,21 @@ export default {
       /**
        * @private
        */
-      radius: null
+      radius: null,
+
+      /**
+       * @private
+       */
+      contextMenu: {
+        value: null,
+        style: null
+      }
     };
   },
 
   mounted() {
     const [viewport] = this.$el.getElementsByClassName("viewport");
+    this._element = this.$el.querySelector(".pop-up-tree");
     this.viewport = viewport;
     this.vis = select(viewport)
       .append("svg")
@@ -433,7 +460,7 @@ export default {
 
       mergedGroups
         .on("mouseover", function(d) {
-          mouseOver(d);
+          mouseOver(d, this);
           select(this).attr("clip-path", null);
         })
         .on("mouseleave", function(d) {
@@ -516,6 +543,8 @@ export default {
 
       const { hasCentralCircle } = this;
       if (hasCentralCircle) {
+        const { mouseOver } = this;
+        const context = this;
         const circle = onMount
           ? this.vis
               .append("circle")
@@ -523,14 +552,14 @@ export default {
               .attr("cy", 0)
               .attr("fill", "none")
               .attr("pointer-events", "bounding-box")
-              .on("mouseover", () => {
+              .on("mouseover", function() {
                 const {
                   graphNodes: { zoomed }
-                } = this;
+                } = context;
                 if (zoomed === null) {
                   return;
                 }
-                this.mouseOver(zoomed);
+                mouseOver(zoomed, this);
               })
               .on("click", () => {
                 const parentZoomed = this.getZoomParent();
@@ -584,13 +613,13 @@ export default {
     /**
      * @private
      */
-    mouseOver(value) {
+    mouseOver(value, element) {
       this.graphNodes.mouseOver = value;
       /**
        * Fired when mouse is over a sunburst node.
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
        */
-      this.$emit("mouseOverNode", { node: value, sunburst: this });
+      this.$emit("mouseOverNode", { node: value, sunburst: this, element });
     },
 
     /**
@@ -804,6 +833,27 @@ export default {
           ? miminalRadius
           : (radius * centralCircleRelativeSize) / 100;
       return scaleY.range([scaleYMin, radius]);
+    },
+
+    /**
+     * @private
+     */
+    closeContextMenu() {
+      this.contextMenu.value = null;
+      this.contextMenu.style = null;
+    },
+
+    /**
+     * @private
+     */
+    setContextMenu(value) {
+      this.contextMenu.value = value;
+    },
+    /**
+     * @private
+     */
+    styleCallback(style) {
+      this.contextMenu.style = style;
     }
   },
 
@@ -812,8 +862,30 @@ export default {
      * @private
      */
     actions() {
-      const { highlightPath, zoomToNode, resetHighlight } = this;
-      return { highlightPath, zoomToNode, resetHighlight };
+      const {
+        highlightPath,
+        zoomToNode,
+        resetHighlight,
+        closeContextMenu,
+        setContextMenu
+      } = this;
+      return {
+        highlightPath,
+        zoomToNode,
+        resetHighlight,
+        setContextMenu,
+        closeContextMenu
+      };
+    },
+
+    /**
+     * @private
+     */
+    contextMenuNode() {
+      const {
+        contextMenu: { value }
+      } = this;
+      return value ? value.node : null;
     },
 
     /**
@@ -911,12 +983,38 @@ export default {
        * @param {Object} value - {radius, height, width} Size information in pixel
        */
       this.$emit("resize", { radius, height, width });
+    },
+
+    "contextMenu.value": {
+      handler(value) {
+        if (this._contextMenu) {
+          this._contextMenu.destroy();
+        }
+        if (value === null) {
+          return;
+        }
+        const { element: target } = value;
+        const { popUpPlacement, styleCallback } = this;
+        this._contextMenu = null;
+        this.$nextTick(() => {
+          this._contextMenu = createPopper({
+            target,
+            element: this._element,
+            placement: popUpPlacement,
+            styleCallback
+          });
+        });
+      }
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
+.pop-up-tree {
+  z-index: 1000;
+}
+
 .graph {
   height: 100%;
   width: 100%;
