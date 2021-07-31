@@ -17,7 +17,6 @@
     "doc:build": "npm run doc-sun:build && npm run doc-bread:build && npm run doc-node:build && npm run doc-zoom:build && npm run doc-highlight:build"
   },
   "dependencies": {
-    "@popperjs/core": "^2.9.2",
     "d3-hierarchy": "^1.1.6",
     "d3-interpolate": "^1.2.0",
     "d3-scale": "^2.1.0",

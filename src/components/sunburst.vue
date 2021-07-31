@@ -1,6 +1,6 @@
 <template>
   <div class="graph">
-    <div class="pop-up-tree"  :style="contextMenu.style">
+    <div class="pop-up-tree"  :style="contextMenuStyle">
       <slot v-if="contextMenuNode"
         name="context-menu"
         :node="contextMenuNode"
@@ -45,7 +45,6 @@ import { arc } from "d3-shape";
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "transition" }]*/
 import { transition } from "d3-transition";
 import { colorSchemes } from "../infra/colorSchemes";
-import { createPopper } from "../infra/popup";
 
 function recursiveName(node) {
   const res = node
@@ -206,14 +205,6 @@ export default {
       required: false,
       default: 0.3,
       validator: v => v >= 0 && v < 1
-    },
-
-    /**
-     *      Pop-up position as defined by popper.js
-     */
-    popUpPlacement: {
-      type: String,
-      default: "bottom-start"
     }
   },
 
@@ -267,10 +258,7 @@ export default {
       /**
        * @private
        */
-      contextMenu: {
-        value: null,
-        style: null
-      }
+      contextMenuNode: null
     };
   },
 
@@ -459,8 +447,8 @@ export default {
       }
 
       mergedGroups
-        .on("mouseover", function(d) {
-          mouseOver(d, this);
+        .on("mouseover", function(node) {
+          mouseOver({ node });
           select(this).attr("clip-path", null);
         })
         .on("mouseleave", function(d) {
@@ -544,7 +532,6 @@ export default {
       const { hasCentralCircle } = this;
       if (hasCentralCircle) {
         const { mouseOver } = this;
-        const context = this;
         const circle = onMount
           ? this.vis
               .append("circle")
@@ -552,14 +539,14 @@ export default {
               .attr("cy", 0)
               .attr("fill", "none")
               .attr("pointer-events", "bounding-box")
-              .on("mouseover", function() {
+              .on("mouseover", () => {
                 const {
                   graphNodes: { zoomed }
-                } = context;
+                } = this;
                 if (zoomed === null) {
                   return;
                 }
-                mouseOver(zoomed, this);
+                mouseOver({ node: zoomed, center: true });
               })
               .on("click", () => {
                 const parentZoomed = this.getZoomParent();
@@ -613,13 +600,13 @@ export default {
     /**
      * @private
      */
-    mouseOver(value, element) {
-      this.graphNodes.mouseOver = value;
+    mouseOver({ node, center = false }) {
+      this.graphNodes.mouseOver = node;
       /**
        * Fired when mouse is over a sunburst node.
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
        */
-      this.$emit("mouseOverNode", { node: value, sunburst: this, element });
+      this.$emit("mouseOverNode", { node, center, sunburst: this });
     },
 
     /**
@@ -839,21 +826,14 @@ export default {
      * @private
      */
     closeContextMenu() {
-      this.contextMenu.value = null;
-      this.contextMenu.style = null;
+      this.contextMenuNode = null;
     },
 
     /**
      * @private
      */
     setContextMenu(value) {
-      this.contextMenu.value = value;
-    },
-    /**
-     * @private
-     */
-    styleCallback(style) {
-      this.contextMenu.style = style;
+      this.contextMenuNode = value;
     }
   },
 
@@ -876,16 +856,6 @@ export default {
         setContextMenu,
         closeContextMenu
       };
-    },
-
-    /**
-     * @private
-     */
-    contextMenuNode() {
-      const {
-        contextMenu: { value }
-      } = this;
-      return value ? value.node : null;
     },
 
     /**
@@ -933,6 +903,27 @@ export default {
      */
     showLabelsIsFunction() {
       return typeof this.showLabels === "function";
+    },
+
+    /**
+     * @private
+     */
+    contextMenuStyle() {
+      const { contextMenuNode } = this;
+      if (contextMenuNode === null) {
+        return {
+          display: "none"
+        };
+      }
+
+      const { width, height } = this;
+      const [x, y] = this.arcSunburst.centroid(contextMenuNode);
+      return {
+        position: "absolute",
+        inset: "0px auto auto 0px",
+        "pointer-events": "none",
+        transform: `translate(${width / 2 + x}px, ${height / 2 + y}px)`
+      };
     }
   },
 
@@ -983,28 +974,6 @@ export default {
        * @param {Object} value - {radius, height, width} Size information in pixel
        */
       this.$emit("resize", { radius, height, width });
-    },
-
-    "contextMenu.value": {
-      handler(value) {
-        if (this._contextMenu) {
-          this._contextMenu.destroy();
-        }
-        if (value === null) {
-          return;
-        }
-        const { element: target } = value;
-        const { popUpPlacement, styleCallback } = this;
-        this._contextMenu = null;
-        this.$nextTick(() => {
-          this._contextMenu = createPopper({
-            target,
-            element: this._element,
-            placement: popUpPlacement,
-            styleCallback
-          });
-        });
-      }
     }
   }
 };

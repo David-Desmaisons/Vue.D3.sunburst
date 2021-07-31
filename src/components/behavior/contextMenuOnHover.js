@@ -25,11 +25,19 @@ export default {
 
   created() {
     const { on, actions } = this;
-    on("mouseOverNode", ({ node, element }) => {
-      actions.setContextMenu({ node, element });
+    on("mouseOverNode", ({ node, center }) => {
+      if (center) {
+        actions.closeContextMenu();
+        return;
+      }
+      actions.setContextMenu(node);
     });
 
     on("mouseLeave", () => {
+      actions.closeContextMenu();
+    });
+
+    on("clickNode", () => {
       actions.closeContextMenu();
     });
   }
