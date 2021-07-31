@@ -169,14 +169,14 @@
                 description="of selected"
               />
 
-              <template slot="context-menu" slot-scope="{ data }">
+              <template slot="pop-up" slot-scope="{ data }">
                 <div class="pop-up">{{data.name}}</div>
               </template>
 
               <template slot-scope="{ on, actions }">
                 <highlightOnHover v-bind="{ on, actions }" />
                 <zoomOnClick v-bind="{ on, actions }" />
-                <contextMenuOnHover  v-bind="{ on, actions }"/>
+                <popUpOnHover  v-bind="{ on, actions }"/>
               </template>
             </sunburst>
           </div>
@@ -196,7 +196,7 @@ import breadcrumbTrail from "@/components/breadcrumbTrail";
 //behaviours
 import highlightOnHover from "@/components/behavior/highlightOnHover";
 import zoomOnClick from "@/components/behavior/zoomOnClick";
-import contextMenuOnHover from "@/components/behavior/contextMenuOnHover";
+import popUpOnHover from "@/components/behavior/popUpOnHover";
 
 import { colorSchemes } from "@/infra/colorSchemes";
 import data from "../data/data";
@@ -219,7 +219,7 @@ export default {
       outAnimationDuration: 1000,
       overrideColorScale: false,
       centralCircleRelativeSize: 25,
-      showLabels: this.showLabelsFunction,
+      showLabels: false,
       custoColorScale: scaleOrdinal([
         "#e39b89",
         "#31ea74",
@@ -256,7 +256,7 @@ export default {
     breadcrumbTrail,
     highlightOnHover,
     zoomOnClick,
-    contextMenuOnHover
+    popUpOnHover
   }
 };
 </script>

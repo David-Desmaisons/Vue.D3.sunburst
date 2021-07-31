@@ -1,10 +1,10 @@
 <template>
   <div class="graph">
-    <div class="pop-up-tree"  :style="contextMenuStyle">
-      <slot v-if="contextMenuNode"
-        name="context-menu"
-        :node="contextMenuNode"
-        :data="contextMenuNode.data"
+    <div class="pop-up-tree"  :style="popUpStyle">
+      <slot v-if="popUpNode"
+        name="pop-up"
+        :node="popUpNode"
+        :data="popUpNode.data"
         :close="closeContextMenu"
       >
       </slot>
@@ -258,7 +258,7 @@ export default {
       /**
        * @private
        */
-      contextMenuNode: null
+      popUpNode: null
     };
   },
 
@@ -826,14 +826,14 @@ export default {
      * @private
      */
     closeContextMenu() {
-      this.contextMenuNode = null;
+      this.popUpNode = null;
     },
 
     /**
      * @private
      */
     setContextMenu(value) {
-      this.contextMenuNode = value;
+      this.popUpNode = value;
     }
   },
 
@@ -908,16 +908,16 @@ export default {
     /**
      * @private
      */
-    contextMenuStyle() {
-      const { contextMenuNode } = this;
-      if (contextMenuNode === null) {
+    popUpStyle() {
+      const { popUpNode } = this;
+      if (popUpNode === null) {
         return {
           display: "none"
         };
       }
 
       const { width, height } = this;
-      const [x, y] = this.arcSunburst.centroid(contextMenuNode);
+      const [x, y] = this.arcSunburst.centroid(popUpNode);
       return {
         position: "absolute",
         inset: "0px auto auto 0px",

@@ -1,9 +1,9 @@
 /**
- * Renderless component providing path context menu on mouse over behavior.
+ * Renderless component providing pop-up display on mouse over behavior.
  * Can be used as a default slot of sunburst component.
  */
 export default {
-  name: "contextMenuOnHover",
+  name: "popUpOnHover",
   props: {
     /**
      *  Sunburst event listener. Same as component $on method.
