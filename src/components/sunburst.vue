@@ -911,17 +911,12 @@ export default {
     popUpStyle() {
       const { popUpNode } = this;
       if (popUpNode === null) {
-        return {
-          display: "none"
-        };
+        return null;
       }
 
       const { width, height } = this;
       const [x, y] = this.arcSunburst.centroid(popUpNode);
       return {
-        position: "absolute",
-        inset: "0px auto auto 0px",
-        "pointer-events": "none",
         transform: `translate(${width / 2 + x}px, ${height / 2 + y}px)`
       };
     }
@@ -982,6 +977,9 @@ export default {
 <style lang="less" scoped>
 .pop-up-tree {
   z-index: 1000;
+  position: absolute;
+  inset: 0px auto auto 0px;
+  pointer-events: none;
 }
 
 .graph {
