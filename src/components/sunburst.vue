@@ -388,6 +388,8 @@ export default {
       }
 
       if (!onlyRedraw) {
+        const { arcIdentification } = this;
+
         this.root = hierarchy(data)
           .sum(d => d.size)
           .sort((a, b) => b.value - a.value);
@@ -395,6 +397,7 @@ export default {
         this.nodes = partition()(this.root).descendants();
 
         this.nodes.forEach(d => {
+          d.id = arcIdentification(d);
           d.textAngle = 0;
           d.textValue = null;
           d.currentDx = 0;
@@ -517,7 +520,7 @@ export default {
      * @private
      */
     getGroups() {
-      return this.vis.selectAll("g").data(this.nodes, this.arcIdentification);
+      return this.vis.selectAll("g").data(this.nodes, ({ id }) => id);
     },
 
     /**
