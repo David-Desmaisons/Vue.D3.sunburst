@@ -987,6 +987,7 @@ export default {
   position: absolute;
   inset: 0px auto auto 0px;
   pointer-events: none;
+  will-change: transform;
 }
 
 .graph {
