@@ -1,5 +1,15 @@
 <template>
   <div class="graph">
+    <div class="pop-up-tree"  :style="popUpStyle">
+      <slot v-if="popUpNode"
+        name="pop-up"
+        :node="popUpNode"
+        :data="popUpNode.data"
+        :close="closeContextMenu"
+      >
+      </slot>
+    </div>
+
     <!-- Use this slot to add information on top or bottom of the graph-->
     <slot
       name="legend"
@@ -26,14 +36,13 @@
   </div>
 </template>
 <script>
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "transition" }]*/
-
 import resize from "vue-resize-directive";
 import { select } from "d3-selection";
 import { scaleLinear, scaleSqrt } from "d3-scale";
 import { hierarchy, partition } from "d3-hierarchy";
 import { interpolate } from "d3-interpolate";
 import { arc } from "d3-shape";
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "transition" }]*/
 import { transition } from "d3-transition";
 import { colorSchemes } from "../infra/colorSchemes";
 
@@ -244,7 +253,12 @@ export default {
       /**
        * @private
        */
-      radius: null
+      radius: null,
+
+      /**
+       * @private
+       */
+      popUpNode: null
     };
   },
 
@@ -373,11 +387,21 @@ export default {
       }
 
       if (!onlyRedraw) {
+        const { arcIdentification } = this;
+
         this.root = hierarchy(data)
           .sum(d => d.size)
           .sort((a, b) => b.value - a.value);
 
         this.nodes = partition()(this.root).descendants();
+
+        this.nodes.forEach(d => {
+          d.id = arcIdentification(d);
+          d.textAngle = 0;
+          d.textValue = null;
+          d.currentDx = 0;
+          Object.seal(d);
+        });
       }
 
       const {
@@ -417,7 +441,7 @@ export default {
       const newGroups = groups
         .enter()
         .append("g")
-        .style("opacity", 1);
+        .attr("fill-opacity", 1);
 
       const mergedGroups = newGroups
         .merge(groups)
@@ -432,8 +456,8 @@ export default {
       }
 
       mergedGroups
-        .on("mouseover", function(d) {
-          mouseOver(d);
+        .on("mouseover", function(node) {
+          mouseOver({ node });
           select(this).attr("clip-path", null);
         })
         .on("mouseleave", function(d) {
@@ -450,7 +474,7 @@ export default {
           copyCurrentValues(this, d);
         })
         .merge(groups.select("path"))
-        .style("fill", d => colorGetter(d.data, d))
+        .attr("fill", d => colorGetter(d.data, d))
         .transition("enter")
         .duration(this.inAnimationDuration)
         .attrTween("d", function(d, index) {
@@ -495,7 +519,7 @@ export default {
      * @private
      */
     getGroups() {
-      return this.vis.selectAll("g").data(this.nodes, this.arcIdentification);
+      return this.vis.selectAll("g").data(this.nodes, ({ id }) => id);
     },
 
     /**
@@ -516,6 +540,7 @@ export default {
 
       const { hasCentralCircle } = this;
       if (hasCentralCircle) {
+        const { mouseOver } = this;
         const circle = onMount
           ? this.vis
               .append("circle")
@@ -530,7 +555,7 @@ export default {
                 if (zoomed === null) {
                   return;
                 }
-                this.mouseOver(zoomed);
+                mouseOver({ node: zoomed, center: true });
               })
               .on("click", () => {
                 const parentZoomed = this.getZoomParent();
@@ -584,13 +609,13 @@ export default {
     /**
      * @private
      */
-    mouseOver(value) {
-      this.graphNodes.mouseOver = value;
+    mouseOver({ node, center = false }) {
+      this.graphNodes.mouseOver = node;
       /**
        * Fired when mouse is over a sunburst node.
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
        */
-      this.$emit("mouseOverNode", { node: value, sunburst: this });
+      this.$emit("mouseOverNode", { node, center, sunburst: this });
     },
 
     /**
@@ -636,11 +661,11 @@ export default {
 
       visiblePath
         .filter(d => sequenceArray.indexOf(d) === -1)
-        .style("opacity", opacity);
+        .attr("fill-opacity", opacity);
 
       visiblePath
         .filter(d => sequenceArray.indexOf(d) >= 0)
-        .style("opacity", 1);
+        .attr("fill-opacity", 1);
 
       this.setHighligth(node);
     },
@@ -777,7 +802,7 @@ export default {
      * Reset the highlighted path
      */
     resetHighlight() {
-      this.vis.selectAll("g").style("opacity", 1);
+      this.vis.selectAll("g").attr("fill-opacity", 1);
 
       this.setHighligth(null);
     },
@@ -804,6 +829,20 @@ export default {
           ? miminalRadius
           : (radius * centralCircleRelativeSize) / 100;
       return scaleY.range([scaleYMin, radius]);
+    },
+
+    /**
+     * @private
+     */
+    closeContextMenu() {
+      this.popUpNode = null;
+    },
+
+    /**
+     * @private
+     */
+    setContextMenu(value) {
+      this.popUpNode = value;
     }
   },
 
@@ -812,8 +851,20 @@ export default {
      * @private
      */
     actions() {
-      const { highlightPath, zoomToNode, resetHighlight } = this;
-      return { highlightPath, zoomToNode, resetHighlight };
+      const {
+        highlightPath,
+        zoomToNode,
+        resetHighlight,
+        closeContextMenu,
+        setContextMenu
+      } = this;
+      return {
+        highlightPath,
+        zoomToNode,
+        resetHighlight,
+        setContextMenu,
+        closeContextMenu
+      };
     },
 
     /**
@@ -861,6 +912,22 @@ export default {
      */
     showLabelsIsFunction() {
       return typeof this.showLabels === "function";
+    },
+
+    /**
+     * @private
+     */
+    popUpStyle() {
+      const { popUpNode } = this;
+      if (popUpNode === null) {
+        return null;
+      }
+
+      const { width, height } = this;
+      const [x, y] = this.arcSunburst.centroid(popUpNode);
+      return {
+        transform: `translate(${width / 2 + x}px, ${height / 2 + y}px)`
+      };
     }
   },
 
@@ -875,7 +942,7 @@ export default {
     colorGetter(value) {
       this.getGroups()
         .select("path")
-        .style("fill", d => value(d.data));
+        .attr("fill", d => value(d.data));
     },
 
     showLabels(value) {
@@ -917,6 +984,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.pop-up-tree {
+  z-index: 1000;
+  position: absolute;
+  inset: 0px auto auto 0px;
+  pointer-events: none;
+  will-change: transform;
+}
+
 .graph {
   height: 100%;
   width: 100%;

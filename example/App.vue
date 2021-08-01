@@ -6,72 +6,129 @@
           <div class="card-header">Props</div>
           <div class="card-body">
             <div class="form-horizontal">
-
               <div class="form-group">
-                <label for="showLabels" class="control-label">Show Labels</label>
+                <label for="showLabels" class="control-label"
+                  >Show Labels</label
+                >
 
-                <select id="showLabels" class="form-control" v-model="showLabels">
+                <select
+                  id="showLabels"
+                  class="form-control"
+                  v-model="showLabels"
+                >
                   <option :value="false">No</option>
                   <option :value="true">Yes</option>
                   <option :value="showLabelsFunction">Custom</option>
                 </select>
               </div>
 
-               <div class="form-group custo-checkbox">
-                <label for="colorScheme" class="control-label">Use custom color scheme</label>
-                <div >
-                  <input id="override"  type="checkbox" v-model="overrideColorScale">
+              <div class="form-group custo-checkbox">
+                <label for="colorScheme" class="control-label"
+                  >Use custom color scheme</label
+                >
+                <div>
+                  <input
+                    id="override"
+                    type="checkbox"
+                    v-model="overrideColorScale"
+                  />
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="colorScheme" class="control-label">Color scheme</label>
+                <label for="colorScheme" class="control-label"
+                  >Color scheme</label
+                >
 
-                <select id="colorScheme" class="form-control" v-model="colorScheme" :disabled="overrideColorScale">
-                  <option v-for="(scheme,index) in colorSchemes" :key="index" :value="scheme.value">{{scheme.text}}</option>
+                <select
+                  id="colorScheme"
+                  class="form-control"
+                  v-model="colorScheme"
+                  :disabled="overrideColorScale"
+                >
+                  <option
+                    v-for="(scheme, index) in colorSchemes"
+                    :key="index"
+                    :value="scheme.value"
+                  >
+                    {{ scheme.text }}
+                  </option>
                 </select>
               </div>
 
               <div class="form-group">
-                <label for="minAngleDisplayed">Minimal arc angle to be displayed</label>
+                <label for="minAngleDisplayed"
+                  >Minimal arc angle to be displayed</label
+                >
                 <div>
-                  <input id="minAngleDisplayed" class="form-control" type="range" min="0" step="0.005" max="0.5" v-model.number="minAngleDisplayed">
+                  <input
+                    id="minAngleDisplayed"
+                    class="form-control"
+                    type="range"
+                    min="0"
+                    step="0.005"
+                    max="0.5"
+                    v-model.number="minAngleDisplayed"
+                  />
                 </div>
                 <div>
-                  <p>{{minAngleDisplayed}} radian</p>
+                  <p>{{ minAngleDisplayed }} radian</p>
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="centralCircleRelativeSize">Central circle relative size</label>
+                <label for="centralCircleRelativeSize"
+                  >Central circle relative size</label
+                >
                 <div>
-                  <input id="centralCircleRelativeSize" class="form-control" type="range" min="0" step="1" max="50" v-model.number="centralCircleRelativeSize">
+                  <input
+                    id="centralCircleRelativeSize"
+                    class="form-control"
+                    type="range"
+                    min="0"
+                    step="1"
+                    max="50"
+                    v-model.number="centralCircleRelativeSize"
+                  />
                 </div>
                 <div>
-                  <p>{{centralCircleRelativeSize}} %</p>
+                  <p>{{ centralCircleRelativeSize }} %</p>
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="inAnimationDuration">Duration animation in</label>
                 <div>
-                  <input id="inAnimationDuration" class="form-control" type="range" min="0" max="250" v-model.number="inAnimationDuration">
+                  <input
+                    id="inAnimationDuration"
+                    class="form-control"
+                    type="range"
+                    min="0"
+                    max="250"
+                    v-model.number="inAnimationDuration"
+                  />
                 </div>
                 <div>
-                  <p>{{inAnimationDuration}} ms</p>
+                  <p>{{ inAnimationDuration }} ms</p>
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="minAngleDisplayed">Duration animation out</label>
                 <div>
-                  <input id="outAnimationDuration" class="form-control" type="range" min="0" max="2000" v-model.number="outAnimationDuration">
+                  <input
+                    id="outAnimationDuration"
+                    class="form-control"
+                    type="range"
+                    min="0"
+                    max="2000"
+                    v-model.number="outAnimationDuration"
+                  />
                 </div>
                 <div>
-                  <p>{{outAnimationDuration}} ms</p>
+                  <p>{{ outAnimationDuration }} ms</p>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -80,15 +137,46 @@
         <div class="card control-middle">
           <div class="card-header">Sunburst</div>
           <div class="card-body father">
-            <sunburst id="resizable" class="sunburst" :data="data" :max-label-text="20" :centralCircleRelativeSize="centralCircleRelativeSize" :showLabels="showLabels" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :colorScale="colorScale" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
+            <sunburst
+              id="resizable"
+              class="sunburst"
+              :data="data"
+              :max-label-text="20"
+              :centralCircleRelativeSize="centralCircleRelativeSize"
+              :showLabels="showLabels"
+              :minAngleDisplayed="minAngleDisplayed"
+              :colorScheme="colorScheme"
+              :colorScale="colorScale"
+              :inAnimationDuration="inAnimationDuration"
+              :outAnimationDuration="outAnimationDuration"
+            >
+              <breadcrumbTrail
+                slot="legend"
+                slot-scope="{ nodes, colorGetter, width }"
+                :current="nodes.mouseOver"
+                :root="nodes.root"
+                :colorGetter="colorGetter"
+                :from="nodes.zoomed"
+                :width="width"
+              />
 
-              <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.zoomed" :width="width" />
+              <nodeInfoDisplayer
+                slot="top"
+                slot-scope="{ nodes }"
+                :current="nodes.mouseOver"
+                :root="nodes.root"
+                :clicked="nodes.clicked"
+                description="of selected"
+              />
 
-              <nodeInfoDisplayer slot="top" slot-scope="{ nodes }" :current="nodes.mouseOver" :root="nodes.root" :clicked="nodes.clicked" description="of selected" />
+              <template slot="pop-up" slot-scope="{ data }">
+                <div class="pop-up">{{data.name}}</div>
+              </template>
 
               <template slot-scope="{ on, actions }">
                 <highlightOnHover v-bind="{ on, actions }" />
                 <zoomOnClick v-bind="{ on, actions }" />
+                <popUpOnHover  v-bind="{ on, actions }"/>
               </template>
             </sunburst>
           </div>
@@ -108,6 +196,7 @@ import breadcrumbTrail from "@/components/breadcrumbTrail";
 //behaviours
 import highlightOnHover from "@/components/behavior/highlightOnHover";
 import zoomOnClick from "@/components/behavior/zoomOnClick";
+import popUpOnHover from "@/components/behavior/popUpOnHover";
 
 import { colorSchemes } from "@/infra/colorSchemes";
 import data from "../data/data";
@@ -130,8 +219,13 @@ export default {
       outAnimationDuration: 1000,
       overrideColorScale: false,
       centralCircleRelativeSize: 25,
-      showLabels: this.showLabelsFunction,
-      custoColorScale: scaleOrdinal(["#e39b89", "#31ea74", "#3c7227", "#9dad1f"])
+      showLabels: false,
+      custoColorScale: scaleOrdinal([
+        "#e39b89",
+        "#31ea74",
+        "#3c7227",
+        "#9dad1f"
+      ])
     };
   },
   computed: {
@@ -139,16 +233,19 @@ export default {
       return this.overrideColorScale ? this.custoColorScale : null;
     }
   },
-  methods:{
+  methods: {
     showLabelsFunction(d) {
-      const {data, context: {angle, relativeDepth}} = d;
-      if (relativeDepth> 2 || angle< 5) {
+      const {
+        data,
+        context: { angle, relativeDepth }
+      } = d;
+      if (relativeDepth > 2 || angle < 5) {
         return null;
       }
-      return data.name; 
+      return data.name;
     }
   },
-  mounted(){
+  mounted() {
     $("#resizable").resizable({
       containment: "parent"
     });
@@ -158,7 +255,8 @@ export default {
     nodeInfoDisplayer,
     breadcrumbTrail,
     highlightOnHover,
-    zoomOnClick
+    zoomOnClick,
+    popUpOnHover
   }
 };
 </script>
@@ -173,6 +271,13 @@ export default {
   margin-top: 60px;
 
   height: 800px;
+
+  .pop-up {
+    background-color: white;
+    border: black;
+    pointer-events: none;
+    opacity: 0.92;
+  }
 
   .main-row {
     height: 800px;
