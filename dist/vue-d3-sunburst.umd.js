@@ -1162,6 +1162,66 @@ __webpack_require__("9c6c")('includes');
 
 /***/ }),
 
+/***/ "67ab":
+/***/ (function(module, exports, __webpack_require__) {
+
+var META = __webpack_require__("ca5a")('meta');
+var isObject = __webpack_require__("d3f4");
+var has = __webpack_require__("69a8");
+var setDesc = __webpack_require__("86cc").f;
+var id = 0;
+var isExtensible = Object.isExtensible || function () {
+  return true;
+};
+var FREEZE = !__webpack_require__("79e5")(function () {
+  return isExtensible(Object.preventExtensions({}));
+});
+var setMeta = function (it) {
+  setDesc(it, META, { value: {
+    i: 'O' + ++id, // object ID
+    w: {}          // weak collections IDs
+  } });
+};
+var fastKey = function (it, create) {
+  // return primitive with prefix
+  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+  if (!has(it, META)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return 'F';
+    // not necessary to add metadata
+    if (!create) return 'E';
+    // add missing metadata
+    setMeta(it);
+  // return object ID
+  } return it[META].i;
+};
+var getWeak = function (it, create) {
+  if (!has(it, META)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return true;
+    // not necessary to add metadata
+    if (!create) return false;
+    // add missing metadata
+    setMeta(it);
+  // return hash weak collections IDs
+  } return it[META].w;
+};
+// add metadata on freeze-family methods calling
+var onFreeze = function (it) {
+  if (FREEZE && meta.NEED && isExtensible(it) && !has(it, META)) setMeta(it);
+  return it;
+};
+var meta = module.exports = {
+  KEY: META,
+  NEED: false,
+  fastKey: fastKey,
+  getWeak: getWeak,
+  onFreeze: onFreeze
+};
+
+
+/***/ }),
+
 /***/ "6821":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1224,6 +1284,13 @@ $export($export.P + $export.F * forced, 'Array', {
 });
 __webpack_require__("9c6c")(KEY);
 
+
+/***/ }),
+
+/***/ "753d":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -1391,6 +1458,17 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 /***/ }),
 
+/***/ "9392":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_10e29354_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("753d");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_10e29354_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_10e29354_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_10e29354_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "9b43":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1472,17 +1550,6 @@ __webpack_require__("214f")('replace', 2, function (defined, REPLACE, $replace) 
   }, $replace];
 });
 
-
-/***/ }),
-
-/***/ "a5ca":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_a012c830_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ff52");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_a012c830_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_a012c830_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_a012c830_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -1865,6 +1932,22 @@ module.exports = function (object, names) {
   }
   return result;
 };
+
+
+/***/ }),
+
+/***/ "cf6a":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.17 Object.seal(O)
+var isObject = __webpack_require__("d3f4");
+var meta = __webpack_require__("67ab").onFreeze;
+
+__webpack_require__("5eda")('seal', function ($seal) {
+  return function seal(it) {
+    return $seal && isObject(it) ? $seal(meta(it)) : it;
+  };
+});
 
 
 /***/ }),
@@ -2352,12 +2435,12 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 var setPublicPath = __webpack_require__("1eb2");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules//.cache//vue-loader","cacheIdentifier":"60c9a5d3-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/sunburst.vue?vue&type=template&id=a012c830&scoped=true&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"graph"},[_vm._t("legend",null,{width:_vm.width,colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_c('div',{directives:[{name:"resize",rawName:"v-resize.throttle.250",value:(_vm.resize),expression:"resize",modifiers:{"250":true,"throttle":true}}],staticClass:"viewport"},[_vm._t("top",null,{colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_vm._t("default",null,{on:_vm.on,actions:_vm.actions})],2)],2)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules//.cache//vue-loader","cacheIdentifier":"60c9a5d3-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/sunburst.vue?vue&type=template&id=10e29354&scoped=true&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"graph"},[_c('div',{staticClass:"pop-up-tree",style:(_vm.popUpStyle)},[(_vm.popUpNode)?_vm._t("pop-up",null,{node:_vm.popUpNode,data:_vm.popUpNode.data,actions:_vm.actions}):_vm._e()],2),_vm._t("legend",null,{width:_vm.width,colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_c('div',{directives:[{name:"resize",rawName:"v-resize.throttle.250",value:(_vm.resize),expression:"resize",modifiers:{"250":true,"throttle":true}}],staticClass:"viewport"},[_vm._t("top",null,{colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_vm._t("default",null,{on:_vm.on,actions:_vm.actions})],2)],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=template&id=a012c830&scoped=true&
+// CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=template&id=10e29354&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es7.array.includes.js
 var es7_array_includes = __webpack_require__("6762");
@@ -2390,6 +2473,9 @@ function _nonIterableSpread() {
 function _toConsumableArray(arr) {
   return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
 }
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.seal.js
+var es6_object_seal = __webpack_require__("cf6a");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.sort.js
 var es6_array_sort = __webpack_require__("55dd");
 
@@ -13656,6 +13742,7 @@ Object.keys(rawColorSchemes).forEach(function (key) {
 
 
 
+
 //
 //
 //
@@ -13683,13 +13770,24 @@ Object.keys(rawColorSchemes).forEach(function (key) {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
 
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "transition" }]*/
-
-
-
-
-
 
 
 
@@ -13926,7 +14024,12 @@ var miminalRadius = 20;
       /**
        * @private
        */
-      radius: null
+      radius: null,
+
+      /**
+       * @private
+       */
+      popUpNode: null
     };
   },
   mounted: function mounted() {
@@ -14065,12 +14168,20 @@ var miminalRadius = 20;
       }
 
       if (!onlyRedraw) {
+        var arcIdentification = this.arcIdentification;
         this.root = hierarchy(data).sum(function (d) {
           return d.size;
         }).sort(function (a, b) {
           return b.value - a.value;
         });
         this.nodes = src_partition()(this.root).descendants();
+        this.nodes.forEach(function (d) {
+          d.id = arcIdentification(d);
+          d.textAngle = 0;
+          d.textValue = null;
+          d.currentDx = 0;
+          Object.seal(d);
+        });
       }
 
       var zoomedNode = this.zoomedNode,
@@ -14095,7 +14206,7 @@ var miminalRadius = 20;
       var arcSunburst = this.arcSunburst,
           arcClass = this.arcClass;
       var self = this;
-      var newGroups = groups.enter().append("g").style("opacity", 1);
+      var newGroups = groups.enter().append("g").attr("fill-opacity", 1);
       var mergedGroups = newGroups.merge(groups).attr("class", arcClass).attr("display", function (d) {
         return scaleX(d.x1) - scaleX(d.x0) > minAngleDisplayed ? null : "none";
       });
@@ -14106,8 +14217,10 @@ var miminalRadius = 20;
         });
       }
 
-      mergedGroups.on("mouseover", function (d) {
-        mouseOver(d);
+      mergedGroups.on("mouseover", function (node) {
+        mouseOver({
+          node: node
+        });
         src_select(this).attr("clip-path", null);
       }).on("mouseleave", function (d) {
         if (!self.showLabels || self.maxLabelText === null) {
@@ -14118,7 +14231,7 @@ var miminalRadius = 20;
       }).on("click", click);
       newGroups.append("path").each(function (d) {
         copyCurrentValues(this, d);
-      }).merge(groups.select("path")).style("fill", function (d) {
+      }).merge(groups.select("path")).attr("fill", function (d) {
         return colorGetter(d.data, d);
       }).transition("enter").duration(this.inAnimationDuration).attrTween("d", function (d, index) {
         return arc2Tween.call(this, arcSunburst, d, index);
@@ -14168,7 +14281,10 @@ var miminalRadius = 20;
      * @private
      */
     getGroups: function getGroups() {
-      return this.vis.selectAll("g").data(this.nodes, this.arcIdentification);
+      return this.vis.selectAll("g").data(this.nodes, function (_ref3) {
+        var id = _ref3.id;
+        return id;
+      });
     },
 
     /**
@@ -14191,6 +14307,7 @@ var miminalRadius = 20;
       var hasCentralCircle = this.hasCentralCircle;
 
       if (hasCentralCircle) {
+        var mouseOver = this.mouseOver;
         var circle = onMount ? this.vis.append("circle").attr("cx", 0).attr("cy", 0).attr("fill", "none").attr("pointer-events", "bounding-box").on("mouseover", function () {
           var zoomed = _this4.graphNodes.zoomed;
 
@@ -14198,7 +14315,10 @@ var miminalRadius = 20;
             return;
           }
 
-          _this4.mouseOver(zoomed);
+          mouseOver({
+            node: zoomed,
+            center: true
+          });
         }).on("click", function () {
           var parentZoomed = _this4.getZoomParent();
 
@@ -14241,8 +14361,8 @@ var miminalRadius = 20;
 
         d.currentDx = textLength - maxLength;
         return true;
-      }).attr("dx", function (_ref3) {
-        var currentDx = _ref3.currentDx;
+      }).attr("dx", function (_ref4) {
+        var currentDx = _ref4.currentDx;
         return currentDx;
       });
     },
@@ -14260,15 +14380,19 @@ var miminalRadius = 20;
     /**
      * @private
      */
-    mouseOver: function mouseOver(value) {
-      this.graphNodes.mouseOver = value;
+    mouseOver: function mouseOver(_ref5) {
+      var node = _ref5.node,
+          _ref5$center = _ref5.center,
+          center = _ref5$center === void 0 ? false : _ref5$center;
+      this.graphNodes.mouseOver = node;
       /**
        * Fired when mouse is over a sunburst node.
        * @param {Object} value - {node, sunburst} The corresponding node and sunburst component
        */
 
       this.$emit("mouseOverNode", {
-        node: value,
+        node: node,
+        center: center,
         sunburst: this
       });
     },
@@ -14320,10 +14444,10 @@ var miminalRadius = 20;
       var visiblePath = this.vis.selectAll("g");
       visiblePath.filter(function (d) {
         return sequenceArray.indexOf(d) === -1;
-      }).style("opacity", opacity);
+      }).attr("fill-opacity", opacity);
       visiblePath.filter(function (d) {
         return sequenceArray.indexOf(d) >= 0;
-      }).style("opacity", 1);
+      }).attr("fill-opacity", 1);
       this.setHighligth(node);
     },
 
@@ -14460,7 +14584,7 @@ var miminalRadius = 20;
      * Reset the highlighted path
      */
     resetHighlight: function resetHighlight() {
-      this.vis.selectAll("g").style("opacity", 1);
+      this.vis.selectAll("g").attr("fill-opacity", 1);
       this.setHighligth(null);
     },
 
@@ -14490,6 +14614,20 @@ var miminalRadius = 20;
           centralCircleRelativeSize = this.centralCircleRelativeSize;
       var scaleYMin = centralCircleRelativeSize === 0 && zoomedDepth > 0 ? miminalRadius : radius * centralCircleRelativeSize / 100;
       return scaleY.range([scaleYMin, radius]);
+    },
+
+    /**
+     * @private
+     */
+    closeContextMenu: function closeContextMenu() {
+      this.popUpNode = null;
+    },
+
+    /**
+     * @private
+     */
+    setContextMenu: function setContextMenu(value) {
+      this.popUpNode = value;
     }
   },
   computed: {
@@ -14499,11 +14637,15 @@ var miminalRadius = 20;
     actions: function actions() {
       var highlightPath = this.highlightPath,
           zoomToNode = this.zoomToNode,
-          resetHighlight = this.resetHighlight;
+          resetHighlight = this.resetHighlight,
+          closeContextMenu = this.closeContextMenu,
+          setContextMenu = this.setContextMenu;
       return {
         highlightPath: highlightPath,
         zoomToNode: zoomToNode,
-        resetHighlight: resetHighlight
+        resetHighlight: resetHighlight,
+        setContextMenu: setContextMenu,
+        closeContextMenu: closeContextMenu
       };
     },
 
@@ -14555,6 +14697,29 @@ var miminalRadius = 20;
      */
     showLabelsIsFunction: function showLabelsIsFunction() {
       return typeof this.showLabels === "function";
+    },
+
+    /**
+     * @private
+     */
+    popUpStyle: function popUpStyle() {
+      var popUpNode = this.popUpNode;
+
+      if (popUpNode === null) {
+        return null;
+      }
+
+      var width = this.width,
+          height = this.height;
+
+      var _this$arcSunburst$cen = this.arcSunburst.centroid(popUpNode),
+          _this$arcSunburst$cen2 = _slicedToArray(_this$arcSunburst$cen, 2),
+          x = _this$arcSunburst$cen2[0],
+          y = _this$arcSunburst$cen2[1];
+
+      return {
+        transform: "translate(".concat(width / 2 + x, "px, ").concat(height / 2 + y, "px)")
+      };
     }
   },
   watch: {
@@ -14565,7 +14730,7 @@ var miminalRadius = 20;
       deep: true
     },
     colorGetter: function colorGetter(value) {
-      this.getGroups().select("path").style("fill", function (d) {
+      this.getGroups().select("path").attr("fill", function (d) {
         return value(d.data);
       });
     },
@@ -14611,8 +14776,8 @@ var miminalRadius = 20;
 });
 // CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_sunburstvue_type_script_lang_js_ = (sunburstvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=0&id=a012c830&lang=less&scoped=true&
-var sunburstvue_type_style_index_0_id_a012c830_lang_less_scoped_true_ = __webpack_require__("a5ca");
+// EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=0&id=10e29354&lang=less&scoped=true&
+var sunburstvue_type_style_index_0_id_10e29354_lang_less_scoped_true_ = __webpack_require__("9392");
 
 // EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=1&lang=less&
 var sunburstvue_type_style_index_1_lang_less_ = __webpack_require__("0a03");
@@ -14728,7 +14893,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "a012c830",
+  "10e29354",
   null
   
 )
@@ -15323,6 +15488,55 @@ breadcrumbTrail_component.options.__file = "breadcrumbTrail.vue"
     });
   }
 });
+// CONCATENATED MODULE: ./src/components/behavior/popUpOnHover.js
+/**
+ * Renderless component providing pop-up display on mouse over behavior.
+ * Can be used as a default slot of sunburst component.
+ */
+/* harmony default export */ var popUpOnHover = ({
+  name: "popUpOnHover",
+  props: {
+    /**
+     *  Sunburst event listener. Same as component $on method.
+     */
+    on: {
+      required: true,
+      type: Function
+    },
+
+    /**
+     *  Sunburst nodes. Typically provided by sunburst default slot.
+     */
+    actions: {
+      required: true,
+      type: Object
+    }
+  },
+  render: function render() {
+    return null;
+  },
+  created: function created() {
+    var on = this.on,
+        actions = this.actions;
+    on("mouseOverNode", function (_ref) {
+      var node = _ref.node,
+          center = _ref.center;
+
+      if (center) {
+        actions.closeContextMenu();
+        return;
+      }
+
+      actions.setContextMenu(node);
+    });
+    on("mouseLeave", function () {
+      actions.closeContextMenu();
+    });
+    on("clickNode", function () {
+      actions.closeContextMenu();
+    });
+  }
+});
 // CONCATENATED MODULE: ./src/index.js
  //slots info
 
@@ -15333,10 +15547,12 @@ breadcrumbTrail_component.options.__file = "breadcrumbTrail.vue"
 
 
 
+
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "breadcrumbTrail", function() { return breadcrumbTrail; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "colorSchemes", function() { return colorSchemes; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "highlightOnHover", function() { return highlightOnHover; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "popUpOnHover", function() { return popUpOnHover; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "nodeInfoDisplayer", function() { return nodeInfoDisplayer; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "sunburst", function() { return sunburst; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "zoomOnClick", function() { return zoomOnClick; });
@@ -15352,13 +15568,6 @@ breadcrumbTrail_component.options.__file = "breadcrumbTrail.vue"
 module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
   '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
 
-
-/***/ }),
-
-/***/ "ff52":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ })
 
