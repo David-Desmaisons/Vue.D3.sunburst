@@ -439,7 +439,7 @@ export default {
       const newGroups = groups
         .enter()
         .append("g")
-        .style("opacity", 1);
+        .attr("fill-opacity", 1);
 
       const mergedGroups = newGroups
         .merge(groups)
@@ -659,11 +659,11 @@ export default {
 
       visiblePath
         .filter(d => sequenceArray.indexOf(d) === -1)
-        .style("opacity", opacity);
+        .attr("fill-opacity", opacity);
 
       visiblePath
         .filter(d => sequenceArray.indexOf(d) >= 0)
-        .style("opacity", 1);
+        .attr("fill-opacity", 1);
 
       this.setHighligth(node);
     },
@@ -800,7 +800,7 @@ export default {
      * Reset the highlighted path
      */
     resetHighlight() {
-      this.vis.selectAll("g").style("opacity", 1);
+      this.vis.selectAll("g").attr("fill-opacity", 1);
 
       this.setHighligth(null);
     },
