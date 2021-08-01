@@ -398,7 +398,7 @@ export default {
           d.textAngle = 0;
           d.textValue = null;
           d.currentDx = 0;
-          Object.preventExtensions(d);
+          Object.seal(d);
         });
       }
 
