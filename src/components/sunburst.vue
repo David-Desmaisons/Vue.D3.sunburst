@@ -393,6 +393,13 @@ export default {
           .sort((a, b) => b.value - a.value);
 
         this.nodes = partition()(this.root).descendants();
+
+        this.nodes.forEach(d => {
+          d.textAngle = 0;
+          d.textValue = null;
+          d.currentDx = 0;
+          Object.preventExtensions(d);
+        });
       }
 
       const {
