@@ -264,7 +264,6 @@ export default {
 
   mounted() {
     const [viewport] = this.$el.getElementsByClassName("viewport");
-    this._element = this.$el.querySelector(".pop-up-tree");
     this.viewport = viewport;
     this.vis = select(viewport)
       .append("svg")
