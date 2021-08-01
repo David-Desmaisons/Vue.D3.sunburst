@@ -16,9 +16,10 @@ Vue.D3.Sunburst provides a reusable vue [sunburst charts](http://www.cc.gatech.e
 
 `Sunburst` is the main component of this library and display sunburst chart based on `data` props using `children` property for hierarchy, `name` property for naming and `size` property for arcs size.
 
-`Sunburst` component provides three optional slots:
+`Sunburst` component provides four optional slots:
 
   * `legend` and `top` slots are intended to be used to display additional information such as legend
+  * `pop-up` to create a pop-up for an arc
   * `default slot` is intended to receive renderless component providing behavior: for example, highlighting on mouse over or zoom on click
 
 Components providing standard and reusable features are provided.
@@ -46,6 +47,7 @@ npm i vue-d3-sunburst
   <template slot-scope="{ on, actions }">
     <highlightOnHover v-bind="{ on, actions }"/>
     <zoomOnClick v-bind="{ on, actions }"/>
+    <popUpOnHover v-bind="{ on, actions }"/>
   </template>
 
   <!-- Add information to be displayed on top the graph -->
@@ -53,6 +55,11 @@ npm i vue-d3-sunburst
 
   <!-- Add bottom legend -->
   <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.clicked" :width="width" />
+
+   <!-- Add pop-up -->
+   <template slot="pop-up" slot-scope="{ data }">
+      <div class="pop-up">{{data.name}}</div>
+   </template>
 
 </sunburst>
 ```
@@ -62,6 +69,7 @@ import {
   breadcrumbTrail,
   highlightOnHover,
   nodeInfoDisplayer,
+  popUpOnHover,
   sunburst,
   zoomOnClick
 } from 'vue-d3-sunburst';
@@ -135,6 +143,8 @@ Failing to do so may result in a component whose size that will keep increasing.
 - `legend` Use this slot to add information on top or bottom of the graph 
 
 - `top` Use this slot to add information on top of the graph 
+
+- `pop-up` Use this slot to create a pop-up for arc: it receives as scope `data`, `node` and `actions` objects
 
 - `default` Use this slot to add behaviors to the sunburst 
 
@@ -372,6 +382,8 @@ These components can be used as a default slot of the `sunburst` component which
   * `highlightPath`: function that takes a node and highlight the path going from the root to the given node
   * `zoomToNode`: function that takes a node and zoom to the corresponding node
   * `resetHighlight`: function that resets the highlighting
+  * `setContextMenu`: function that takes a node and display the corresponding pop-up
+  * `closeContextMenu`: function that remove the current pop-up if any
 
 Typical usage:
 
@@ -399,6 +411,21 @@ Renderless component providing the zoom on click behavior.
 #### highlightOnHover
 
 Renderless component providing path highlighting on mouse over behavior.
+ Can be used as a default slot of sunburst component. 
+
+##### props 
+
+- `on` ***Function*** (*required*) 
+
+   Sunburst event listener. Same as component $on method. 
+
+- `actions` ***Object*** (*required*) 
+
+   Sunburst nodes. Typically provided by sunburst default slot. 
+
+#### popUpOnHover
+
+Renderless component displaying arc pop-up on mouse over.
  Can be used as a default slot of sunburst component. 
 
 ##### props 

@@ -1,11 +1,12 @@
 <template>
   <div class="graph">
     <div class="pop-up-tree"  :style="popUpStyle">
+      <!-- Use this slot as an arc pop-up-->
       <slot v-if="popUpNode"
         name="pop-up"
         :node="popUpNode"
         :data="popUpNode.data"
-        :close="closeContextMenu"
+        :actions="actions"
       >
       </slot>
     </div>
