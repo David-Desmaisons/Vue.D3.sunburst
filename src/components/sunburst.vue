@@ -472,7 +472,7 @@ export default {
           copyCurrentValues(this, d);
         })
         .merge(groups.select("path"))
-        .style("fill", d => colorGetter(d.data, d))
+        .attr("fill", d => colorGetter(d.data, d))
         .transition("enter")
         .duration(this.inAnimationDuration)
         .attrTween("d", function(d, index) {
@@ -940,7 +940,7 @@ export default {
     colorGetter(value) {
       this.getGroups()
         .select("path")
-        .style("fill", d => value(d.data));
+        .attr("fill", d => value(d.data));
     },
 
     showLabels(value) {
