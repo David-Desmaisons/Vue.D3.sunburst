@@ -258,6 +258,22 @@ module.exports = Object.keys || function keys(O) {
 
 /***/ }),
 
+/***/ "0d6d":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.5 Object.freeze(O)
+var isObject = __webpack_require__("d3f4");
+var meta = __webpack_require__("67ab").onFreeze;
+
+__webpack_require__("5eda")('freeze', function ($freeze) {
+  return function freeze(it) {
+    return $freeze && isObject(it) ? $freeze(meta(it)) : it;
+  };
+});
+
+
+/***/ }),
+
 /***/ "1169":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1278,13 +1294,6 @@ __webpack_require__("9c6c")(KEY);
 
 /***/ }),
 
-/***/ "753d":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "7726":
 /***/ (function(module, exports) {
 
@@ -1380,6 +1389,17 @@ module.exports = {};
 
 /***/ }),
 
+/***/ "86a9":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_5467ffc3_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("8a90");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_5467ffc3_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_5467ffc3_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_5467ffc3_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "86cc":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1400,6 +1420,13 @@ exports.f = __webpack_require__("9e1e") ? Object.defineProperty : function defin
   return O;
 };
 
+
+/***/ }),
+
+/***/ "8a90":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -1446,17 +1473,6 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
   return $keys(O, hiddenKeys);
 };
 
-
-/***/ }),
-
-/***/ "9392":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_10e29354_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("753d");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_10e29354_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_10e29354_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_10_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_sunburst_vue_vue_type_style_index_0_id_10e29354_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -1923,22 +1939,6 @@ module.exports = function (object, names) {
   }
   return result;
 };
-
-
-/***/ }),
-
-/***/ "cf6a":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.17 Object.seal(O)
-var isObject = __webpack_require__("d3f4");
-var meta = __webpack_require__("67ab").onFreeze;
-
-__webpack_require__("5eda")('seal', function ($seal) {
-  return function seal(it) {
-    return $seal && isObject(it) ? $seal(meta(it)) : it;
-  };
-});
 
 
 /***/ }),
@@ -2426,12 +2426,12 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 var setPublicPath = __webpack_require__("1eb2");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules//.cache//vue-loader","cacheIdentifier":"60c9a5d3-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/sunburst.vue?vue&type=template&id=10e29354&scoped=true&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"graph"},[_c('div',{staticClass:"pop-up-tree",style:(_vm.popUpStyle)},[(_vm.popUpNode)?_vm._t("pop-up",null,{node:_vm.popUpNode,data:_vm.popUpNode.data,actions:_vm.actions}):_vm._e()],2),_vm._t("legend",null,{width:_vm.width,colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_c('div',{directives:[{name:"resize",rawName:"v-resize.throttle.250",value:(_vm.resize),expression:"resize",modifiers:{"250":true,"throttle":true}}],staticClass:"viewport"},[_vm._t("top",null,{colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_vm._t("default",null,{on:_vm.on,actions:_vm.actions})],2)],2)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules//.cache//vue-loader","cacheIdentifier":"60c9a5d3-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/sunburst.vue?vue&type=template&id=5467ffc3&scoped=true&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"graph"},[_vm._t("legend",null,{width:_vm.width,colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_c('div',{directives:[{name:"resize",rawName:"v-resize.throttle.250",value:(_vm.resize),expression:"resize",modifiers:{"250":true,"throttle":true}}],staticClass:"viewport"},[_c('div',{staticClass:"pop-up-tree",style:(_vm.popUpStyle)},[(_vm.popUpNode)?_vm._t("pop-up",null,{node:_vm.popUpNode,data:_vm.popUpNode.data,actions:_vm.actions}):_vm._e()],2),_vm._t("top",null,{colorGetter:_vm.colorGetter,nodes:_vm.graphNodes,actions:_vm.actions}),_vm._t("default",null,{on:_vm.on,actions:_vm.actions})],2)],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=template&id=10e29354&scoped=true&
+// CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=template&id=5467ffc3&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es7.array.includes.js
 var es7_array_includes = __webpack_require__("6762");
@@ -2464,8 +2464,8 @@ function _nonIterableSpread() {
 function _toConsumableArray(arr) {
   return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
 }
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.seal.js
-var es6_object_seal = __webpack_require__("cf6a");
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.freeze.js
+var es6_object_freeze = __webpack_require__("0d6d");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.sort.js
 var es6_array_sort = __webpack_require__("55dd");
@@ -13772,6 +13772,7 @@ Object.keys(rawColorSchemes).forEach(function (key) {
 //
 //
 //
+//
 
 
 
@@ -13821,9 +13822,9 @@ function arc2Tween(arcSunburst, d, indx) {
   };
 }
 
-function getDx(d) {
-  var textAngle = d.textAngle,
-      currentDx = d.currentDx;
+function getDx(_ref) {
+  var textAngle = _ref.textAngle,
+      currentDx = _ref.currentDx;
 
   if (textAngle <= 180) {
     return 5;
@@ -13832,9 +13833,10 @@ function getDx(d) {
   return !!currentDx && currentDx < -5 ? currentDx : -5;
 }
 
-function computeStoreDx(d) {
-  var dx = getDx(d);
-  d.currentDx = dx;
+function computeStoreDx(d, context) {
+  var nodeValue = context.getNodeValue(d);
+  var dx = getDx(nodeValue);
+  nodeValue.currentDx = dx;
   return dx;
 }
 
@@ -14023,6 +14025,9 @@ var miminalRadius = 20;
       popUpNode: null
     };
   },
+  created: function created() {
+    this._cachedNodes = {};
+  },
   mounted: function mounted() {
     var _this2 = this;
 
@@ -14070,22 +14075,29 @@ var miminalRadius = 20;
     getTextTransform: function getTextTransform(d) {
       var scaleY = this.scaleY;
       var y = scaleY(d.y0);
-      return "rotate(".concat(d.textAngle - 90, ") translate(").concat(y, ",0) rotate(").concat(d.textAngle < 180 ? 0 : 180, ")");
+
+      var _this$getNodeValue = this.getNodeValue(d),
+          textAngle = _this$getNodeValue.textAngle;
+
+      return "rotate(".concat(textAngle - 90, ") translate(").concat(y, ",0) rotate(").concat(textAngle < 180 ? 0 : 180, ")");
     },
 
     /**
      * @private
      */
     getTextAnchor: function getTextAnchor(d) {
-      return d.textAngle < 180 ? "start" : "end";
+      var _this$getNodeValue2 = this.getNodeValue(d),
+          textAngle = _this$getNodeValue2.textAngle;
+
+      return textAngle < 180 ? "start" : "end";
     },
 
     /**
      * @private
      */
-    arcClass: function arcClass(_ref) {
-      var depth = _ref.depth,
-          height = _ref.height;
+    arcClass: function arcClass(_ref2) {
+      var depth = _ref2.depth,
+          height = _ref2.height;
       return "slice-".concat(depth - this.zoomedDepth, " depth-").concat(depth, " height-").concat(height);
     },
 
@@ -14116,26 +14128,29 @@ var miminalRadius = 20;
      * @private
      */
     addTextAttribute: function addTextAttribute(selection) {
+      var _this3 = this;
+
       var getTextAngle = this.getTextAngle,
           getTextTransform = this.getTextTransform,
-          getTextAnchor = this.getTextAnchor;
+          getTextAnchor = this.getTextAnchor,
+          getNodeValue = this.getNodeValue;
       var textExtractor = this.getTextExtractor();
       var textSelection = selection.each(function (d) {
-        return d.textValue = textExtractor(d);
+        return getNodeValue(d).textValue = textExtractor(d);
       }).attr("display", function (d) {
-        return d.textValue === null || d.depth === 0 ? "none" : null;
+        return getNodeValue(d).textValue === null || d.depth === 0 ? "none" : null;
       }).filter(function (d) {
-        return d.textValue !== null;
+        return getNodeValue(d).textValue !== null;
       }).each(function (d) {
-        return d.textAngle = getTextAngle(d);
+        return getNodeValue(d).textAngle = getTextAngle(d);
       }).attr("transform", function (d) {
         return getTextTransform(d);
       }).attr("text-anchor", function (d) {
         return getTextAnchor(d);
       }).attr("dx", function (d) {
-        return computeStoreDx(d);
+        return computeStoreDx(d, _this3);
       }).text(function (d) {
-        return d.textValue;
+        return getNodeValue(d).textValue;
       });
       this.adjustText(textSelection);
     },
@@ -14143,36 +14158,51 @@ var miminalRadius = 20;
     /**
      * @private
      */
-    onData: function onData(data) {
-      var _this3 = this;
+    getNodeValue: function getNodeValue(_ref3) {
+      var id = _ref3.id;
+      var _cachedNodes = this._cachedNodes;
+      var cached = _cachedNodes[id];
 
-      var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          _ref2$onlyRedraw = _ref2.onlyRedraw,
-          onlyRedraw = _ref2$onlyRedraw === void 0 ? false : _ref2$onlyRedraw;
+      if (cached) {
+        return cached;
+      }
+
+      var value = {};
+      _cachedNodes[id] = value;
+      return value;
+    },
+
+    /**
+     * @private
+     */
+    onData: function onData(data) {
+      var _this4 = this;
+
+      var _ref4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+          _ref4$onlyRedraw = _ref4.onlyRedraw,
+          onlyRedraw = _ref4$onlyRedraw === void 0 ? false : _ref4$onlyRedraw;
 
       if (!data) {
         this.vis.selectAll("g").remove();
         Object.keys(this.graphNodes).forEach(function (k) {
-          return _this3.graphNodes[k] = null;
+          return _this4.graphNodes[k] = null;
         });
         return;
       }
 
       if (!onlyRedraw) {
-        var arcIdentification = this.arcIdentification;
         this.root = hierarchy(data).sum(function (d) {
           return d.size;
         }).sort(function (a, b) {
           return b.value - a.value;
         });
         this.nodes = src_partition()(this.root).descendants();
+        var arcIdentification = this.arcIdentification;
         this.nodes.forEach(function (d) {
           d.id = arcIdentification(d);
-          d.textAngle = 0;
-          d.textValue = null;
-          d.currentDx = 0;
-          Object.seal(d);
+          Object.freeze(d);
         });
+        this._cachedNodes = {};
       }
 
       var zoomedNode = this.zoomedNode,
@@ -14272,8 +14302,8 @@ var miminalRadius = 20;
      * @private
      */
     getGroups: function getGroups() {
-      return this.vis.selectAll("g").data(this.nodes, function (_ref3) {
-        var id = _ref3.id;
+      return this.vis.selectAll("g").data(this.nodes, function (_ref5) {
+        var id = _ref5.id;
         return id;
       });
     },
@@ -14282,7 +14312,7 @@ var miminalRadius = 20;
      * @private
      */
     resize: function resize(context) {
-      var _this4 = this;
+      var _this5 = this;
 
       var onMount = context === true;
 
@@ -14300,7 +14330,7 @@ var miminalRadius = 20;
       if (hasCentralCircle) {
         var mouseOver = this.mouseOver;
         var circle = onMount ? this.vis.append("circle").attr("cx", 0).attr("cy", 0).attr("fill", "none").attr("pointer-events", "bounding-box").on("mouseover", function () {
-          var zoomed = _this4.graphNodes.zoomed;
+          var zoomed = _this5.graphNodes.zoomed;
 
           if (zoomed === null) {
             return;
@@ -14311,13 +14341,13 @@ var miminalRadius = 20;
             center: true
           });
         }).on("click", function () {
-          var parentZoomed = _this4.getZoomParent();
+          var parentZoomed = _this5.getZoomParent();
 
           if (parentZoomed === null) {
             return;
           }
 
-          _this4.click(parentZoomed);
+          _this5.click(parentZoomed);
         }) : this.vis.select("circle.central-circle");
         circle.attr("r", this.scaleY.range()[0]).attr("class", this.getCircleClass());
       }
@@ -14332,19 +14362,22 @@ var miminalRadius = 20;
      */
     adjustText: function adjustText(textSelection) {
       var scaleY = this.scaleY,
-          maxLabelText = this.maxLabelText;
+          maxLabelText = this.maxLabelText,
+          getNodeValue = this.getNodeValue;
 
       if (maxLabelText === null) {
         return;
       }
 
-      textSelection.filter(function (d) {
+      textSelection.filter(function (node) {
+        var d = getNodeValue(node);
+
         if (d.textValue === null || d.textAngle <= 180) {
           return false;
         }
 
         var textLength = src_select(this).node().getComputedTextLength();
-        var maxLength = scaleY(d.y1) - scaleY(d.y0) + maxLabelText;
+        var maxLength = scaleY(node.y1) - scaleY(node.y0) + maxLabelText;
 
         if (textLength + 5 <= maxLength) {
           return false;
@@ -14352,9 +14385,8 @@ var miminalRadius = 20;
 
         d.currentDx = textLength - maxLength;
         return true;
-      }).attr("dx", function (_ref4) {
-        var currentDx = _ref4.currentDx;
-        return currentDx;
+      }).attr("dx", function (node) {
+        return getNodeValue(node).currentDx;
       });
     },
 
@@ -14371,10 +14403,10 @@ var miminalRadius = 20;
     /**
      * @private
      */
-    mouseOver: function mouseOver(_ref5) {
-      var node = _ref5.node,
-          _ref5$center = _ref5.center,
-          center = _ref5$center === void 0 ? false : _ref5$center;
+    mouseOver: function mouseOver(_ref6) {
+      var node = _ref6.node,
+          _ref6$center = _ref6.center,
+          center = _ref6$center === void 0 ? false : _ref6$center;
       this.graphNodes.mouseOver = node;
       /**
        * Fired when mouse is over a sunburst node.
@@ -14447,7 +14479,7 @@ var miminalRadius = 20;
      * @param {Object} node the D3 node to zoom to.
      */
     zoomToNode: function zoomToNode(node) {
-      var _this5 = this;
+      var _this6 = this;
 
       if (this.hasCentralCircle && node.height === 0) {
         node = node.parent;
@@ -14471,19 +14503,20 @@ var miminalRadius = 20;
           return d !== node && descendants.includes(d);
         }).attr("display", null);
 
-        if (!_this5.showLabelsIsFunction) {
-          _this5.adjustText(textNodes);
+        if (!_this6.showLabelsIsFunction) {
+          _this6.adjustText(textNodes);
 
           return;
         }
 
-        _this5.addTextAttribute(futureVisibleArcs);
+        _this6.addTextAttribute(futureVisibleArcs);
       };
 
       textNodes.filter(function (d) {
         return d === node || descendants.indexOf(d) === -1;
       }).attr("display", "none");
-      var getTextAngle = this.getTextAngle,
+      var getNodeValue = this.getNodeValue,
+          getTextAngle = this.getTextAngle,
           getTextTransform = this.getTextTransform,
           arcSunburst = this.arcSunburst,
           getTextAnchor = this.getTextAnchor,
@@ -14493,10 +14526,10 @@ var miminalRadius = 20;
       this.vis.selectAll("g").attr("class", arcClass);
       this.vis.select("circle.central-circle").attr("class", this.getCircleClass());
       var transitionSelection = this.vis.transition("zoom").duration(750).tween("scale", function () {
-        var scaleX = _this5.scaleX,
-            scaleY = _this5.scaleY,
-            radius = _this5.radius,
-            centralCircleRelativeSize = _this5.centralCircleRelativeSize;
+        var scaleX = _this6.scaleX,
+            scaleY = _this6.scaleY,
+            radius = _this6.radius,
+            centralCircleRelativeSize = _this6.centralCircleRelativeSize;
         var xd = src_value(scaleX.domain(), [node.x0, node.x1]);
         var yd = src_value(scaleY.domain(), [hasCentralCircle ? node.y1 : node.y0, 1]);
         var miminalY = radius * centralCircleRelativeSize / 100;
@@ -14509,12 +14542,12 @@ var miminalRadius = 20;
       });
       var countDown = 0;
       transitionSelection.selectAll("text").filter(function (d) {
-        return d.textValue !== null;
+        return getNodeValue(d).textValue !== null;
       }).each(function () {
         return countDown++;
       }).tween("text.angle", function (d) {
         return function () {
-          return d.textAngle = getTextAngle(d);
+          return getNodeValue(d).textAngle = getTextAngle(d);
         };
       }).attrTween("transform", function (d) {
         return function () {
@@ -14526,7 +14559,7 @@ var miminalRadius = 20;
         };
       }).attrTween("dx", function (d) {
         return function () {
-          return computeStoreDx(d);
+          return computeStoreDx(d, _this6);
         };
       }).on("end", function () {
         if (--countDown === 0) {
@@ -14544,7 +14577,7 @@ var miminalRadius = 20;
           return descendants.includes(d);
         }).attrTween("display", function (d) {
           return function () {
-            var scaleX = _this5.scaleX;
+            var scaleX = _this6.scaleX;
             return scaleX(d.x1) - scaleX(d.x0) > minAngleDisplayed ? null : "none";
           };
         });
@@ -14651,11 +14684,11 @@ var miminalRadius = 20;
      * @private
      */
     colorGetter: function colorGetter() {
-      var _this6 = this;
+      var _this7 = this;
 
       var colorScale = this.colorScale || colorSchemes[this.colorScheme].scale;
       return function (d) {
-        return colorScale(_this6.getCategoryForColor(d));
+        return colorScale(_this7.getCategoryForColor(d));
       };
     },
 
@@ -14767,8 +14800,8 @@ var miminalRadius = 20;
 });
 // CONCATENATED MODULE: ./src/components/sunburst.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_sunburstvue_type_script_lang_js_ = (sunburstvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=0&id=10e29354&lang=less&scoped=true&
-var sunburstvue_type_style_index_0_id_10e29354_lang_less_scoped_true_ = __webpack_require__("9392");
+// EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=0&id=5467ffc3&lang=less&scoped=true&
+var sunburstvue_type_style_index_0_id_5467ffc3_lang_less_scoped_true_ = __webpack_require__("86a9");
 
 // EXTERNAL MODULE: ./src/components/sunburst.vue?vue&type=style&index=1&lang=less&
 var sunburstvue_type_style_index_1_lang_less_ = __webpack_require__("0a03");
@@ -14884,7 +14917,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "10e29354",
+  "5467ffc3",
   null
   
 )
