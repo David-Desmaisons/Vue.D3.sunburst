@@ -1,16 +1,5 @@
 <template>
   <div class="graph">
-    <div class="pop-up-tree"  :style="popUpStyle">
-      <!-- Use this slot as an arc pop-up-->
-      <slot v-if="popUpNode"
-        name="pop-up"
-        :node="popUpNode"
-        :data="popUpNode.data"
-        :actions="actions"
-      >
-      </slot>
-    </div>
-
     <!-- Use this slot to add information on top or bottom of the graph-->
     <slot
       name="legend"
@@ -22,6 +11,18 @@
     </slot>
 
     <div class="viewport" v-resize.throttle.250="resize">
+
+      <div class="pop-up-tree"  :style="popUpStyle">
+        <!-- Use this slot as an arc pop-up-->
+        <slot v-if="popUpNode"
+          name="pop-up"
+          :node="popUpNode"
+          :data="popUpNode.data"
+          :actions="actions"
+        >
+        </slot>
+      </div>
+
       <!-- Use this slot to add information on top of the graph -->
       <slot
         name="top"
