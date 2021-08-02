@@ -1,16 +1,5 @@
 <template>
   <div class="graph">
-    <div class="pop-up-tree"  :style="popUpStyle">
-      <!-- Use this slot as an arc pop-up-->
-      <slot v-if="popUpNode"
-        name="pop-up"
-        :node="popUpNode"
-        :data="popUpNode.data"
-        :actions="actions"
-      >
-      </slot>
-    </div>
-
     <!-- Use this slot to add information on top or bottom of the graph-->
     <slot
       name="legend"
@@ -22,6 +11,18 @@
     </slot>
 
     <div class="viewport" v-resize.throttle.250="resize">
+
+      <div class="pop-up-tree"  :style="popUpStyle">
+        <!-- Use this slot as an arc pop-up-->
+        <slot v-if="popUpNode"
+          name="pop-up"
+          :node="popUpNode"
+          :data="popUpNode.data"
+          :actions="actions"
+        >
+        </slot>
+      </div>
+
       <!-- Use this slot to add information on top of the graph -->
       <slot
         name="top"
@@ -77,17 +78,17 @@ function arc2Tween(arcSunburst, d, indx) {
   };
 }
 
-function getDx(d) {
-  const { textAngle, currentDx } = d;
+function getDx({ textAngle, currentDx }) {
   if (textAngle <= 180) {
     return 5;
   }
   return !!currentDx && currentDx < -5 ? currentDx : -5;
 }
 
-function computeStoreDx(d) {
-  const dx = getDx(d);
-  d.currentDx = dx;
+function computeStoreDx(d, context) {
+  const nodeValue = context.getNodeValue(d);
+  const dx = getDx(nodeValue);
+  nodeValue.currentDx = dx;
   return dx;
 }
 
@@ -263,6 +264,10 @@ export default {
     };
   },
 
+  created() {
+    this._cachedNodes = {};
+  },
+
   mounted() {
     const [viewport] = this.$el.getElementsByClassName("viewport");
     this.viewport = viewport;
@@ -311,8 +316,9 @@ export default {
     getTextTransform(d) {
       const { scaleY } = this;
       const y = scaleY(d.y0);
-      return `rotate(${d.textAngle - 90}) translate(${y},0) rotate(${
-        d.textAngle < 180 ? 0 : 180
+      const { textAngle } = this.getNodeValue(d);
+      return `rotate(${textAngle - 90}) translate(${y},0) rotate(${
+        textAngle < 180 ? 0 : 180
       })`;
     },
 
@@ -320,7 +326,8 @@ export default {
      * @private
      */
     getTextAnchor(d) {
-      return d.textAngle < 180 ? "start" : "end";
+      const { textAngle } = this.getNodeValue(d);
+      return textAngle < 180 ? "start" : "end";
     },
 
     /**
@@ -358,23 +365,43 @@ export default {
      * @private
      */
     addTextAttribute(selection) {
-      const { getTextAngle, getTextTransform, getTextAnchor } = this;
+      const {
+        getTextAngle,
+        getTextTransform,
+        getTextAnchor,
+        getNodeValue
+      } = this;
       const textExtractor = this.getTextExtractor();
 
       const textSelection = selection
-        .each(d => (d.textValue = textExtractor(d)))
+        .each(d => (getNodeValue(d).textValue = textExtractor(d)))
         .attr(
           "display",
-          d => (d.textValue === null || d.depth === 0 ? "none" : null)
+          d =>
+            getNodeValue(d).textValue === null || d.depth === 0 ? "none" : null
         )
-        .filter(d => d.textValue !== null)
-        .each(d => (d.textAngle = getTextAngle(d)))
+        .filter(d => getNodeValue(d).textValue !== null)
+        .each(d => (getNodeValue(d).textAngle = getTextAngle(d)))
         .attr("transform", d => getTextTransform(d))
         .attr("text-anchor", d => getTextAnchor(d))
-        .attr("dx", d => computeStoreDx(d))
-        .text(d => d.textValue);
+        .attr("dx", d => computeStoreDx(d, this))
+        .text(d => getNodeValue(d).textValue);
 
       this.adjustText(textSelection);
+    },
+
+    /**
+     * @private
+     */
+    getNodeValue({ id }) {
+      const { _cachedNodes } = this;
+      const cached = _cachedNodes[id];
+      if (cached) {
+        return cached;
+      }
+      const value = {};
+      _cachedNodes[id] = value;
+      return value;
     },
 
     /**
@@ -388,21 +415,18 @@ export default {
       }
 
       if (!onlyRedraw) {
-        const { arcIdentification } = this;
-
         this.root = hierarchy(data)
           .sum(d => d.size)
           .sort((a, b) => b.value - a.value);
 
         this.nodes = partition()(this.root).descendants();
 
+        const { arcIdentification } = this;
         this.nodes.forEach(d => {
           d.id = arcIdentification(d);
-          d.textAngle = 0;
-          d.textValue = null;
-          d.currentDx = 0;
-          Object.seal(d);
+          Object.freeze(d);
         });
+        this._cachedNodes = {};
       }
 
       const {
@@ -578,26 +602,27 @@ export default {
      * @private
      */
     adjustText(textSelection) {
-      const { scaleY, maxLabelText } = this;
+      const { scaleY, maxLabelText, getNodeValue } = this;
       if (maxLabelText === null) {
         return;
       }
       textSelection
-        .filter(function(d) {
+        .filter(function(node) {
+          const d = getNodeValue(node);
           if (d.textValue === null || d.textAngle <= 180) {
             return false;
           }
           const textLength = select(this)
             .node()
             .getComputedTextLength();
-          const maxLength = scaleY(d.y1) - scaleY(d.y0) + maxLabelText;
+          const maxLength = scaleY(node.y1) - scaleY(node.y0) + maxLabelText;
           if (textLength + 5 <= maxLength) {
             return false;
           }
           d.currentDx = textLength - maxLength;
           return true;
         })
-        .attr("dx", ({ currentDx }) => currentDx);
+        .attr("dx", node => getNodeValue(node).currentDx);
     },
 
     /**
@@ -707,6 +732,7 @@ export default {
         .attr("display", "none");
 
       const {
+        getNodeValue,
         getTextAngle,
         getTextTransform,
         arcSunburst,
@@ -744,12 +770,14 @@ export default {
       let countDown = 0;
       transitionSelection
         .selectAll("text")
-        .filter(d => d.textValue !== null)
+        .filter(d => getNodeValue(d).textValue !== null)
         .each(() => countDown++)
-        .tween("text.angle", d => () => (d.textAngle = getTextAngle(d)))
+        .tween("text.angle", d => () =>
+          (getNodeValue(d).textAngle = getTextAngle(d))
+        )
         .attrTween("transform", d => () => getTextTransform(d))
         .attrTween("text-anchor", d => () => getTextAnchor(d))
-        .attrTween("dx", d => () => computeStoreDx(d))
+        .attrTween("dx", d => () => computeStoreDx(d, this))
         .on("end", () => {
           if (--countDown === 0) {
             updateText();
