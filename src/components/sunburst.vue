@@ -92,6 +92,10 @@ function computeStoreDx(d, context) {
   return dx;
 }
 
+function defaultSort(a, b){
+   return b.value - a.value;
+}
+
 const useNameForColor = d => d.name;
 const miminalRadius = 20;
 
@@ -207,6 +211,22 @@ export default {
       required: false,
       default: 0.3,
       validator: v => v >= 0 && v < 1
+    },
+    /**
+     *  Function used sort level-1 nodes, will be used on the onData function.
+     */
+    sort: {
+      type: Function,
+      required: false,
+      default: defaultSort,
+    },
+    /**
+     *  If true disable sort on the level-1 nodes.
+     */
+    disableSort: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
 
@@ -415,9 +435,8 @@ export default {
       }
 
       if (!onlyRedraw) {
-        this.root = hierarchy(data)
-          .sum(d => d.size)
-          .sort((a, b) => b.value - a.value);
+        this.root = hierarchy(data).sum(d => d.size);
+        if(!this.disableSort) this.root = this.root.sort(this.sort);
 
         this.nodes = partition()(this.root).descendants();
 
