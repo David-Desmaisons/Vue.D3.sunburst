@@ -94,7 +94,7 @@
     "testURL": "http://localhost/"
   },
   "main": "dist/vue-d3-sunburst.umd.js",
-  "module": "dist/vue-d3-sunburst.common.min.js",
+  "module": "dist/vue-d3-sunburst.common.js",
   "files": [
     "dist/*.css",
     "dist/*.map",
